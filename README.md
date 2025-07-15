@@ -155,7 +155,8 @@ The "Impact Simulation" feature is powered by the **Demand Forecast Model**. Thi
 
 When a user enters a hypothetical price into the control panel, the system feeds this price into the demand model to get a sales forecast. It then calculates the projected revenue (`predicted sales × price`), giving the commercial team an instant preview of the potential outcome of their pricing decisions.
 
-</br>
+*t.r.*
+
 </br>
 
 > ⚠️ **Project Disclaimer:**
