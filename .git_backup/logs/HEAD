@@ -1,0 +1,33 @@
+0000000000000000000000000000000000000000 0e66afa925727431b3ad4461e14c9be627a384da tomas-ravalli <tomas.ravalli@icloud.com> 1751526009 +0200	clone: from https://github.com/tomas-ravalli/fcb-dynamic-pricing.git
+0e66afa925727431b3ad4461e14c9be627a384da 3eeb5194c918efe2ff010bee7c30402f0f96e8e7 tomas-ravalli <tomas.ravalli@icloud.com> 1751526188 +0200	commit: Add diagram to assets folder
+3eeb5194c918efe2ff010bee7c30402f0f96e8e7 695e6ee936e453e63f874710c48b66c43881cdb6 tomas-ravalli <tomas.ravalli@icloud.com> 1752525861 +0200	commit: build: add .gitignore file
+695e6ee936e453e63f874710c48b66c43881cdb6 c0d82d3c15823111c99f0bf0809ac224beabe5b9 tomas-ravalli <tomas.ravalli@icloud.com> 1752527159 +0200	commit: chore: add project directory structure
+c0d82d3c15823111c99f0bf0809ac224beabe5b9 c0d82d3c15823111c99f0bf0809ac224beabe5b9 tomas-ravalli <tomas.ravalli@icloud.com> 1752527561 +0200	reset: moving to HEAD
+c0d82d3c15823111c99f0bf0809ac224beabe5b9 e71d184bdbc11cbf22e5d3df3428c882f503bc89 tomas-ravalli <tomas.ravalli@icloud.com> 1752528216 +0200	commit (merge): Add .gitkeep
+e71d184bdbc11cbf22e5d3df3428c882f503bc89 d47a381cbbdc86354fba0d784ec14b41c430fcdf tomas-ravalli <tomas.ravalli@icloud.com> 1752528410 +0200	commit: src as a python package
+d47a381cbbdc86354fba0d784ec14b41c430fcdf 22336d5f78783f0802026cf39d31a16532fb26dc tomas-ravalli <tomas.ravalli@icloud.com> 1752567783 +0200	pull origin master: Fast-forward
+22336d5f78783f0802026cf39d31a16532fb26dc c1892c1da4a3dbe897b499d13a29c1987ce8d120 tomas-ravalli <tomas.ravalli@icloud.com> 1752568188 +0200	commit: Create 01_exploratory_data_analysis.ipynb
+c1892c1da4a3dbe897b499d13a29c1987ce8d120 fab270f33f7cc5c9bb18bf7e26eb19abff9fa028 tomas-ravalli <tomas.ravalli@icloud.com> 1752569548 +0200	commit: Updated make_dataset.py and added data dictionary for synthetic match data
+fab270f33f7cc5c9bb18bf7e26eb19abff9fa028 0174f3b9d408e334ad36e29106419003374c7c9e tomas-ravalli <tomas.ravalli@icloud.com> 1752570100 +0200	commit: feat(notebooks): add notebook for exploratory data analysis
+0174f3b9d408e334ad36e29106419003374c7c9e b2cbc0fd7ed30ba45dfb45c78f5b26731f28c80b tomas-ravalli <tomas.ravalli@icloud.com> 1752570380 +0200	pull origin master: Fast-forward
+b2cbc0fd7ed30ba45dfb45c78f5b26731f28c80b 049dabb0a6f26e867bcf0574f72b08ba652bd19d tomas-ravalli <tomas.ravalli@icloud.com> 1752570414 +0200	commit: updated reports
+049dabb0a6f26e867bcf0574f72b08ba652bd19d d6e85d6a04a258b09c4dc48553a0afdcaf107d99 tomas-ravalli <tomas.ravalli@icloud.com> 1752571570 +0200	commit: refactor(data): made fake dataset more realistic
+d6e85d6a04a258b09c4dc48553a0afdcaf107d99 145f1b83efd8b8ad33aa725091235c699d062c43 tomas-ravalli <tomas.ravalli@icloud.com> 1752572268 +0200	commit: refactor(data): corrected data leakage
+145f1b83efd8b8ad33aa725091235c699d062c43 3892ea5d3c5a8540aea7fe4e6cc191495647d395 tomas-ravalli <tomas.ravalli@icloud.com> 1752572419 +0200	commit: Update EDA notebook
+3892ea5d3c5a8540aea7fe4e6cc191495647d395 15a0ae5c3e7edd0f26ba67a846cca4469d13fab1 tomas-ravalli <tomas.ravalli@icloud.com> 1752573482 +0200	commit: feat(models): add prediction script and pipeline logic
+15a0ae5c3e7edd0f26ba67a846cca4469d13fab1 1e664004ced158cb24fabb8489eea6ae522ecec3 tomas-ravalli <tomas.ravalli@icloud.com> 1752573757 +0200	pull --tags origin master: Fast-forward
+1e664004ced158cb24fabb8489eea6ae522ecec3 2060c28b198f1d5a8a3e7eb8900188b15e9bdb68 tomas-ravalli <tomas.ravalli@icloud.com> 1752574222 +0200	commit: Update config.py
+2060c28b198f1d5a8a3e7eb8900188b15e9bdb68 059558c3607dcd087fd8e9b974b6b6aa08823d17 tomas-ravalli <tomas.ravalli@icloud.com> 1752574390 +0200	commit: fix(models): correct data path in training script
+059558c3607dcd087fd8e9b974b6b6aa08823d17 a011a0f6e2f48e5c936b9f310c818b3ac24d9816 tomas-ravalli <tomas.ravalli@icloud.com> 1752574845 +0200	commit: update readme.md
+a011a0f6e2f48e5c936b9f310c818b3ac24d9816 1a6671b853dbafa793609b0bd3f8a8ef35659c2c tomas-ravalli <tomas.ravalli@icloud.com> 1752575042 +0200	commit: update readme.md
+1a6671b853dbafa793609b0bd3f8a8ef35659c2c ef721d4be0c10f78e861cc2962e98f3c1836ae65 tomas-ravalli <tomas.ravalli@icloud.com> 1752575106 +0200	pull origin master: Fast-forward
+ef721d4be0c10f78e861cc2962e98f3c1836ae65 3f63c70ae95a747147f136c103a107341d1f16e2 tomas-ravalli <tomas.ravalli@icloud.com> 1752575281 +0200	commit: update readme.md
+3f63c70ae95a747147f136c103a107341d1f16e2 e69c3ad4e2998db35ed41633ed27e547ffb02014 tomas-ravalli <tomas.ravalli@icloud.com> 1752583580 +0200	commit: feat(models): add script for demand prediction
+e69c3ad4e2998db35ed41633ed27e547ffb02014 779aae34fcba37abe1b1186eeb0834ae012ac180 tomas-ravalli <tomas.ravalli@icloud.com> 1752585297 +0200	commit (merge): Update all
+779aae34fcba37abe1b1186eeb0834ae012ac180 7d94be51ed43370049c6e7504edd43f394c93d08 tomas-ravalli <tomas.ravalli@icloud.com> 1752585462 +0200	commit: Update .gitignore and add exploratory data analysis notebook
+7d94be51ed43370049c6e7504edd43f394c93d08 f1c601db6abc79c40e5a60169ed02081b0abaeed tomas-ravalli <tomas.ravalli@icloud.com> 1752586270 +0200	commit: remove streamlit app
+f1c601db6abc79c40e5a60169ed02081b0abaeed 222aa55b270627ce6e32301621d29635974d6aba tomas-ravalli <tomas.ravalli@icloud.com> 1752587074 +0200	commit: Update Usage in README.md
+222aa55b270627ce6e32301621d29635974d6aba 0478951015cf4c135504dd7e6b79c69ddfb79139 tomas-ravalli <tomas.ravalli@icloud.com> 1752587965 +0200	pull: Fast-forward
+0478951015cf4c135504dd7e6b79c69ddfb79139 1b3fb6a611ef2db379dd0a7f9e1ecb8e2dbaa144 tomas-ravalli <tomas.ravalli@icloud.com> 1752588236 +0200	pull --tags origin master: Fast-forward
+1b3fb6a611ef2db379dd0a7f9e1ecb8e2dbaa144 7e57751288c8b8f8c8b5ca5b643fb3b7d3d93c4d tomas-ravalli <tomas.ravalli@icloud.com> 1752595213 +0200	pull: Fast-forward
+7e57751288c8b8f8c8b5ca5b643fb3b7d3d93c4d bd6a34880c9efff63c1a2fe1b18c1752b443aa86 tomas-ravalli <tomas.ravalli@icloud.com> 1752595228 +0200	commit: Update features

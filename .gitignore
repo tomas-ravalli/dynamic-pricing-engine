@@ -1,0 +1,27 @@
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+
+# IDE and OS-specific files
+.DS_Store
+.idea/
+.vscode/
+
+# Data files - as specified in the project structure
+# We only commit the synthetic data for the demo
+data/01_raw/
+data/02_processed/
+data/03_external/
+
+# Notebook checkpoints
+.ipynb_checkpoints
+
+# Environment variables
+.env
+*.env
