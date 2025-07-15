@@ -24,8 +24,8 @@
 | Metric                      | Result                               | Description |
 | :-------------------------- | :----------------------------------- | :----------------------------------- |
 | 📈 Revenue Uplift           | **+9%** Average Revenue per Match    | Achieved by dynamically adjusting prices to match real-time demand forecasts, capturing more value from high-demand matches. Validated via controlled A/B testing.|
-| ⚙️ Operational Efficiency   | **20x improvement** in Price Decision Time | Realized by automating the manual data aggregation and analysis pipeline. The system delivers price recommendations directly, shifting the team's focus from data work to strategic approval.|
-| 🎯 Demand Forecast Accuracy | **92%** Accuracy (WAPE)              | The result of a model combining internal sales data with external signals. Sales predictions were highly reliable.|
+| ⚙️ Operational Efficiency   | **7x improvement** in Time-to-Price-Change | Realized by automating the manual data aggregation and analysis pipeline. The system delivers price recommendations directly, shifting the team's focus from data work to strategic approval.|
+| 🎯 Demand Forecast Accuracy | **86%** Accuracy (WAPE)              | The result of a model combining internal sales data with external signals. Sales predictions were highly reliable.|
 | 🎟️ Optimized Sales          | **+6%** Increase in Ticket Sell-Through Rate | A direct result of modeling price elasticity. Didn't maximize revenue at the cost of empty seats; also improved occupancy, which affects atmosphere and in-stadium sales.|
 
 ## Project Overview
@@ -50,12 +50,14 @@ This moves from a reactive, manual process to a proactive, automated one with hu
 
 Our project's methodology drew heavily from academic research on dynamic pricing. We focused on two core predictive tasks, carefully balancing the trade-offs between model complexity and the need for stakeholder trust.
 
-### Modeling Strategy
+### Modeling and Prediction Strategy
 
-| Predictive Task | Modeling Approach | Key Technology |
-| :--- | :--- | :--- |
-| **Demand Prediction** | Forecast future ticket demand for each match. Optimized for **predictive accuracy**, accepting a 'black-box' nature. | `Prophet`, `TensorFlow` |
-| **Price Recommendation** | Model price elasticity to recommend optimal prices. Optimized for **interpretability** to ensure business stakeholder trust. | `scikit-learn (Ridge Regression)` |
+| Predictive Task | Modeling Approach | Key Technology | Rationale for Choice |
+| :--- | :--- | :--- | :--- |
+| **Demand Prediction** | Forecast future ticket demand for each match. Optimized for **predictive accuracy**, accepting a 'black-box' nature. | `Prophet`, `TensorFlow` | Handles complex time-series patterns and non-linear relationships for the highest possible predictive accuracy. |
+| **Price Recommendation** | Model price elasticity to recommend optimal prices. Optimized for **interpretability** to ensure business stakeholder trust. | `scikit-learn (Ridge Regression)` | A robust linear model whose coefficients are easily interpretable, ensuring stakeholder trust and explaining price drivers. |
+
+All models were designed for **batch prediction**, running on a daily schedule. This approach was chosen as the optimal balance between computational cost and the business need for timely price updates, which did not require second-by-second changes.
 
 ### Feature Engineering
 A key part of our strategy was to enrich our models with external data, a common gap in existing research.
@@ -63,11 +65,8 @@ A key part of our strategy was to enrich our models with external data, a common
 * **🏠 Internal Factors**: Utilized traditional data such as historical sales, opponent tier, days until the match, and real-time ticket availability percentage..
 * **🌍 External Factors**: Integrated novel real-time signals including social media sentiment, search engine trends, and competing city events to capture market dynamics.
 
-### Prediction Strategy
-All models were designed for **batch prediction**, running on a daily schedule. This approach was chosen as the optimal balance between computational cost and the business need for timely price updates, which did not require second-by-second changes.
-
 ### My Role
-As the data scientist on this project, my key responsibilities included:
+As a data scientist on this project, my key responsibilities included:
 
 * **End-to-end model development**: I designed, trained, and validated the core machine learning models. This involved the complete feature engineering pipeline, combining internal data with novel external signals to improve predictive accuracy.
 * **System design & stakeholder collaboration**: I collaborated with the commercial team to translate business requirements into technical specifications and designed the analytical outputs (recommendations, simulations, alerts) for the HiTL dashboard.
