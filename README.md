@@ -15,7 +15,6 @@
 - [Tech Stack & Architecture](#tech-stack-&-architecture)
 - [Project Structure](#project-structure)
 - [Usage](#usage)
-- [Links](#links)
 
 ---
 
@@ -155,11 +154,6 @@ The predicted price from the model is not a final command, but rather a powerful
 The "Impact Simulation" feature is powered by the **Demand Forecast Model**. This model was trained to predict the number of tickets that will be sold based on a given price and other market conditions.
 
 When a user enters a hypothetical price into the control panel, the system feeds this price into the demand model to get a sales forecast. It then calculates the projected revenue (`predicted sales × price`), giving the commercial team an instant preview of the potential outcome of their pricing decisions.
-
-## Links
-
-* This project's methodology was inspired by the [Academic Survey on Airline Price Prediction](https://www.sciencedirect.com/science/article/pii/S131915781830884X) paper.
-* This project is mentioned in [an article](https://medium.com/@tomas-ravalli/product-analytics-fcbarcelona-16447ec30a01) I wrote about my experience on the data science team at FC Barcelona.
 
 </br>
 </br>
