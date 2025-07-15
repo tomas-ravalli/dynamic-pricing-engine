@@ -65,12 +65,6 @@ A key part of our strategy was to enrich our models with external data, a common
 * **🏠 Internal factors**: Utilized traditional data such as historical sales, opponent tier, days until the match, and real-time ticket availability percentage..
 * **🌍 External factors**: Integrated novel real-time signals including social media sentiment, search engine trends, and competing city events to capture market dynamics.
 
-### My Role
-As a data scientist on this project, my key responsibilities included:
-
-* **End-to-end model development**: I designed, trained, and validated the core machine learning models. This involved the complete feature engineering pipeline, combining internal data with novel external signals to improve predictive accuracy.
-* **System design & stakeholder collaboration**: I collaborated with the commercial team to translate business requirements into technical specifications and designed the analytical outputs (recommendations, simulations, alerts) for the HiTL dashboard.
-
 ## Tech Stack & Architecture
 
 * **Cloud & MLOps**: AWS, with Amazon SageMaker AI for model training and pipelines.
