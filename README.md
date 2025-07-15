@@ -168,6 +168,7 @@ When a user enters a hypothetical price into the control panel, the system feeds
 * This project is mentioned in [an article](https://medium.com/@tomas-ravalli/product-analytics-fcbarcelona-16447ec30a01) I wrote about my experience on the data science team at FC Barcelona.
 
 </br>
+</br>
 
 > ⚠️ **Project Disclaimer:**
 >
