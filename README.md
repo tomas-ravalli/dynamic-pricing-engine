@@ -65,6 +65,8 @@ A key part of our strategy was to enrich our models with external data, a common
 * **🏠 Internal factors**: Utilized traditional data such as historical sales, opponent tier, days until the match, and real-time ticket availability percentage..
 * **🌍 External factors**: Integrated novel real-time signals including social media sentiment, search engine trends, and competing city events to capture market dynamics.
 
+For a detailed description of the features in the synthetic dataset, please refer to the [Data Dictionary](reports/data_dictionary.md).
+
 ## Tech Stack & Architecture
 
 * **Cloud & MLOps**: AWS, with Amazon SageMaker AI for model training and pipelines.
@@ -78,8 +80,6 @@ A key part of our strategy was to enrich our models with external data, a common
 </p>
 
 ## Project Structure
-
-For a detailed description of the features in the synthetic dataset, please refer to the [Data Dictionary](reports/data_dictionary.md).
 
 ```
 FCB_Dynamic-Pricing/
