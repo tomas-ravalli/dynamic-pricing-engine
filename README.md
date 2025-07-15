@@ -62,8 +62,8 @@ All models were designed for **batch prediction**, running on a daily schedule. 
 ### Feature Engineering
 A key part of our strategy was to enrich our models with external data, a common gap in existing research.
 
-* **🏠 Internal Factors**: Utilized traditional data such as historical sales, opponent tier, days until the match, and real-time ticket availability percentage..
-* **🌍 External Factors**: Integrated novel real-time signals including social media sentiment, search engine trends, and competing city events to capture market dynamics.
+* **🏠 Internal factors**: Utilized traditional data such as historical sales, opponent tier, days until the match, and real-time ticket availability percentage..
+* **🌍 External factors**: Integrated novel real-time signals including social media sentiment, search engine trends, and competing city events to capture market dynamics.
 
 ### My Role
 As a data scientist on this project, my key responsibilities included:
@@ -75,9 +75,9 @@ As a data scientist on this project, my key responsibilities included:
 
 * **Cloud & MLOps**: AWS, with Amazon SageMaker AI for model training and pipelines.
 
-* **Languages & Core Libraries**: Python, SQL, Prophet & TensorFlow (for demand forecasting), scikit-learn (for match clustering), Pandas.
+* **Languages & core libraries**: Python, SQL, Prophet & TensorFlow (for demand forecasting), scikit-learn (for match clustering), Pandas.
 
-* **Architecture Diagram**: The architecture is designed for a robust, human-in-the-loop workflow. Data from various internal and external sources is ingested and processed by the core ML models. The resulting proposals and simulations are then presented to the commercial team on a User Control Panel for final review and approval, which triggers the price update via a REST API.
+* **Architecture diagram**: The architecture is designed for a robust, human-in-the-loop workflow. Data from various internal and external sources is ingested and processed by the core ML models. The resulting proposals and simulations are then presented to the commercial team on a User Control Panel for final review and approval, which triggers the price update via a REST API.
 
 <p align="center">
   <img src="./assets/fcb-dp-architecture.svg" alt="Dynamic Engine Architecture">
