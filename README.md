@@ -82,38 +82,26 @@ For a detailed description of the features in the synthetic dataset, please refe
 
 ```
 FCB_Dynamic-Pricing/
-│
-├── .gitignore          # Specifies files for Git to ignore.
-├── LICENSE             # Project license (MIT).
-├── README.md           # An overview of the project. <-- YOU ARE HERE
-├── requirements.txt    # The requirements file for reproducing the analysis.
-├── config.py           # Configuration file for paths, parameters, etc.
-│
-├── assets/             # Contains images and diagrams for the README.
-│
-├── data/
-│   ├── 01_raw/         # The original, immutable data. (Not committed to Git)
-│   ├── 02_processed/   # Intermediate data that has been transformed. (Not committed)
-│   └── 03_synthetic/   # The synthetic dataset used for this public demo.
-│
-├── models/             # Trained and serialized models (e.g., .pkl, .h5 files).
-│
-├── notebooks/          # Jupyter notebooks for exploration, prototyping, and analysis.
-│
-├── reports/            # Generated analysis, figures, and summaries.
-│
-└── src/                # Source code for the project.
-    ├── __init__.py     # Makes src a Python module.
-    │
-    ├── data/           # Scripts to download or generate data.
-    │   └── make_dataset.py
-    │
-    ├── features/       # Scripts to turn raw data into features for modeling.
-    │   └── build_features.py
-    │
-    └── models/         # Scripts to train models and use them for prediction.
-        ├── train_model.py
-        └── predict_model.py
+├── .gitignore             # Specifies files for Git to ignore.
+├── LICENSE                # Project license (MIT).
+├── README.md              # An overview of the project. <-- YOU ARE HERE
+├── requirements.txt       # The requirements file for reproducing the analysis.
+├── config.py              # Configuration file for paths, parameters, etc.
+├── assets/                # Contains images and diagrams for the README.
+├── data/                  # Stores data related to the project.
+│   ├── 01_raw/            # The original, immutable data.
+│   └── 02_processed/      # Processed and cleaned data ready for modeling.
+├── models/                # Stores trained model artifacts.
+└── src/                   # Source code for the project.
+    ├── __init__.py        # Makes src a Python package.
+    ├── data/              # Scripts for data ingestion and processing.
+    │   └── make_dataset.py # Script to generate the synthetic dataset.
+    ├── models/            # Scripts for model training and prediction.
+    │   ├── train_price_model.py   # Script to train the price prediction model.
+    │   ├── train_demand_model.py  # Script to train the demand prediction model.
+    │   ├── predict_price.py       # Script to get a sample price prediction.
+    │   └── predict_demand.py      # Script to get a sample demand prediction.
+    └── features/          # Scripts for feature engineering.
 ```
 
 ## Usage
