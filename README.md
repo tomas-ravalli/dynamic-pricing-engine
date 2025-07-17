@@ -148,7 +148,6 @@ To run the project and see the full pipeline in action, follow these steps from 
     ```bash
     python -m src.models.train_demand_model
     ```
-    *Note: The `build_features.py` script is now used for the EDA notebook. The final training pipelines handle data transformations internally.*
 
 4.  **Run the Decision Engine scripts (optional):** These scripts show how to use the trained demand model to get simulations and price recommendations.
     ```bash
