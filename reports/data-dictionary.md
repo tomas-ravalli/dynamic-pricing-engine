@@ -1,8 +1,6 @@
 # Data Dictionary
 This document provides a detailed description of each feature in the synthetic dataset (`synthetic_match_data.csv`), which is used to model and predict football match ticket prices.
 
----
-
 ### Dataset Overview
 
 Each row in the dataset represents the state of a specific seating **zone** for a single **match** at a particular point in time, defined by the `days_until_match`. The primary goal is to predict the `ticket_price` based on the other features.
