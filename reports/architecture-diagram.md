@@ -28,12 +28,12 @@ The general workflow is as follows:
 | :--- | :--- |
 | **Data Ingestion & Centralization** | The entry point that gathers data from all sources and consolidates it into a unified data store for processing. |
 | **ML & Analytics Core** | The central "brain" where data is processed, features are engineered, and the machine learning models are trained and executed. |
-| **Business Constraints** | A module containing hardcoded business logic, such as price floors/caps, that ensures all price recommendations are compliant with club strategy. |
+| **Business Constraints** | A module containing hardcoded business logic (e.g., price floors/caps) that provides rules directly to the Decision Engine to ensure recommendations are compliant with club strategy. |
 | **Decision Module** | A container for the core predictive models that feed the optimization engine. |
 | ┣ **Price Elasticity Model** | A model that calculates how sensitive ticket demand is to changes in price. |
 | ┣ **Demand Forecast Model** | A model that predicts the expected volume of ticket sales at various price points. |
 | ┣ **Match Clustering** | An algorithm that groups similar matches together (e.g., "Weekday league match vs. mid-tier team") to improve model accuracy. |
-| **Optimization & Simulation Engine** | Takes the outputs from the Decision Module and Business Constraints to find the revenue-maximizing price. It also allows for "what-if" simulations. |
+| **Decision Engine: Optimization & Simulation** | Takes the outputs from the Decision Module and Business Constraints to find the revenue-maximizing price. It also allows for "what-if" simulations. |
 | **Anomaly Warnings** | An alerting system that flags unusual sales patterns or pricing recommendations that deviate from norms. |
 | **Impact Simulation** | A feature that allows a human user to test a hypothetical price and see the model's prediction for its impact on sales and revenue. |
 | **Price Variation Proposal** | The final output of the engine: a concrete price recommendation for a given seat or section. |
