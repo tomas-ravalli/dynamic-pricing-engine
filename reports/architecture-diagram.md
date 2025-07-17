@@ -49,3 +49,4 @@ The general workflow is as follows:
 | **Fan Engagement** | The final layer where fans interact with the system's output. |
 | ┗ **Ticketing Purchase UI** | The public-facing website or application screen where fans see the dynamically adjusted prices and make their purchases. |
 
+<p align="center">© 🌐 2025 t.r.</p>
