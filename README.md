@@ -30,8 +30,8 @@
 ## Project Overview
 The diagram below illustrates the conceptual framework for the Dynamic Pricing project. At its core, the system sits between two main stakeholders, The Club and The Fan, each with opposing goals. The engine's purpose is to find an optimal balance by ingesting various data points, processing them, and providing data-driven answers to both sides. It essentially acts as the *brain* that determines ticket prices based on a range of real-time and historical information.
 
-<p align="center">
-  <img src="./assets/fcb-dynamic-pricing-hl.svg" alt="High-level Project Diagram">
+<p align="left">
+  <img src="./assets/dp-hl.png" alt="High-level Project Diagram" width="1500">
 </p>
 
 The system operates in a continuous loop: the Dynamic Pricing Engine constantly ingests and analyzes both Internal Factors (like how many seats are left) and External Factors (like social media buzz). Based on this combined data, it generates a recommended price and a demand forecast. The Club uses these outputs to set the official ticket prices. The Fan, in turn, sees these prices and uses the system's guidance (e.g., price-drop alerts) to decide when to buy. This entire process creates a responsive, market-driven pricing strategy that is more sophisticated than a static, pre-set price list; this moves from a reactive, manual process to a proactive, automated one with human-in-the-loop (HiTL).
@@ -73,8 +73,8 @@ A key part of our strategy was to enrich our models with external data, a common
 
 * **Architecture diagram**: The architecture is designed for a robust, human-in-the-loop workflow. Data from various internal and external sources is ingested and processed by the core ML models. The resulting proposals and simulations are then presented to the commercial team on a User Control Panel for final review and approval, which triggers the price update via a REST API.
 
-<p align="center">
-  <img src="./assets/fcb-dp-architecture.svg" alt="Dynamic Engine Architecture">
+<p align="left">
+  <img src="./assets/dp-ll.png" alt="Dynamic Engine Architecture" width="950">
 </p>
 
 > For a detailed description of the diagram and its' components, please refer to the [Architecture Diagram](reports/architecture-diagram.md).
