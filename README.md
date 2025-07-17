@@ -64,7 +64,7 @@ A key part of our strategy was to enrich our models with external data, a common
 * **🏠 Internal factors**: Utilized traditional data such as historical sales, opponent tier, days until the match, and real-time ticket availability percentage..
 * **🌍 External factors**: Integrated novel real-time signals including social media sentiment, search engine trends, and competing city events to capture market dynamics.
 
-For a detailed description of the features in the synthetic dataset, please refer to the [Data Dictionary](reports/data_dictionary.md).
+For a detailed description of the features in the synthetic dataset, please refer to the [Data Dictionary](reports/data-dictionary.md).
 
 ## Tech Stack & Architecture
 
@@ -74,9 +74,11 @@ For a detailed description of the features in the synthetic dataset, please refe
 
 * **Architecture diagram**: The architecture is designed for a robust, human-in-the-loop workflow. Data from various internal and external sources is ingested and processed by the core ML models. The resulting proposals and simulations are then presented to the commercial team on a User Control Panel for final review and approval, which triggers the price update via a REST API.
 
-<p align="center">
+<p align="left">
   <img src="./assets/fcb-dp-architecture.svg" alt="Dynamic Engine Architecture">
 </p>
+
+For a detailed description of the diagram and its' components, please refer to the [Architecture Diagram](reports/architecture-diagram.md).
 
 ## Project Structure
 
