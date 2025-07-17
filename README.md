@@ -73,7 +73,7 @@ A key part of our strategy was to enrich our models with external data, a common
 
 * **Architecture diagram**: The architecture is designed for a robust, human-in-the-loop workflow. Data from various internal and external sources is ingested and processed by the core ML models. The resulting proposals and simulations are then presented to the commercial team on a User Control Panel for final review and approval, which triggers the price update via a REST API.
 
-<p align="left">
+<p align="center">
   <img src="./assets/fcb-dp-architecture.svg" alt="Dynamic Engine Architecture">
 </p>
 
