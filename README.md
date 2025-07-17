@@ -1,9 +1,9 @@
 # 💹 FCB_Dynamic-Pricing
 
 <p align="left">
-  <img src="https://img.shields.io/badge/License-MIT-lightgray" alt="License">
-  <img src="https://img.shields.io/badge/Language-Python-lightgray" alt="Language">
-  <img src="https://img.shields.io/badge/Cloud-GCP-lightgray" alt="Cloud">
+  <img src="https://img.shields.io/badge/License-MIT-blue" alt="License">
+  <img src="https://img.shields.io/badge/Language-Python-blue" alt="Language">
+  <img src="https://img.shields.io/badge/Cloud-GCP-blue" alt="Cloud">
 </p>
 
 > A semi-automated pricing engine for football match tickets. **Objective:** To convert a manual price-decision process into a more automated one and improve analytics to make each price variation more precise, with the final goal of optimizing revenue and ticket sales.
@@ -35,7 +35,6 @@ The diagram below illustrates the conceptual framework for the Dynamic Pricing p
 </p>
 
 The system operates in a continuous loop: the Dynamic Pricing Engine constantly ingests and analyzes both Internal Factors (like how many seats are left) and External Factors (like social media buzz). Based on this combined data, it generates a recommended price and a demand forecast. The Club uses these outputs to set the official ticket prices. The Fan, in turn, sees these prices and uses the system's guidance (e.g., price-drop alerts) to decide when to buy. This entire process creates a responsive, market-driven pricing strategy that is more sophisticated than a static, pre-set price list; this moves from a reactive, manual process to a proactive, automated one with human-in-the-loop (HiTL).
-
 
 | 🚩 The Problem | 💡 The Solution |
 | :--------------------------- | :---------------------------- |
