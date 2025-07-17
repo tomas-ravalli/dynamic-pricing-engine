@@ -40,3 +40,5 @@ These features capture the dynamics of demand over time and external market inte
 | `ticket_availability_pct` | Float | The percentage of total seats in the zone that are still available. |
 | `competitor_avg_price` | Float | The average ticket price for a comparable entertainment event (e.g., another major football match, a concert) on the same day. Represents the competitive landscape. |
 | **`ticket_price`** | **Float** | **(Target Variable)** The final, dynamically-set price in Euros (€) for a single ticket in the specified `zone` for the given `match_id`. |
+
+<p align="center">© 🌐 2025 t.r.</p>
