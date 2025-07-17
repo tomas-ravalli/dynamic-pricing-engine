@@ -9,10 +9,10 @@
 > A semi-automated pricing engine for football match tickets. **Objective:** To convert a manual price-decision process into a more automated one and improve analytics to make each price variation more precise, with the final goal of optimizing revenue and ticket sales.
 
 ### Outline
-- [Key Results & Metrics](#key-results-&-metrics)
+- [Key Results & Metrics](#key-results--metrics)
 - [Project Overview](#project-overview)
 - [Methodology](#methodology)
-- [Tech Stack & Architecture](#tech-stack-&-architecture)
+- [Tech Stack & Architecture](#tech-stack--architecture)
 - [Project Structure](#project-structure)
 - [Usage](#usage)
 
@@ -84,26 +84,29 @@ For a detailed description of the diagram and its' components, please refer to t
 
 ```
 FCB_Dynamic-Pricing/
-├── .gitignore             # Specifies files for Git to ignore.
-├── LICENSE                # Project license (MIT).
-├── README.md              # An overview of the project. <-- YOU ARE HERE
-├── requirements.txt       # The requirements file for reproducing the analysis.
-├── config.py              # Configuration file for paths, parameters, etc.
-├── assets/                # Contains images and diagrams for the README.
-├── data/                  # Stores data related to the project.
-│   ├── 01_raw/            # The original, immutable data.
-│   └── 02_processed/      # Processed and cleaned data ready for modeling.
-├── models/                # Stores trained model artifacts.
-└── src/                   # Source code for the project.
-    ├── __init__.py        # Makes src a Python package.
-    ├── data/              # Scripts for data ingestion and processing.
-    │   └── make_dataset.py # Script to generate the synthetic dataset.
-    ├── models/            # Scripts for model training and prediction.
+├── .gitignore                     # Specifies files for Git to ignore.
+├── LICENSE                        # Project license (MIT).
+├── README.md                      # An overview of the project. <-- YOU ARE HERE
+├── requirements.txt               # The requirements file for reproducing the analysis.
+├── config.py                      # Configuration file for paths, parameters, etc.
+├── assets/                        # Contains images and diagrams for the README.
+├── data/                          #  Stores data related to the project.
+│   ├── 01_raw/                    # The original, immutable data.
+│   └── 02_processed/              # Processed and cleaned data ready for modeling.
+├── models/                        # Stores trained model artifacts.
+├── reports/                       # Contains explanatory documents.
+│   ├── data-dictionary.md         # A detailed description of the dataset features.
+│   └── architecture-diagram.md    # An explanation of the system architecture.
+└── src/                           # Source code for the project.
+    ├── __init__.py                # Makes src a Python package.
+    ├── data/                      # Scripts for data ingestion and processing.
+    │   └── make_dataset.py        # Script to generate the synthetic dataset.
+    ├── models/                    # Scripts for model training and prediction.
     │   ├── train_price_model.py   # Script to train the price prediction model.
     │   ├── train_demand_model.py  # Script to train the demand prediction model.
     │   ├── predict_price.py       # Script to get a sample price prediction.
     │   └── predict_demand.py      # Script to get a sample demand prediction.
-    └── features/          # Scripts for feature engineering.
+    └── features/                  # Scripts for feature engineering.
 ```
 
 ## Usage
