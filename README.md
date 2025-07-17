@@ -1,7 +1,7 @@
 # 💹 FCB_Dynamic-Pricing
 
 <p align="left">
-  <img src="https://img.shields.io/badge/License-MIT-red" alt="License">
+  <img src="https://img.shields.io/badge/License-MIT-brown" alt="License">
   <img src="https://img.shields.io/badge/Language-Python-blue" alt="Language">
   <img src="https://img.shields.io/badge/Cloud-GCP-brightgreen" alt="Cloud">
 </p>
