@@ -8,7 +8,7 @@ The general workflow is as follows:
 3.  The pricing team uses the **UI & Integration** layer to review, simulate, and approve the price, which is then updated in the live ticketing system.
 
 <p align="left">
-  <img src="./assets/dp-ll.png" alt="Low-level Project Diagram" width="950">
+  <img src="../assets/dp-ll.png" alt="Low-level Project Diagram" width="950">
 </p>
 
 ## **Component Descriptions**
