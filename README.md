@@ -47,10 +47,10 @@ The system operates in a continuous loop: the Dynamic Pricing Engine constantly 
 
 This project implemented a complete, production-ready dynamic pricing solution, from initial business discovery to final deployment.
 
-### 1. Problem Framing & Discovery
+### 1. Scoping
 The initial phase involved meeting with business stakeholders (product, legal, and marketing) to define the exact objective. The goal was set to maximize revenue while respecting key business constraints, such as price caps, minumum occupacy and limits on price change frequency.
 
-### 2. Modeling: From Prediction to Optimization
+### 2. Modeling
 The modeling strategy follows a two-stage process: first predict, then optimize. The system first forecasts demand with high accuracy and then uses that forecast within a Decision Engine to find the optimal price.
 
 | Predictive Task | Modeling Approach | Key Technology | Rationale for Choice |
@@ -60,7 +60,7 @@ The modeling strategy follows a two-stage process: first predict, then optimize.
 
 The core of this project is the **Decision Engine**, which translates the demand forecast into actionable business recommendations. It consists of two key components that work together to support a Human-in-the-Loop (HITL) workflow.
 
-### The Simulation Engine (The "What-if" Tool)
+#### The Simulation Engine (The "What-if" Tool)
 
 | Aspect | Description |
 | :--- | :--- |
@@ -68,7 +68,7 @@ The core of this project is the **Decision Engine**, which translates the demand
 | **Question Answered** | "If I set the price to X, what is the likely impact on sales and revenue?" |
 | **Core Function** | Takes a hypothetical price and match features as input, and uses the trained Demand Forecast Model to predict the outcome, providing an instant, data-driven preview of any potential pricing decision. |
 
-### The Optimization Engine (The "Recommendation" Tool)
+#### The Optimization Engine (The "Recommendation" Tool)
 
 | Aspect | Description |
 | :--- | :--- |
@@ -86,7 +86,7 @@ A key part of the strategy was to enrich our models with external data, a common
 ### 4. A/B Testing & Validation
 Before a full rollout, the system was rigorously validated through controlled A/B tests. The new dynamic pricing model was applied to a few sections of the stadium, with the rest serving as a control group. This allowed us to scientifically prove the model's positive impact on revenue.
 
-### 5. Deployment and MLOps
+### 5. Deployment
 The entire system was deployed within an automated MLOps pipeline. This ensures models are automatically retrained on new data, performance is constantly monitored for degradation, and price recommendations are reliably fed to the ticketing system via an API. All models were designed for batch prediction, running on a daily schedule to balance cost and the need for timely updates.
 
 ## Architecture
