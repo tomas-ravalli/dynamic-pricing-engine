@@ -58,7 +58,23 @@ The modeling strategy was built as a three-part system to drive optimization. We
 | **Demand Prediction** | Forecast future ticket demand for each match. Optimized for **predictive accuracy**, accepting a 'black-box' nature. | `Prophet`, `TensorFlow` | Handles complex time-series patterns and non-linear relationships for the highest possible predictive accuracy. |
 | **Price Recommendation** | Model price elasticity to recommend optimal prices. Optimized for **interpretability** to build stakeholder trust. | `scikit-learn (Ridge Regression)` | A robust linear model whose coefficients are easily interpretable, ensuring stakeholder buy-in by explaining price drivers. |
 
-The core of the solution is the **Optimization & Simulation Engine**, which serves a dual purpose. The *Optimization* component automatically generates the revenue-maximizing price proposal. The *Simulation* component, meanwhile, powers the 'Impact Simulation' feature for the commercial team. It allows a user to input any hypothetical price and see the predicted impact on sales, enabling a robust Human-in-the-Loop workflow before final decisions are made.
+The core of this project is the **Decision Engine**, which translates the predictions from the machine learning models into actionable business recommendations. It consists of two key components that work together to support a Human-in-the-Loop (HITL) workflow.
+
+### The Simulation Engine (The "What-If" Tool)
+
+| Aspect | Description |
+| :--- | :--- |
+| **Purpose** | To power the 'Impact Simulation' feature for "what-if" analysis by the commercial team. |
+| **Question Answered** | "If I set the price to X, what is the likely impact on sales and revenue?" |
+| **Core Function** | Takes a hypothetical price and match features as input, and uses the trained Demand Forecast Model to predict the outcome, providing an instant, data-driven preview of any potential pricing decision. |
+
+### The Optimization Engine (The "Recommendation" Tool)
+
+| Aspect | Description |
+| :--- | :--- |
+| **Purpose** | To proactively generate the official `Price Variation Proposal`. |
+| **Question Answered** | "What is the single best price to set for this seat to maximize our total revenue?" |
+| **Core Function** | Operates by performing a grid search across a range of valid prices defined by business constraints. For each price point, it simulates the revenue using the demand model and returns the price that yields the highest projected revenue. |
 
 ### 3. Feature Engineering
 A key part of the strategy was to enrich our models with external data, a common gap in existing research.
