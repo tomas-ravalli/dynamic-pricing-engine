@@ -6,7 +6,7 @@
   <img src="https://img.shields.io/badge/Cloud-GCP-blue" alt="Cloud">
 </p>
 
-> A semi-automated pricing engine for football match tickets. **Objective:** To convert a manual price-decision process into a more automated one and improve analytics to make each price variation more precise, with the final goal of optimizing revenue and ticket sales.
+> A dynamic pricing and decision support system for football match tickets. **Objective:** To evolve a manual price-decision process into a data-driven, semi-automated workflow. The system's core Decision Engine improves the precision of each price variation, with the final goal of optimizing revenue and ticket sales.
 
 ### Outline
 - [Key Results & Metrics](#key-results--metrics)
@@ -48,19 +48,19 @@ The system operates in a continuous loop: the Dynamic Pricing Engine constantly 
 This project implemented a complete, production-ready dynamic pricing solution, from initial business discovery to final deployment.
 
 ### 1. Problem Framing & Discovery
-The initial phase involved meeting with business stakeholders (product, legal, and marketing) to define the exact objective. The goal was set to maximize overall revenue from ticketing and in-stadium sales while respecting key business constraints, such as price caps and limits on price change frequency.
+The initial phase involved meeting with business stakeholders (product, legal, and marketing) to define the exact objective. The goal was set to maximize revenue while respecting key business constraints, such as price caps, minumum occupacy and limits on price change frequency.
 
 ### 2. Modeling: From Prediction to Optimization
-The modeling strategy was built as a three-part system to drive optimization. We chose specific technologies for each modeling task, balancing the need for high predictive accuracy with the need for interpretability and stakeholder trust.
+The modeling strategy follows a two-stage process: first predict, then optimize. The system first forecasts demand with high accuracy and then uses that forecast within a Decision Engine to find the optimal price.
 
 | Predictive Task | Modeling Approach | Key Technology | Rationale for Choice |
 | :--- | :--- | :--- | :--- |
-| **Demand Prediction** | Forecast future ticket demand for each match. Optimized for **predictive accuracy**, accepting a 'black-box' nature. | `Prophet`, `TensorFlow` | Handles complex time-series patterns and non-linear relationships for the highest possible predictive accuracy. |
-| **Price Recommendation** | Model price elasticity to recommend optimal prices. Optimized for **interpretability** to build stakeholder trust. | `scikit-learn (Ridge Regression)` | A robust linear model whose coefficients are easily interpretable, ensuring stakeholder buy-in by explaining price drivers. |
+| **1. Demand Forecasting** | Forecast future ticket demand for each match at various potential price points. Optimized for **predictive accuracy**. | `Prophet`, `TensorFlow` | Handles complex time-series patterns and non-linear relationships for the highest possible predictive accuracy. |
+| **2. Price Optimzation** | Model price elasticity to recommend optimal prices. Optimized for **business impact and constraints**. | `Custom Python Logic` | A simulation and grid-search framework that uses the demand model to find the optimal price, while respecting business rules (e.g., price caps). |
 
-The core of this project is the **Decision Engine**, which translates the predictions from the machine learning models into actionable business recommendations. It consists of two key components that work together to support a Human-in-the-Loop (HITL) workflow.
+The core of this project is the **Decision Engine**, which translates the demand forecast into actionable business recommendations. It consists of two key components that work together to support a Human-in-the-Loop (HITL) workflow.
 
-### The Simulation Engine (The "What-If" Tool)
+### The Simulation Engine (The "What-if" Tool)
 
 | Aspect | Description |
 | :--- | :--- |
@@ -121,10 +121,12 @@ FCB_Dynamic-Pricing/
     ├── data/                      # Scripts for data ingestion and processing.
     │   └── make_dataset.py        # Script to generate the synthetic dataset.
     ├── models/                    # Scripts for model training and prediction.
-    │   ├── train_price_model.py   # Script to train the price prediction model.
     │   ├── train_demand_model.py  # Script to train the demand prediction model.
-    │   ├── predict_price.py       # Script to get a sample price prediction.
     │   └── predict_demand.py      # Script to get a sample demand prediction.
+    ├── decision_engine/           # Scripts for simulation and optimization.
+    │   ├── __init__.py            # Makes decision_engine a Python package.
+    │   ├── simulate.py            # Script to run a what-if simulation.
+    │   └── optimize.py            # Script to find the optimal price.
     └── features/                  # Scripts for feature engineering.
 ```
 
@@ -143,24 +145,27 @@ To run the project and see the full pipeline in action, follow these steps from 
     python -m src.data.make_dataset
     ```
 
-3.  **Run the training pipelines:** This will create and save both the price and demand model artifacts in the `models/` directory.
+3.  **Run the training pipeline:** This will create and save the demand model artifact in the `models/` directory.
     ```bash
-    python -m src.models.train_price_model
     python -m src.models.train_demand_model
     ```
     *Note: The `build_features.py` script is now used for the EDA notebook. The final training pipelines handle data transformations internally.*
 
-4.  **Run the prediction scripts (optional):** These scripts demonstrate how to use the saved models from the command line.
+4.  **Run the Decision Engine scripts (optional):** These scripts show how to use the trained demand model to get simulations and price recommendations.
     ```bash
-    # Get a sample price prediction
-    python -m src.models.predict_price
-
     # Get a sample demand prediction
     python -m src.models.predict_demand
+    # Get a revenue-optimal price recommendation
+    python -m src.decision_engine.optimize
     ```
 
-### Interpreting the Model's Output
-The predicted price from the model is not a final command, but rather a powerful **baseline recommendation**. In the real-world application, this price is displayed on a `User Control Panel` for the commercial team. The workflow is designed to be **Human-in-the-Loop (HiTL)**, where the team uses this data-driven recommendation as a starting point for their own analysis.
+### Using the Decision Engine's output
+The system provides two key outputs for the commercial team via the User Control Panel:
+
+1. **The Price Recommendation**: This is the revenue-maximizing price identified by the Optimization Engine. It serves as a powerful, data-driven starting point.
+2. **The Impact Simulation**: This allows the team to test their own hypotheses by entering any price and instantly seeing the predicted impact on ticket sales and revenue.
+
+The workflow is designed to be **Human-in-the-Loop (HiTL)**. The team uses these outputs to make a final, informed decision, blending machine intelligence with their expert knowledge.
 
 ### How the Simulation Works
 The "Impact Simulation" feature is powered by the **Demand Forecast Model**. This model was trained to predict the number of tickets that will be sold based on a given price and other market conditions.
