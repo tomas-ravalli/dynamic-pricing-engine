@@ -154,4 +154,4 @@ When a user enters a hypothetical price into the control panel, the system feeds
 > * **Illustrative Purpose:** This repository serves as a high-level demonstration of the project's architecture and methodology. Many implementation details and model complexities have been simplified for clarity.
 > * **Synthetic Data:** The code runs on synthetic data, as the original data is proprietary and cannot be shared. The purpose is to demonstrate the modeling approach and engineering best practices of the real-world project.
 
-<p align="right">© 2025 t.r.</p>
+<p align="center">© 2025 t.r.</p>
