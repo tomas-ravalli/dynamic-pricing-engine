@@ -46,24 +46,33 @@ The system operates in a continuous loop: the Dynamic Pricing Engine constantly 
 
 ## Methodology
 
-Our project's methodology drew heavily from academic research on dynamic pricing. We focused on two core predictive tasks, carefully balancing the trade-offs between model complexity and the need for stakeholder trust.
+This project implemented a complete, production-ready dynamic pricing solution, from initial business discovery to final deployment.
 
-### Modeling and Prediction Strategy
+### 1. Problem Framing & Discovery
+The initial phase involved meeting with business stakeholders (product, legal, and marketing) to define the exact objective. The goal was set to maximize overall revenue from ticketing and in-stadium sales while respecting key business constraints, such as price caps and limits on price change frequency.
+
+### 2. Modeling: From Prediction to Optimization
+The modeling strategy was built as a three-part system to drive optimization. We chose specific technologies for each modeling task, balancing the need for high predictive accuracy with the need for interpretability and stakeholder trust.
 
 | Predictive Task | Modeling Approach | Key Technology | Rationale for Choice |
 | :--- | :--- | :--- | :--- |
 | **Demand Prediction** | Forecast future ticket demand for each match. Optimized for **predictive accuracy**, accepting a 'black-box' nature. | `Prophet`, `TensorFlow` | Handles complex time-series patterns and non-linear relationships for the highest possible predictive accuracy. |
-| **Price Recommendation** | Model price elasticity to recommend optimal prices. Optimized for **interpretability** to ensure business stakeholder trust. | `scikit-learn (Ridge Regression)` | A robust linear model whose coefficients are easily interpretable, ensuring stakeholder trust and explaining price drivers. |
+| **Price Recommendation** | Model price elasticity to recommend optimal prices. Optimized for **interpretability** to build stakeholder trust. | `scikit-learn (Ridge Regression)` | A robust linear model whose coefficients are easily interpretable, ensuring stakeholder buy-in by explaining price drivers. |
 
-All models were designed for **batch prediction**, running on a daily schedule. This approach was chosen as the optimal balance between computational cost and the business need for timely price updates, which did not require second-by-second changes.
+The core of the solution is the **Optimization & Simulation Engine**, which serves a dual purpose. The *Optimization* component automatically generates the revenue-maximizing price proposal. The *Simulation* component, meanwhile, powers the 'Impact Simulation' feature for the commercial team. It allows a user to input any hypothetical price and see the predicted impact on sales, enabling a robust Human-in-the-Loop workflow before final decisions are made.
 
-### Feature Engineering
-A key part of our strategy was to enrich our models with external data, a common gap in existing research.
-
-* **🏠 Internal factors**: Utilized traditional data such as historical sales, opponent tier, days until the match, and real-time ticket availability percentage..
+### 3. Feature Engineering
+A key part of the strategy was to enrich our models with external data, a common gap in existing research.
+* **🏠 Internal factors**: Utilized traditional data such as historical sales, opponent tier, days until the match, and real-time ticket availability.
 * **🌍 External factors**: Integrated novel real-time signals including social media sentiment, search engine trends, and competing city events to capture market dynamics.
 
 > For a detailed description of the features in the synthetic dataset, please refer to the [Data Dictionary](reports/data-dictionary.md).
+
+### 4. A/B Testing & Validation
+Before a full rollout, the system was rigorously validated through controlled A/B tests. The new dynamic pricing model was applied to a few sections of the stadium, with the rest serving as a control group. This allowed us to scientifically prove the model's positive impact on revenue.
+
+### 5. Deployment and MLOps
+The entire system was deployed within an automated MLOps pipeline. This ensures models are automatically retrained on new data, performance is constantly monitored for degradation, and price recommendations are reliably fed to the ticketing system via an API. All models were designed for batch prediction, running on a daily schedule to balance cost and the need for timely updates.
 
 ## Tech Stack & Architecture
 
@@ -73,11 +82,11 @@ A key part of our strategy was to enrich our models with external data, a common
 
 * **Architecture diagram**: The architecture is designed for a robust, human-in-the-loop workflow. Data from various internal and external sources is ingested and processed by the core ML models. The resulting proposals and simulations are then presented to the commercial team on a User Control Panel for final review and approval, which triggers the price update via a REST API.
 
+> For a detailed description of the diagram and its' components, please refer to the [Architecture Diagram](reports/architecture-diagram.md).
+
 <p align="left">
   <img src="./assets/dp-ll.png" alt="Low-level Project Diagram" width="950">
 </p>
-
-> For a detailed description of the diagram and its' components, please refer to the [Architecture Diagram](reports/architecture-diagram.md).
 
 ## Project Structure
 
