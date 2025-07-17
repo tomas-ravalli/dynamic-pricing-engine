@@ -124,7 +124,6 @@ FCB_Dynamic-Pricing/
     │   ├── train_demand_model.py  # Script to train the demand prediction model.
     │   └── predict_demand.py      # Script to get a sample demand prediction.
     ├── decision_engine/           # Scripts for simulation and optimization.
-    │   ├── __init__.py            # Makes decision_engine a Python package.
     │   ├── simulate.py            # Script to run a what-if simulation.
     │   └── optimize.py            # Script to find the optimal price.
     └── features/                  # Scripts for feature engineering.
