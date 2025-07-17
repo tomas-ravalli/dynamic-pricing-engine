@@ -12,7 +12,7 @@
 - [Key Results & Metrics](#key-results--metrics)
 - [Project Overview](#project-overview)
 - [Methodology](#methodology)
-- [Tech Stack & Architecture](#tech-stack--architecture)
+- [Architecture](#architecture)
 - [Project Structure](#project-structure)
 - [Usage](#usage)
 
@@ -73,13 +73,9 @@ Before a full rollout, the system was rigorously validated through controlled A/
 ### 5. Deployment and MLOps
 The entire system was deployed within an automated MLOps pipeline. This ensures models are automatically retrained on new data, performance is constantly monitored for degradation, and price recommendations are reliably fed to the ticketing system via an API. All models were designed for batch prediction, running on a daily schedule to balance cost and the need for timely updates.
 
-## Tech Stack & Architecture
+## Architecture
 
-* **Cloud & MLOps**: AWS, with Amazon SageMaker AI for model training and pipelines.
-
-* **Languages & core libraries**: Python, SQL, Prophet & TensorFlow (for demand forecasting), scikit-learn (for match clustering), Pandas.
-
-* **Architecture diagram**: The architecture is designed for a robust, human-in-the-loop workflow. Data from various internal and external sources is ingested and processed by the core ML models. The resulting proposals and simulations are then presented to the commercial team on a User Control Panel for final review and approval, which triggers the price update via a REST API.
+The architecture is designed for a robust, human-in-the-loop workflow. Data from various internal and external sources is ingested and processed by the core ML models. The resulting proposals and simulations are then presented to the commercial team on a User Control Panel for final review and approval, which triggers the price update via a REST API.
 
 > For a detailed description of the diagram and its' components, please refer to the [Architecture Diagram](reports/architecture-diagram.md).
 
