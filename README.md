@@ -1,9 +1,9 @@
 # 💹 FCB_Dynamic-Pricing
 
 <p align="left">
-  <img src="https://img.shields.io/badge/License-MIT-brown" alt="License">
-  <img src="https://img.shields.io/badge/Language-Python-blue" alt="Language">
-  <img src="https://img.shields.io/badge/Cloud-GCP-blue" alt="Cloud">
+  <img src="https://img.shields.io/badge/License-lightgrey" alt="License">
+  <img src="https://img.shields.io/badge/Language-lightgrey" alt="Language">
+  <img src="https://img.shields.io/badge/Cloud-lightgrey" alt="Cloud">
 </p>
 
 > A semi-automated pricing engine for football match tickets. **Objective:** To convert a manual price-decision process into a more automated one and improve analytics to make each price variation more precise, with the final goal of optimizing revenue and ticket sales.
