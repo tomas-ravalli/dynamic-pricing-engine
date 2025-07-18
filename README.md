@@ -64,7 +64,7 @@ The modeling strategy follows a two-stage process: first predict, then optimize.
 
 The core of this project is the **Decision Engine**, which translates the demand forecast into actionable business recommendations. It consists of two key components that work together to support a Human-in-the-Loop (HITL) workflow.
 
-#### The Simulation Engine
+### The Simulation Engine
 
 | Aspect | Description |
 | :--- | :--- |
@@ -72,7 +72,7 @@ The core of this project is the **Decision Engine**, which translates the demand
 | **Question Answered** | "If I set the price to X, what is the likely impact on sales and revenue?" |
 | **Core Function** | Takes a hypothetical price and match features as input, and uses the trained Demand Forecast Model to predict the outcome, providing an instant, data-driven preview of any potential pricing decision. |
 
-#### The Optimization Engine
+### The Optimization Engine
 
 | Aspect | Description |
 | :--- | :--- |
