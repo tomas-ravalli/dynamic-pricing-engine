@@ -9,6 +9,7 @@
 > A dynamic pricing and decision support system for football match tickets. **Objective:** To evolve a manual price-decision process into a data-driven, semi-automated workflow. The system's core Decision Engine improves the precision of each price variation, with the final goal of optimizing revenue and ticket sales.
 
 ### Outline
+
 - [Key Results & Metrics](#key-results--metrics)
 - [Project Overview](#project-overview)
 - [Methodology](#methodology)
@@ -28,6 +29,7 @@
 | 🎟️ Optimized Sales          | **+6%** Increase in Ticket Sell-Through Rate | A direct result of modeling price elasticity. Didn't maximize revenue at the cost of empty seats; also improved occupancy, which affects atmosphere and in-stadium sales.|
 
 ## Project Overview
+
 The diagram below illustrates the conceptual framework for the Dynamic Pricing project. At its core, the system sits between two main stakeholders, The Club and The Fan, each with opposing goals. The engine's purpose is to find an optimal balance by ingesting various data points, processing them, and providing data-driven answers to both sides. It essentially acts as the *brain* that determines ticket prices based on a range of real-time and historical information.
 
 <p align="left">
@@ -48,9 +50,11 @@ The system operates in a continuous loop: the Dynamic Pricing Engine constantly 
 This project implemented a complete, production-ready dynamic pricing solution, from initial business discovery to final deployment.
 
 ### 1. Scoping
+
 The initial phase involved meeting with business stakeholders (product, legal, and marketing) to define the exact objective. The goal was set to maximize revenue while respecting key business constraints, such as price caps, minumum occupacy and limits on price change frequency.
 
 ### 2. Modeling
+
 The modeling strategy follows a two-stage process: first predict, then optimize. The system first forecasts demand with high accuracy and then uses that forecast within a Decision Engine to find the optimal price.
 
 | Modeling Task | Modeling Approach | Key Technology | Rationale for Choice |
@@ -77,6 +81,7 @@ The core of this project is the **Decision Engine**, which translates the demand
 | **Core Function** | Operates by performing a grid search across a range of valid prices defined by business constraints. For each price point, it simulates the revenue using the demand model and returns the price that yields the highest projected revenue. |
 
 ### 3. Feature Engineering
+
 A key part of the strategy was to enrich our models with external data, a common gap in existing research.
 * **🏠 Internal factors**: Utilized traditional data such as historical sales, opponent tier, days until the match, and real-time ticket availability.
 * **🌍 External factors**: Integrated novel real-time signals including social media sentiment, search engine trends, and competing city events to capture market dynamics.
@@ -84,9 +89,11 @@ A key part of the strategy was to enrich our models with external data, a common
 > For a detailed description of the features in the synthetic dataset, please refer to the [Data Dictionary](reports/data-dictionary.md).
 
 ### 4. A/B Testing & Validation
+
 Before a full rollout, the system was rigorously validated through controlled A/B tests. The new dynamic pricing model was applied to a few sections of the stadium, with the rest serving as a control group. This allowed us to scientifically prove the model's positive impact on revenue.
 
 ### 5. Deployment
+
 The entire system was deployed within an automated MLOps pipeline. This ensures models are automatically retrained on new data, performance is constantly monitored for degradation, and price recommendations are reliably fed to the ticketing system via an API. All models were designed for batch prediction, running on a daily schedule to balance cost and the need for timely updates.
 
 ## Architecture
@@ -136,6 +143,7 @@ FCB_Dynamic-Pricing/
 ## Usage
 
 ### 🚀 Running the Pipeline
+
 To run the project and see the full pipeline in action, follow these steps from your terminal.
 
 1.  **Set up the environment** (only needed once):
@@ -167,6 +175,7 @@ To run the project and see the full pipeline in action, follow these steps from 
     python -m src.decision_engine.optimize
 
 ### Using the Decision Engine's output
+
 The system provides two key outputs for the commercial team via the User Control Panel:
 
 1. **The Price Recommendation**: This is the revenue-maximizing price identified by the Optimization Engine. It serves as a powerful, data-driven starting point.
@@ -174,7 +183,8 @@ The system provides two key outputs for the commercial team via the User Control
 
 The workflow is designed to be **Human-in-the-Loop (HiTL)**. The team uses these outputs to make a final, informed decision, blending machine intelligence with their expert knowledge.
 
-### How the Simulation Works
+### How the Simulation works
+
 The "Impact Simulation" feature is powered by the **Demand Forecast Model**. This model was trained to predict the number of tickets that will be sold based on a given price and other market conditions.
 
 When a user enters a hypothetical price into the control panel, the system feeds this price into the demand model to get a sales forecast. It then calculates the projected revenue (`predicted sales × price`), giving the commercial team an instant preview of the potential outcome of their pricing decisions.
