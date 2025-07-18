@@ -34,7 +34,7 @@ The diagram below illustrates the conceptual framework for the Dynamic Pricing p
   <img src="./assets/dp-hl.png" alt="High-level Project Diagram" width="1500">
 </p>
 
-The system operates in a continuous loop: the Dynamic Pricing Engine constantly ingests and analyzes both Internal Factors (like how many seats are left) and External Factors (like social media buzz). Based on this combined data, it generates a recommended price and a demand forecast. The Club uses these outputs to set the official ticket prices. The Fan, in turn, sees these prices and uses the system's guidance (e.g., price-drop alerts) to decide when to buy. This entire process creates a responsive, market-driven pricing strategy that is more sophisticated than a static, pre-set price list; this moves from a reactive, manual process to a proactive, automated one with human-in-the-loop (HiTL).
+The system operates in a continuous loop: the Dynamic Pricing Engine constantly ingests and analyzes both Internal Factors (like how many seats are left) and External Factors (like social media buzz). Based on this combined data, it **forecasts demand at various price points, which the Decision Engine uses to generate a recommended price**. The Club uses these outputs to set the official ticket prices. The Fan, in turn, sees these prices and uses the system's guidance (e.g., price-drop alerts) to decide when to buy. This entire process creates a responsive, market-driven pricing strategy that is more sophisticated than a static, pre-set price list; this moves from a reactive, manual process to a proactive, automated one with human-in-the-loop (HiTL).
 
 | 🚩 The Problem | 💡 The Solution |
 | :--------------------------- | :---------------------------- |
@@ -53,14 +53,14 @@ The initial phase involved meeting with business stakeholders (product, legal, a
 ### 2. Modeling
 The modeling strategy follows a two-stage process: first predict, then optimize. The system first forecasts demand with high accuracy and then uses that forecast within a Decision Engine to find the optimal price.
 
-| Predictive Task | Modeling Approach | Key Technology | Rationale for Choice |
+| Modeling Task | Modeling Approach | Key Technology | Rationale for Choice |
 | :--- | :--- | :--- | :--- |
-| **1. Demand Forecasting** | Forecast future ticket demand for each match at various potential price points. Optimized for **predictive accuracy**. | `Prophet`, `TensorFlow` | Handles complex time-series patterns and non-linear relationships for the highest possible predictive accuracy. |
-| **2. Price Optimzation** | Model price elasticity to recommend optimal prices. Optimized for **business impact and constraints**. | `Custom Python Logic` | A simulation and grid-search framework that uses the demand model to find the optimal price, while respecting business rules (e.g., price caps). |
+| **1. Demand Forecasting** | Forecast future ticket demand for each match **at various potential price points**. Optimized for **predictive accuracy**. | `GradientBoostingRegressor` | Handles complex non-linear relationships essential for accurate "what-if" simulations. |
+| **2. Price Optimization** | **Use the demand model to simulate outcomes** and recommend a revenue-maximizing price. Optimized for **business impact** and **constraints**. | `Custom Python Logic` | A simulation and grid-search framework that uses the demand model to find the optimal price, while respecting business rules (e.g., price caps). |
 
 The core of this project is the **Decision Engine**, which translates the demand forecast into actionable business recommendations. It consists of two key components that work together to support a Human-in-the-Loop (HITL) workflow.
 
-#### The Simulation Engine (The "What-if" Tool)
+#### The Simulation Engine
 
 | Aspect | Description |
 | :--- | :--- |
@@ -68,7 +68,7 @@ The core of this project is the **Decision Engine**, which translates the demand
 | **Question Answered** | "If I set the price to X, what is the likely impact on sales and revenue?" |
 | **Core Function** | Takes a hypothetical price and match features as input, and uses the trained Demand Forecast Model to predict the outcome, providing an instant, data-driven preview of any potential pricing decision. |
 
-#### The Optimization Engine (The "Recommendation" Tool)
+#### The Optimization Engine
 
 | Aspect | Description |
 | :--- | :--- |
@@ -103,30 +103,34 @@ The architecture is designed for a robust, human-in-the-loop workflow. Data from
 
 ```
 FCB_Dynamic-Pricing/
-├── .gitignore                     # Specifies files for Git to ignore.
-├── LICENSE                        # Project license (MIT).
-├── README.md                      # An overview of the project. <-- YOU ARE HERE
-├── requirements.txt               # The requirements file for reproducing the analysis.
-├── config.py                      # Configuration file for paths, parameters, etc.
-├── assets/                        # Contains images and diagrams for the README.
-├── data/                          #  Stores data related to the project.
-│   ├── 01_raw/                    # The original, immutable data.
-│   └── 02_processed/              # Processed and cleaned data ready for modeling.
-├── models/                        # Stores trained model artifacts.
-├── reports/                       # Contains explanatory documents.
-│   ├── data-dictionary.md         # A detailed description of the dataset features.
-│   └── architecture-diagram.md    # An explanation of the system architecture.
-└── src/                           # Source code for the project.
-    ├── __init__.py                # Makes src a Python package.
-    ├── data/                      # Scripts for data ingestion and processing.
-    │   └── make_dataset.py        # Script to generate the synthetic dataset.
-    ├── models/                    # Scripts for model training and prediction.
-    │   ├── train_demand_model.py  # Script to train the demand prediction model.
-    │   └── predict_demand.py      # Script to get a sample demand prediction.
-    ├── decision_engine/           # Scripts for simulation and optimization.
-    │   ├── simulate.py            # Script to run a what-if simulation.
-    │   └── optimize.py            # Script to find the optimal price.
-    └── features/                  # Scripts for feature engineering.
+├── .gitignore                          # Specifies files for Git to ignore.
+├── LICENSE                             # Project license (MIT).
+├── README.md                           # An overview of the project. <-- YOU ARE HERE
+├── requirements.txt                    # The requirements file for reproducing the analysis.
+├── config.py                           # Configuration file for paths, parameters, etc.
+├── assets/                             # Contains images and diagrams for the README.
+├── data/                               # Stores data related to the project.
+│   ├── 01_raw/                         # The original, immutable data.
+│   └── 02_processed/                   # Processed and cleaned data ready for modeling.
+├── models/                             # Stores trained model artifacts.
+├── notebooks/                          # Jupyter notebooks for analysis and experimentation.
+│   ├── exploratory_data_analysis.ipynb # EDA notebook.
+├── reports/                            # Contains explanatory documents.
+│   ├── data-dictionary.md              # A detailed description of the dataset features.
+│   └── architecture-diagram.md         # An explanation of the system architecture.
+└── src/                                # Source code for the project.
+    ├── __init__.py                     # Makes src a Python package.
+    ├── data/                           # Scripts for data ingestion and processing.
+    │   └── make_dataset.py             # Script to generate the synthetic dataset.
+    └── features/                       # Scripts for feature engineering.
+    │    └── build_features.py          # Script to process data into model-ready features. 
+    ├── models/                         # Scripts for model training and prediction.
+    │   ├── train_demand_model.py       # Script to train the demand prediction model.
+    │   └── predict_demand.py           # Script to get a sample demand prediction.
+    └── decision_engine/                # Scripts for simulation and optimization.
+        ├── simulate.py                 # Script to run a what-if simulation.
+        └── optimize.py                 # Script to find the optimal price.
+
 ```
 
 ## Usage
@@ -139,23 +143,28 @@ To run the project and see the full pipeline in action, follow these steps from 
     pip install -r requirements.txt
     ```
 
-2.  **Generate the dataset:** This step is only needed once to create the synthetic data file.
+2.  **Generate the dataset:**
     ```bash
     python -m src.data.make_dataset
     ```
 
-3.  **Run the training pipeline:** This will create and save the demand model artifact in the `models/` directory.
+3.  **Process features for modeling:**
+    ```bash
+    python -m src.features.build_features
+    ```
+
+4.  **Run the training pipeline:**
     ```bash
     python -m src.models.train_demand_model
     ```
 
-4.  **Run the Decision Engine scripts (optional):** These scripts show how to use the trained demand model to get simulations and price recommendations.
+5.  **Run the Decision Engine scripts (optional):**
     ```bash
-    # Get a sample demand prediction
-    python -m src.models.predict_demand
+    # Get a "what-if" analysis for a specific price
+    python -m src.decision_engine.simulate
+
     # Get a revenue-optimal price recommendation
     python -m src.decision_engine.optimize
-    ```
 
 ### Using the Decision Engine's output
 The system provides two key outputs for the commercial team via the User Control Panel:
