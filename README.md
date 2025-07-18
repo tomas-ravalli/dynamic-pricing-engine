@@ -61,8 +61,8 @@ The modeling strategy follows a two-stage process: first predict, then optimize.
 
 | Modeling Task | Modeling Approach | Key Technology | Rationale for Choice |
 | :--- | :--- | :--- | :--- |
-| **1. Demand Forecasting** | Forecast future ticket demand for each match **at various potential price points**. Optimized for **predictive accuracy**. | `GradientBoostingRegressor` | Handles complex non-linear relationships essential for accurate "what-if" simulations. |
-| **2. Price Optimization** | **Use the demand model to simulate outcomes** and recommend a revenue-maximizing price. Optimized for **business impact** and **constraints**. | `Custom Python Logic` | A simulation and grid-search framework that uses the demand model to find the optimal price, while respecting business rules (e.g., price caps). |
+| **A) Demand Forecasting** | Forecast future ticket demand for each match **at various potential price points**. Optimized for **predictive accuracy**. | `GradientBoostingRegressor` | Handles complex non-linear relationships essential for accurate "what-if" simulations. |
+| **B) Price Optimization** | **Use the demand model to simulate outcomes** and recommend a revenue-maximizing price. Optimized for **business impact** and **constraints**. | `Custom Python Logic` | A simulation and grid-search framework that uses the demand model to find the optimal price, while respecting business rules (e.g., price caps). |
 
 The core of this project is the **Decision Engine**, which translates the demand forecast into actionable business recommendations. It consists of two key components that work together to support a Human-in-the-Loop (HITL) workflow.
 
