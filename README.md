@@ -64,21 +64,7 @@ The modeling strategy follows a two-stage process: first predict, then optimize.
 
 The core of this project is the **Decision Engine**, which translates the demand forecast into actionable business recommendations. It consists of two key components that work together to support a Human-in-the-Loop (HITL) workflow.
 
-### The Simulation Engine
-
-| Aspect | Description |
-| :--- | :--- |
-| **Purpose** | To power the 'Impact Simulation' feature for "what-if" analysis by the commercial team. |
-| **Question Answered** | "If I set the price to X, what is the likely impact on sales and revenue?" |
-| **Core Function** | Takes a hypothetical price and match features as input, and uses the trained Demand Forecast Model to predict the outcome, providing an instant, data-driven preview of any potential pricing decision. |
-
-### The Optimization Engine
-
-| Aspect | Description |
-| :--- | :--- |
-| **Purpose** | To proactively generate the official `Price Variation Proposal`. |
-| **Question Answered** | "What is the single best price to set for this seat to maximize our total revenue?" |
-| **Core Function** | Operates by performing a grid search across a range of valid prices defined by business constraints. For each price point, it simulates the revenue using the demand model and returns the price that yields the highest projected revenue. |
+> For a detailed description of the modeling approach and design choices, please refer to the [Modeling Overview](reports/modeling-overview.md).
 
 ### 3. Feature Engineering
 
@@ -193,8 +179,8 @@ When a user enters a hypothetical price into the control panel, the system feeds
 
 > ⚠️ **Project Disclaimer:**
 >
-> * **Illustrative Purpose:** This repository serves as a high-level demonstration of the project's architecture and methodology. Many implementation details and model complexities have been simplified for clarity.
-> * **Synthetic Data:** The code runs on synthetic data, as the original data is proprietary and cannot be shared. The purpose is to demonstrate the modeling approach and engineering best practices of the real-world project.
+> * **Illustrative purpose:** This repository serves as a high-level demonstration of the project's architecture and methodology. Many implementation details and model complexities have been simplified for clarity.
+> * **Synthetic data:** The code runs on synthetic data, as the original data is proprietary and cannot be shared. The purpose is to demonstrate the modeling approach and engineering best practices of the real-world project.
 
 </br>
 
