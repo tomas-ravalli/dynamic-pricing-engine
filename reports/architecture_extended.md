@@ -1,4 +1,4 @@
-# **Architecture Diagram**
+# **Architecture –Extended**
 
 This document outlines the architecture of the Dynamic Pricing Engine system. The system is designed as a three-layer structure that ingests data, processes it through a core analytics engine, and integrates with user-facing systems to manage and apply pricing decisions.
 
