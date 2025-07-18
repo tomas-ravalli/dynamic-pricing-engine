@@ -1,6 +1,8 @@
 # Core Libraries for Data Handling
 pandas==2.2.2
 numpy==1.26.4
+joblib
+pytest
 
 # Machine Learning & Modeling
 scikit-learn==1.5.0
