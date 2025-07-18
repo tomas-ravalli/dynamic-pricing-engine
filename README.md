@@ -64,7 +64,7 @@ The modeling strategy follows a two-stage process: first predict, then optimize.
 
 The core of this project is the **Decision Engine**, which translates the demand forecast into actionable business recommendations. It consists of two key components that work together to support a Human-in-the-Loop (HITL) workflow.
 
-> For a detailed description of the modeling approach and design choices, please refer to the [Modeling Overview](reports/modeling-overview.md).
+> For a detailed description of the modeling approach and design choices, please refer to the [Modeling –Extended](reports/modeling-extended.md).
 
 ### 3. Feature Engineering
 
@@ -86,7 +86,7 @@ The entire system was deployed within an automated MLOps pipeline. This ensures 
 
 The architecture is designed for a robust, human-in-the-loop workflow. Data from various internal and external sources is ingested and processed by the core ML models. The resulting proposals and simulations are then presented to the commercial team on a User Control Panel for final review and approval, which triggers the price update via a REST API.
 
-> For a detailed description of the diagram and its' components, please refer to the [Architecture Diagram](reports/architecture-diagram.md).
+> For a detailed description of the diagram and its' components, please refer to the [Architecture –Extended](reports/architecture-extended.md).
 
 <p align="left">
   <img src="./assets/dp-ll.png" alt="Low-level Project Diagram" width="950">
@@ -110,7 +110,8 @@ FCB_Dynamic-Pricing/
 │   └── eda.ipynb                    # Exploratory Data Analysis notebook.
 ├── reports/                         # Contains explanatory documents.
 │   ├── data_dictionary.md           # A detailed description of the dataset features.
-│   └── architecture_diagram.md      # An explanation of the system architecture.
+│   └── architecture_extended.md     # An extended explanation of the system architecture.
+│   └── modeling_extended.md         # An extended explanation of the modeling approach.
 └── src/                             # Source code for the project.
     ├── __init__.py                  # Makes src a Python package.
     ├── data/                        # Scripts for data ingestion and processing.
