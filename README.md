@@ -110,33 +110,33 @@ The architecture is designed for a robust, human-in-the-loop workflow. Data from
 
 ```
 FCB_Dynamic-Pricing/
-├── .gitignore                         # Specifies files for Git to ignore.
-├── LICENSE                            # Project license (MIT).
-├── README.md                          # An overview of the project. <-- YOU ARE HERE
-├── requirements.txt                   # The requirements file for reproducing the analysis.
-├── config.py                          # Configuration file for paths, parameters, etc.
-├── assets/                            # Contains images and diagrams for the README.
-├── data/                              # Stores data related to the project.
-│   ├── 01_raw/                        # The original, immutable data.
-│   └── 02_processed/                  # Processed and cleaned data ready for modeling.
-├── models/                            # Stores trained model artifacts.
-├── notebooks/                         # Jupyter notebooks for analysis and experimentation.
-│   ├── eda.ipynb                      # Exploratory Data Analysis notebook.
-├── reports/                           # Contains explanatory documents.
-│   ├── data-dictionary.md             # A detailed description of the dataset features.
-│   └── architecture-diagram.md        # An explanation of the system architecture.
-└── src/                               # Source code for the project.
-    ├── __init__.py                    # Makes src a Python package.
-    ├── data/                          # Scripts for data ingestion and processing.
-    │   └── make_dataset.py            # Script to generate the synthetic dataset.
-    └── features/                      # Scripts for feature engineering.
-    │    └── build_features.py         # Script to process data into model-ready features. 
-    ├── models/                        # Scripts for model training and prediction.
-    │   ├── train_demand_model.py      # Script to train the demand prediction model.
-    │   └── predict_demand.py          # Script to get a sample demand prediction.
-    └── decision_engine/               # Scripts for simulation and optimization.
-        ├── simulate.py                # Script to run a what-if simulation.
-        └── optimize.py                # Script to find the optimal price.
+├── .gitignore                       # Specifies files for Git to ignore.
+├── LICENSE                          # Project license (MIT).
+├── README.md                        # An overview of the project. <-- YOU ARE HERE
+├── requirements.txt                 # The requirements file for reproducing the analysis.
+├── config.py                        # Configuration file for paths, parameters, etc.
+├── assets/                          # Contains images and diagrams for the README.
+├── data/                            # Stores data related to the project.
+│   ├── 01_raw/                      # The original, immutable data.
+│   └── 02_processed/                # Processed and cleaned data ready for modeling.
+├── models/                          # Stores trained model artifacts.
+├── notebooks/                       # Jupyter notebooks for analysis and experimentation.
+│   └── eda.ipynb                    # Exploratory Data Analysis notebook.
+├── reports/                         # Contains explanatory documents.
+│   ├── data-dictionary.md           # A detailed description of the dataset features.
+│   └── architecture-diagram.md      # An explanation of the system architecture.
+└── src/                             # Source code for the project.
+    ├── __init__.py                  # Makes src a Python package.
+    ├── data/                        # Scripts for data ingestion and processing.
+    │   └── make_dataset.py          # Script to generate the synthetic dataset.
+    └── features/                    # Scripts for feature engineering.
+    │    └── build_features.py       # Script to process data into model-ready features. 
+    ├── models/                      # Scripts for model training and prediction.
+    │   ├── train_demand_model.py    # Script to train the demand prediction model.
+    │   └── predict_demand.py        # Script to get a sample demand prediction.
+    └── decision_engine/             # Scripts for simulation and optimization.
+        ├── simulate.py              # Script to run a what-if simulation.
+        └── optimize.py              # Script to find the optimal price.
 
 ```
 
