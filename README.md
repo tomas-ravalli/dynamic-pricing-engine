@@ -123,8 +123,8 @@ FCB_Dynamic-Pricing/
 ├── notebooks/                       # Jupyter notebooks for analysis and experimentation.
 │   └── eda.ipynb                    # Exploratory Data Analysis notebook.
 ├── reports/                         # Contains explanatory documents.
-│   ├── data-dictionary.md           # A detailed description of the dataset features.
-│   └── architecture-diagram.md      # An explanation of the system architecture.
+│   ├── data_dictionary.md           # A detailed description of the dataset features.
+│   └── architecture_diagram.md      # An explanation of the system architecture.
 └── src/                             # Source code for the project.
     ├── __init__.py                  # Makes src a Python package.
     ├── data/                        # Scripts for data ingestion and processing.
