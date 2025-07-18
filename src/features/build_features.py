@@ -1,66 +1,111 @@
 import pandas as pd
 import logging
-from pathlib import Path
-from sklearn.preprocessing import OneHotEncoder, MinMaxScaler
+import os
+import sys
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
 
-# Import paths from our config file
-from config import SYNTHETIC_DATA_PATH, PROCESSED_DATA_PATH
+# Add project root to Python path
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+sys.path.insert(0, project_root)
 
-def build_features(df):
+import config
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+def build_feature_pipeline():
     """
-    Takes the detailed synthetic data and engineers features for modeling.
+    Defines the feature engineering pipeline for the dataset.
+    This includes scaling for numerical features and one-hot encoding for categorical features.
     """
-    logging.info("Starting feature engineering on the new dataset...")
+    # Define numerical features to be scaled
+    numerical_features = [
+        'days_until_match',
+        'flights_to_barcelona_index',
+        'google_trends_index',
+        'internal_search_trends',
+        'web_visits',
+        'web_conversion_rate',
+        'social_media_sentiment',
+        'competitor_avg_price',
+        'zone_seats_availability',
+        'ticket_price' # Include ticket_price for scaling
+    ]
 
-    # --- Pre-processing ---
-    # Convert boolean to integer
-    df['competing_city_events'] = df['competing_city_events'].astype(int)
-
-    # Separate feature types
-    categorical_cols = ['zone', 'opponent_tier', 'weather_forecast']
-    numerical_cols = [
-        'days_until_match', 'flights_to_barcelona_index', 'google_trends_index',
-        'internal_search_trends', 'web_visits', 'web_conversion_rate',
-        'social_media_sentiment', 'competitor_avg_price', 'zone_historical_sales',
-        'zone_seats_availability', 'competing_city_events'
+    # Define categorical features to be one-hot encoded
+    categorical_features = [
+        'zone',
+        'opponent_tier',
+        'weather_forecast'
     ]
     
-    # Keep identifiers and target separate
-    passthrough_cols = ['match_id', 'ticket_price']
-    
-    # --- Encoding & Scaling ---
-    # One-Hot Encode categorical features
-    encoder = OneHotEncoder(handle_unknown='ignore', sparse_output=False, drop='first')
-    encoded_data = encoder.fit_transform(df[categorical_cols])
-    encoded_df = pd.DataFrame(encoded_data, columns=encoder.get_feature_names_out(categorical_cols))
+    # Create preprocessing pipelines for both numerical and categorical data
+    numerical_transformer = StandardScaler()
+    categorical_transformer = OneHotEncoder(handle_unknown='ignore')
 
-    # Scale numerical features
-    scaler = MinMaxScaler()
-    scaled_data = scaler.fit_transform(df[numerical_cols])
-    scaled_df = pd.DataFrame(scaled_data, columns=numerical_cols)
+    # Create a column transformer to apply different transformations to different columns
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ('num', numerical_transformer, numerical_features),
+            ('cat', categorical_transformer, categorical_features)
+        ],
+        remainder='passthrough'  # Keep other columns (like boolean flags)
+    )
     
-    # Combine all parts back into a final DataFrame
-    processed_df = pd.concat([df[passthrough_cols], scaled_df, encoded_df], axis=1)
-
-    logging.info("Feature engineering complete.")
-    return processed_df
+    return preprocessor
 
 def main():
     """
-    Main function to load data, build features, and save the processed data.
+    Main function to run the feature engineering pipeline.
+    It loads the synthetic data, processes it, and saves the result.
     """
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-    # Load the synthetic data
-    input_path = Path(SYNTHETIC_DATA_PATH)
-    if not input_path.exists():
-        logging.error(f"Synthetic data file not found at {input_path}. Please run make_dataset.py first.")
-        return
-    df = pd.read_csv(input_path)
+    logging.info("Starting feature engineering process...")
     
-    # Build features
-    processed_df = build_features(df)
+    # Load the raw synthetic dataset
+    try:
+        df = pd.read_csv(config.SYNTHETIC_DATA_PATH)
+        logging.info(f"Successfully loaded data from {config.SYNTHETIC_DATA_PATH}")
+    except FileNotFoundError:
+        logging.error(f"Error: Raw data file not found at {config.SYNTHETIC_DATA_PATH}. Please run src.data.make_dataset.py first.")
+        return
 
+    # Define the target variable
+    target_column = 'zone_historical_sales'
+    if target_column not in df.columns:
+        logging.error(f"Target column '{target_column}' not found in the dataset.")
+        return
+
+    # Separate features and target
+    X = df.drop(columns=[target_column])
+    y = df[target_column]
+
+    # Build and fit the feature engineering pipeline
+    feature_pipeline = build_feature_pipeline()
+    X_processed = feature_pipeline.fit_transform(X)
+
+    # Get feature names after transformation for the new DataFrame
+    # This is important for model interpretability and debugging
+    num_features = feature_pipeline.named_transformers_['num'].get_feature_names_out()
+    cat_features = feature_pipeline.named_transformers_['cat'].get_feature_names_out(categorical_features)
+    
+    # Get remainder columns if any (passthrough)
+    remainder_cols = [col for col in X.columns if col not in X.select_dtypes(include=['number', 'object']).columns and col not in numerical_features and col not in categorical_features]
+
+    processed_feature_names = list(num_features) + list(cat_features) + remainder_cols
+
+    # Create a new DataFrame with the processed features
+    processed_df = pd.DataFrame(X_processed, columns=processed_feature_names)
+    
+    # Add the target variable back to the processed DataFrame
+    processed_df[target_column] = y.values
+
+    # Ensure the output directory exists
+    os.makedirs(os.path.dirname(config.PROCESSED_DATA_PATH), exist_ok=True)
+    
     # Save the processed data
-    output_path = Path(PROCESSED_DATA_PATH)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
+    processed_df.to_csv(config.PROCESSED_DATA_PATH, index=False)
+    logging.info(f"Feature engineering complete. Processed data saved to {config.PROCESSED_DATA_PATH}")
+
+if __name__ == '__main__':
+    main()
