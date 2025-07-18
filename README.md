@@ -55,6 +55,8 @@ The initial phase involved meeting with business stakeholders (product, legal, a
 
 ### 2. Modeling
 
+> For a detailed description of the modeling approach and design choices, please refer to [Modeling –Extended](reports/modeling-extended.md).
+
 The modeling strategy follows a two-stage process: first predict, then optimize. The system first forecasts demand with high accuracy and then uses that forecast within a Decision Engine to find the optimal price.
 
 | Modeling Task | Modeling Approach | Key Technology | Rationale for Choice |
@@ -64,15 +66,13 @@ The modeling strategy follows a two-stage process: first predict, then optimize.
 
 The core of this project is the **Decision Engine**, which translates the demand forecast into actionable business recommendations. It consists of two key components that work together to support a Human-in-the-Loop (HITL) workflow.
 
-> For a detailed description of the modeling approach and design choices, please refer to [Modeling –Extended](reports/modeling-extended.md).
-
 ### 3. Feature Engineering
+
+> For a detailed description of the features in the synthetic dataset, please refer to [Data Dictionary](reports/data-dictionary.md).
 
 A key part of the strategy was to enrich our models with external data, a common gap in existing research.
 * **🏠 Internal factors**: Utilized traditional data such as historical sales, opponent tier, days until the match, and real-time ticket availability.
 * **🌍 External factors**: Integrated novel real-time signals including social media sentiment, search engine trends, and competing city events to capture market dynamics.
-
-> For a detailed description of the features in the synthetic dataset, please refer to [Data Dictionary](reports/data-dictionary.md).
 
 ### 4. A/B Testing & Validation
 
@@ -84,9 +84,9 @@ The entire system was deployed within an automated MLOps pipeline. This ensures 
 
 ## Architecture
 
-The architecture is designed for a robust, human-in-the-loop workflow. Data from various internal and external sources is ingested and processed by the core ML models. The resulting proposals and simulations are then presented to the commercial team on a User Control Panel for final review and approval, which triggers the price update via a REST API.
-
 > For a detailed description of the diagram and its' components, please refer to [Architecture –Extended](reports/architecture-extended.md).
+
+The architecture is designed for a robust, human-in-the-loop workflow. Data from various internal and external sources is ingested and processed by the core ML models. The resulting proposals and simulations are then presented to the commercial team on a User Control Panel for final review and approval, which triggers the price update via a REST API.
 
 <p align="left">
   <img src="./assets/dp-ll.png" alt="Low-level Project Diagram" width="950">
