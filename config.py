@@ -1,19 +1,17 @@
-from pathlib import Path
+import os
 
-# --- DIRECTORY SETUP ---
-# Use pathlib to ensure paths are OS-agnostic
-ROOT_DIR = Path(__file__).resolve().parent
+# Base directory of the project
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Define key project directories
-DATA_DIR = ROOT_DIR / "data"
-MODELS_DIR = ROOT_DIR / "models"
-REPORTS_DIR = ROOT_DIR / "reports"
-SRC_DIR = ROOT_DIR / "src"
+# --- Data Paths ---
+# Path to the directory for synthetic data
+DATA_DIR = os.path.join(BASE_DIR, 'data')
+SYNTHETIC_DATA_PATH = os.path.join(DATA_DIR, '03_synthetic', 'synthetic_match_data.csv')
 
-# Define specific data paths
-SYNTHETIC_DATA_PATH = DATA_DIR / "03_synthetic" / "synthetic_match_data.csv"
-PROCESSED_DATA_PATH = DATA_DIR / "02_processed" / "processed_data.csv"
+# Path for processed data, ready for modeling
+PROCESSED_DATA_PATH = os.path.join(DATA_DIR, '02_processed', 'processed_match_data.csv')
 
-# Define model artifact paths
-PRICE_ELASTICITY_MODEL_PATH = MODELS_DIR / "price_elasticity_model.joblib"
-DEMAND_FORECAST_MODEL_PATH = MODELS_DIR / "demand_forecast_model.joblib"
+# --- Model Paths ---
+# Path to save the trained demand forecast model
+MODELS_DIR = os.path.join(BASE_DIR, 'models')
+DEMAND_FORECAST_MODEL_PATH = os.path.join(MODELS_DIR, 'demand_forecast_model.joblib')
