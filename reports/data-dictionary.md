@@ -35,10 +35,10 @@ These features capture the dynamics of demand over time and external market inte
 
 | Feature Name | Data Type | Description |
 | :--- | :--- | :--- |
-| `zone_historical_sales` | Integer | The cumulative number of tickets already sold for that specific `zone` for that `match_id`. |
+| **`zone_historical_sales`** | **Integer** | **(Target Variable)** The historical number of tickets sold for a similar match in that zone. This is the *primary target variable* for the demand forecast model. |
 | `zone_seats_availability` | Integer | The absolute number of seats still available for purchase in that zone. |
 | `ticket_availability_pct` | Float | The percentage of total seats in the zone that are still available. |
 | `competitor_avg_price` | Float | The average ticket price for a comparable entertainment event (e.g., another major football match, a concert) on the same day. Represents the competitive landscape. |
-| **`ticket_price`** | **Float** | **(Target Variable)** The final, dynamically-set price in Euros (€) for a single ticket in the specified `zone` for the given `match_id`. |
+| `ticket_price` | Float | The price of the ticket. This is a *key input* feature for the demand model and the *final output* of the optimization engine. |
 
 <p align="center">© 🌐 2025 t.r.</p>
