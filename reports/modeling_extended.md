@@ -28,16 +28,6 @@ This stage answers the business question: *"What is the single best price to max
 | **Process** | The engine iterates through potential prices (e.g., from €75 to €350), uses the demand model to predict sales for each, calculates the projected revenue (Price × Predicted Sales), and returns the optimal price. |
 | **Output** | The engine's primary output is the official `Price Variation Proposal`, which is sent to the commercial team for review and approval. |
 
-### Design Choices & Trade-offs
-
-Key decisions made during the modeling process are summarized below.
-
-| Category | Choice & Rationale | Alternatives & Trade-offs |
-| :--- | :--- | :--- |
-| **Model Selection** | **`GradientBoostingRegressor`**: Chosen for its high performance and ability to capture non-linearities without the high overhead of more complex models. | **Linear Models**: Too simple for the complex relationships. <br> **Deep Learning**: Higher data/infra requirements; less interpretable. |
-| **Feature Engineering** | **`StandardScaler` & `OneHotEncoder`**: Essential for normalizing numerical features with different scales and encoding impactful categorical features like `zone` and `opponent_tier`. | A simpler approach might miss key interactions, while more complex feature engineering could lead to overfitting. |
-| **Optimization** | **Grid Search**: Reliable and exhaustive, guaranteeing the optimal price within the defined search space. | **Bayesian Optimization**: Computationally faster but less exhaustive. Reliability was prioritized for this business-critical function. |
-
 ## Performance & Business Impact
 
 The model's success is measured by both its predictive accuracy and its tangible business impact.
@@ -47,3 +37,13 @@ The model's success is measured by both its predictive accuracy and its tangible
 | **R² Score** | Demand Forecast | **0.86** | The model explains 86% of the variance in the test set, indicating strong predictive performance. |
 | **Revenue Uplift** | Optimization Engine | **+9%** | Average revenue increase per match, validated via A/B testing against a static pricing model. |
 | **Sell-Through Rate**| Optimization Engine | **+6%** | Improved stadium occupancy by balancing revenue goals with price elasticity, avoiding empty seats. |
+
+## Design Choices & Trade-offs
+
+Key decisions made during the modeling process are summarized below.
+
+| Category | Choice & Rationale | Alternatives & Trade-offs |
+| :--- | :--- | :--- |
+| **Model Selection** | **`GradientBoostingRegressor`**: Chosen for its high performance and ability to capture non-linearities without the high overhead of more complex models. | **Linear Models**: Too simple for the complex relationships. <br> **Deep Learning**: Higher data/infra requirements; less interpretable. |
+| **Feature Engineering** | **`StandardScaler` & `OneHotEncoder`**: Essential for normalizing numerical features with different scales and encoding impactful categorical features like `zone` and `opponent_tier`. | A simpler approach might miss key interactions, while more complex feature engineering could lead to overfitting. |
+| **Optimization** | **Grid Search**: Reliable and exhaustive, guaranteeing the optimal price within the defined search space. | **Bayesian Optimization**: Computationally faster but less exhaustive. Reliability was prioritized for this business-critical function. |
