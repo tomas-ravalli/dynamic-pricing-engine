@@ -1,6 +1,6 @@
 # **Architecture –Extended**
 
-This document outlines the architecture of the Dynamic Pricing Engine system. The system is designed as a three-layer structure that ingests data, processes it through a core analytics engine, and integrates with user-facing systems to manage and apply pricing decisions.
+> This document outlines the architecture of the Dynamic Pricing Engine system. The system is designed as a three-layer structure that ingests data, processes it through a core analytics engine, and integrates with user-facing systems to manage and apply pricing decisions.
 
 The general workflow is as follows:
 1.  **Data Sources** are collected and fed into the central engine.
@@ -13,7 +13,7 @@ The general workflow is as follows:
 
 ## **Component Descriptions**
 
-### Data Sources
+### 1. Data Sources
 
 | Component | Description |
 | :--- | :--- |
@@ -22,7 +22,7 @@ The general workflow is as follows:
 | **Web/App Analytics** | Data on user behavior from the official website and app, including page visits, clicks, and conversion funnels. |
 | **Matches, Competitions & Channels** | Foundational information about each match, including opponent, date, competition type, and sales channel. |
 
-### Dynamic Pricing Engine
+### 2. Dynamic Pricing Engine
 
 | Component | Description |
 | :--- | :--- |
@@ -38,7 +38,7 @@ The general workflow is as follows:
 | **Impact Simulation** | A feature that allows a human user to test a hypothetical price and see the model's prediction for its impact on sales and revenue. |
 | **Price Variation Proposal** | The final output of the engine: a concrete price recommendation for a given seat or section. |
 
-### UI & Integration
+### 3. UI & Integration
 
 | Component | Description |
 | :--- | :--- |
