@@ -305,7 +305,6 @@ To run the project and see the full pipeline in action, follow these steps from 
 
 ### 📦 Using as a Python Module
 
-The core simulation logic can also be imported and used directly in other Python applications. This is useful for integrating the demand forecast into other systems.
 Here is how you can run a single simulation to predict demand for a given price:
 
 ```python
