@@ -1,12 +1,10 @@
-# Modeling –Extended
+# 🌐 Modeling –Extended
 
 > This document provides a detailed overview of the modeling strategy for the FCB_Dynamic-Pricing project. The goal is to evolve from manual, intuition-based pricing to a data-driven, semi-automated system that optimizes revenue while respecting business constraints.
 
-## A Two-Stage Framework
-
 The core of the system is a two-stage process that first **predicts** demand and then **optimizes** for the best price. This decoupled approach enhances accuracy and flexibility.
 
-### Stage 1: 📈 Demand Forecasting
+## Stage 1: 📈 Demand Forecasting
 
 This stage answers the question: *"At a given price, how many tickets are we likely to sell?"*
 
@@ -17,7 +15,7 @@ This stage answers the question: *"At a given price, how many tickets are we lik
 | **Features**| The model uses a rich set of internal and external factors, including historical sales, opponent tier, social media sentiment, and the `ticket_price` itself to learn price elasticity. |
 | **Application** | This trained model powers the **Simulation Engine**, allowing the commercial team to perform "what-if" analysis by inputting a hypothetical price and instantly seeing the likely impact on sales and revenue. |
 
-### Stage 2: 💹 Price Optimization
+## Stage 2: 💹 Price Optimization
 
 This stage answers the business question: *"What is the single best price to maximize total revenue?"*
 
@@ -47,3 +45,7 @@ Key decisions made during the modeling process are summarized below.
 | **Model Selection** | **`GradientBoostingRegressor`**: Chosen for its high performance and ability to capture non-linearities without the high overhead of more complex models. | **Linear Models**: Too simple for the complex relationships. <br> **Deep Learning**: Higher data/infra requirements; less interpretable. |
 | **Feature Engineering** | **`StandardScaler` & `OneHotEncoder`**: Essential for normalizing numerical features with different scales and encoding impactful categorical features like `zone` and `opponent_tier`. | A simpler approach might miss key interactions, while more complex feature engineering could lead to overfitting. |
 | **Optimization** | **Grid Search**: Reliable and exhaustive, guaranteeing the optimal price within the defined search space. | **Bayesian Optimization**: Computationally faster but less exhaustive. Reliability was prioritized for this business-critical function. |
+
+</br>
+
+<p align="center">🌐 © 2025 t.r.</p>
