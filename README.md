@@ -56,7 +56,7 @@ The initial phase involved meeting with business stakeholders (product, legal, a
 
 ### 2. Modeling
 
-> For a detailed description of the modeling approach and design choices, please refer to [Modeling –Extended](reports/modeling-extended.md).
+> For a detailed description of the modeling approach and design choices, please refer to [Modeling –Extended](reports/modeling_extended.md).
 
 The modeling strategy follows a two-stage process: first predict, then optimize. The system first forecasts demand with high accuracy and then uses that forecast within a Decision Engine to find the optimal price.
 
@@ -69,7 +69,7 @@ The core of this project is the **Decision Engine**, which translates the demand
 
 ### 3. Feature Engineering
 
-> For a detailed description of the features in the synthetic dataset, please refer to [Data Dictionary](reports/data-dictionary.md).
+> For a detailed description of the features in the synthetic dataset, please refer to [Data Dictionary](reports/data_dictionary.md).
 
 A key part of the strategy was to enrich our models with external data, a common gap in existing research.
 * **🏠 Internal factors**: Utilized traditional data such as historical sales, opponent tier, days until the match, and real-time ticket availability.
@@ -85,7 +85,7 @@ The entire system was deployed within an automated MLOps pipeline. This ensures 
 
 ## Architecture
 
-> For a detailed description of the diagram and its' components, please refer to [Architecture –Extended](reports/architecture-extended.md).
+> For a detailed description of the diagram and its' components, please refer to [Architecture –Extended](reports/architecture_extended.md).
 
 The architecture is designed for a robust, human-in-the-loop workflow. Data from various internal and external sources is ingested and processed by the core ML models. The resulting proposals and simulations are then presented to the commercial team on a User Control Panel for final review and approval, which triggers the price update via a REST API.
 
