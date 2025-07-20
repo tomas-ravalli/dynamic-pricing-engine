@@ -111,5 +111,9 @@ def main():
     processed_df.to_csv(config.PROCESSED_DATA_PATH, index=False)
     logging.info(f"Feature engineering complete. Processed data saved to {config.PROCESSED_DATA_PATH}")
 
+    import joblib
+    joblib.dump(feature_pipeline, config.FEATURE_PIPELINE_PATH)
+    logging.info(f"Feature engineering pipeline saved to {config.FEATURE_PIPELINE_PATH}")
+
 if __name__ == '__main__':
     main()

@@ -15,3 +15,4 @@ PROCESSED_DATA_PATH = os.path.join(DATA_DIR, '02_processed', 'processed_match_da
 # Path to save the trained demand forecast model
 MODELS_DIR = os.path.join(BASE_DIR, 'models')
 DEMAND_FORECAST_MODEL_PATH = os.path.join(MODELS_DIR, 'demand_forecast_model.joblib')
+FEATURE_PIPELINE_PATH = os.path.join(MODELS_DIR, 'feature_pipeline.joblib')
