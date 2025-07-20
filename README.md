@@ -85,7 +85,7 @@ The entire system was deployed within an automated MLOps pipeline. This ensures 
 
 ## Architecture
 
-> For a detailed description of the diagram and its' components, please refer to [⚙️ Architecture –Extended](reports/architecture_extended.md).
+> For a detailed description of the diagram and its' components, please refer to [🧩 Architecture –Extended](reports/architecture_extended.md).
 
 The architecture is designed for a robust, human-in-the-loop workflow. Data from various internal and external sources is ingested and processed by the core ML models. The resulting proposals and simulations are then presented to the commercial team on a User Control Panel for final review and approval, which triggers the price update via a REST API.
 
