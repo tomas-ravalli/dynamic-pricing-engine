@@ -1,11 +1,11 @@
-# Data Dictionary
+# 📖 Data Dictionary
 This document provides a detailed description of each feature in the synthetic dataset (`synthetic_match_data.csv`), which is used to model and predict football match ticket prices.
 
-### Dataset Overview
+## Dataset Overview
 
 Each row in the dataset represents the state of a specific seating **zone** for a single **match** at a particular point in time, defined by the `days_until_match`. The primary goal is to predict the `ticket_price` based on the other features.
 
-### Identifiers & Categorical Features
+## Identifiers & Categorical Features
 
 | Feature Name | Data Type | Description |
 | :--- | :--- | :--- |
@@ -16,7 +16,7 @@ Each row in the dataset represents the state of a specific seating **zone** for 
 | `competing_city_events` | Boolean | `True` if there are other major events (concerts, festivals) in the city on the same day, which could reduce local demand. `False` otherwise. |
 
 
-### Time-Based & Demand Signals
+## Time-Based & Demand Signals
 
 These features capture the dynamics of demand over time and external market interest.
 
@@ -31,7 +31,7 @@ These features capture the dynamics of demand over time and external market inte
 | `social_media_sentiment`| Float | A synthetic score representing the overall public sentiment (e.g., from -1.0 for very negative to +1.0 for very positive) about the match on social media platforms. |
 
 
-### Sales, Availability & Pricing
+## Sales, Availability & Pricing
 
 | Feature Name | Data Type | Description |
 | :--- | :--- | :--- |
@@ -41,4 +41,6 @@ These features capture the dynamics of demand over time and external market inte
 | `competitor_avg_price` | Float | The average ticket price for a comparable entertainment event (e.g., another major football match, a concert) on the same day. Represents the competitive landscape. |
 | `ticket_price` | Float | The price of the ticket. This is a *key input* feature for the demand model and the *final output* of the optimization engine. |
 
-<p align="center">© 🌐 2025 t.r.</p>
+</br>
+
+<p align="center">🌐 © 2025 t.r.</p>
