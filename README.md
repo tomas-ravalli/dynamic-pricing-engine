@@ -188,4 +188,4 @@ When a user enters a hypothetical price into the control panel, the system feeds
 
 </br>
 
-<p align="center">© 🌐 2025 t.r.</p>
+<p align="center">🌐 © 2025 t.r.</p>
