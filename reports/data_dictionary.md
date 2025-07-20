@@ -1,5 +1,5 @@
 # 📖 Data Dictionary
-This document provides a detailed description of each feature in the synthetic dataset (`synthetic_match_data.csv`), which is used to model and predict football match ticket prices.
+> This document provides a detailed description of each feature in the synthetic dataset (`synthetic_match_data.csv`), which is used to model and predict football match ticket prices.
 
 ## Dataset Overview
 
