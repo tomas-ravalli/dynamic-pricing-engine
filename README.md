@@ -303,23 +303,43 @@ To run the project and see the full pipeline in action, follow these steps from 
 
     # Get a revenue-optimal price recommendation
     python -m src.decision_engine.optimize
+    ```
 
+### 📦 Using as a Python Module
 
-### Using the Decision Engine's output
+The core simulation logic can also be imported and used directly in other Python applications. This is useful for integrating the demand forecast into other systems.
+Here is how you can run a single simulation to predict demand for a given price:
 
-The system provides two key outputs for the commercial team via the User Control Panel:
+```python
+from src.decision_engine.simulate import SimulationEngine
 
-1. **The Price Recommendation**: This is the revenue-maximizing price identified by the Optimization Engine. It serves as a powerful, data-driven starting point.
-2. **The Impact Simulation**: This allows the team to test their own hypotheses by entering any price and instantly seeing the predicted impact on ticket sales and revenue.
+# 1. Define the features for the match scenario
+match_features = {
+    'days_until_match': 15,
+    'opponent_strength': 4,
+    'match_importance': 5,
+    'month_of_match': 12,
+    'social_sentiment': 0.65,
+    'search_trends': 85,
+    'competing_events': 1
+}
 
-The workflow is designed to be **Human-in-the-Loop (HiTL)**. The team uses these outputs to make a final, informed decision, blending machine intelligence with their expert knowledge.
+# 2. Set the ticket price you want to simulate
+price_to_test = 120  # in EUR
 
+# 3. Initialize the engine and run the simulation
+engine = SimulationEngine()
+predicted_demand = engine.run_simulation(
+    price=price_to_test,
+    base_features=match_features
+)
 
-### How the Simulation works
+revenue = predicted_demand * price_to_test
 
-The "Impact Simulation" feature is powered by the **Demand Forecast Model**. This model was trained to predict the number of tickets that will be sold based on a given price and other market conditions.
+print(f"Predicted Demand for a price of €{price_to_test}: {predicted_demand:.0f} tickets")
+print(f"Estimated Revenue: €{revenue:,.0f}")
+```
 
-When a user enters a hypothetical price into the control panel, the system feeds this price into the demand model to get a sales forecast. It then calculates the projected revenue (`predicted sales × price`), giving the commercial team an instant preview of the potential outcome of their pricing decisions.
 
 </br>
 
