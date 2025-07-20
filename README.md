@@ -303,40 +303,6 @@ To run the project and see the full pipeline in action, follow these steps from 
     python -m src.decision_engine.optimize
     ```
 
-### 📦 Using as a Python Module
-
-Here is how you can run a single simulation to predict demand for a given price:
-
-```python
-from src.decision_engine.simulate import SimulationEngine
-
-# 1. Define the features for the match scenario
-match_features = {
-    'days_until_match': 15,
-    'opponent_strength': 4,
-    'match_importance': 5,
-    'month_of_match': 12,
-    'social_sentiment': 0.65,
-    'search_trends': 85,
-    'competing_events': 1
-}
-
-# 2. Set the ticket price you want to simulate
-price_to_test = 120  # in EUR
-
-# 3. Initialize the engine and run the simulation
-engine = SimulationEngine()
-predicted_demand = engine.run_simulation(
-    price=price_to_test,
-    base_features=match_features
-)
-
-revenue = predicted_demand * price_to_test
-
-print(f"Predicted Demand for a price of €{price_to_test}: {predicted_demand:.0f} tickets")
-print(f"Estimated Revenue: €{revenue:,.0f}")
-```
-
 
 </br>
 
