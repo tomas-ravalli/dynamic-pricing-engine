@@ -56,12 +56,12 @@ This project implemented a complete, production-ready dynamic pricing solution. 
 The project followed a 5-step lifecycle, from initial business scoping to final deployment.
 
 
-### 1) Scoping
+### 1. Scoping
 
 The initial phase involved meeting with business stakeholders to define the project's objective: **maximize revenue while respecting key business constraints**. These constraints included price caps, minimum occupancy targets, and limits on the frequency of price changes.
 
 
-### 2) Modeling & Feature Engineering
+### 2. Modeling & Feature Engineering
 
 The modeling strategy follows a two-stage process: first **predict**, then **optimize**. The system first forecasts demand with high accuracy and then uses that forecast within a Decision Engine to find the optimal price.
 
@@ -170,12 +170,12 @@ These features capture the dynamics of demand over time and external market inte
 
 </details>
 
-### 4) A/B Testing & Validation
+### 4. A/B Testing & Validation
 
 Before a full rollout, the system was rigorously validated through controlled A/B tests. The new dynamic pricing model was applied to a few sections of the stadium, with the rest serving as a control group. This allowed us to scientifically prove the model's positive impact on revenue.
 
 
-### 5) Deployment
+### 5. Deployment
 
 The entire system was deployed within an automated MLOps pipeline. This ensures models are automatically retrained on new data, performance is constantly monitored, and price recommendations are reliably fed to the ticketing system via an API. All models were designed for batch prediction, running on a daily schedule to balance cost and timeliness.
 
