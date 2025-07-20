@@ -3,7 +3,6 @@
 <p align="left">
   <img src="https://img.shields.io/badge/License-MIT-blue" alt="License">
   <img src="https://img.shields.io/badge/Language-Python-blue" alt="Language">
-  <img src="https://img.shields.io/badge/Cloud-GCP-blue" alt="Cloud">
 </p>
 
 > A dynamic pricing and decision support system for football match tickets. **Objective:** To evolve a manual price-decision process into a data-driven, semi-automated workflow. The system's core Decision Engine improves the precision of each price variation, with the final goal of optimizing revenue and ticket sales.
