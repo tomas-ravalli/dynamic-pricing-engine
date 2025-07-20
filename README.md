@@ -190,7 +190,7 @@ The general workflow is as follows:
 <details>
 <summary><b>Click to see the detailed architecture breakdown</b></summary>
 
-### Data Sources
+### 1. Data Sources
 
 | Component | Description |
 | :--- | :--- |
@@ -199,7 +199,7 @@ The general workflow is as follows:
 | **Web/App Analytics** | Data on user behavior from the official website and app, including page visits, clicks, and conversion funnels. |
 | **Matches, Competitions & Channels** | Foundational information about each match, including opponent, date, competition type, and sales channel. |
 
-### Dynamic Pricing Engine
+### 2. Dynamic Pricing Engine
 
 | Component | Description |
 | :--- | :--- |
@@ -215,7 +215,7 @@ The general workflow is as follows:
 | **Impact Simulation** | A feature that allows a human user to test a hypothetical price and see the model's prediction for its impact on sales and revenue. |
 | **Price Variation Proposal** | The final output of the engine: a concrete price recommendation for a given seat or section. |
 
-### UI & Integration
+### 3. UI & Integration
 
 | Component | Description |
 | :--- | :--- |
