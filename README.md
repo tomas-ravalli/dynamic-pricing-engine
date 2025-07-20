@@ -7,6 +7,7 @@
 
 > A dynamic pricing and decision support system for football match tickets. **Objective:** To evolve a manual price-decision process into a data-driven, semi-automated workflow. The system's core Decision Engine improves the precision of each price variation, with the final goal of optimizing revenue and ticket sales.
 
+
 ### Outline
 
 - [Key Results & Metrics](#key-results--metrics)
@@ -16,7 +17,9 @@
 - [Project Structure](#project-structure)
 - [Usage](#usage)
 
+
 ---
+
 
 ## Key Results & Metrics
 
@@ -27,19 +30,20 @@
 | 🎯 Demand Forecast Accuracy | **86%** Accuracy (WAPE)              | The result of a model combining internal sales data with external signals. Sales predictions were highly reliable.|
 | 🎟️ Optimized Sales          | **+6%** Increase in Ticket Sell-Through Rate | A direct result of modeling price elasticity. Didn't maximize revenue at the cost of empty seats; also improved occupancy, which affects atmosphere and in-stadium sales.|
 
+
 ## Project Overview
 
 The diagram below illustrates the conceptual framework for the Dynamic Pricing project. At its core, the system sits between two main stakeholders, The Club and The Fan, each with opposing goals. The engine's purpose is to find an optimal balance by ingesting various data points, processing them, and providing data-driven answers to both sides. It essentially acts as the *brain* that determines ticket prices based on a range of real-time and historical information.
 
 <p align="center">
-  <img src="./assets/dp-hl.png" alt="High-level Project Diagram" width="1500">
+  <img src="./assets/dp-hl.png" alt="High-level Project Diagram" width="2000">
   <br>
   <em>Fig. 1: A high-level diagram for this project.</em>
 </p>
 
 The system operates in a continuous loop: the Dynamic Pricing Engine constantly ingests and analyzes both Internal Factors (like how many seats are left) and External Factors (like social media buzz). Based on this combined data, it **forecasts demand at various price points, which the Decision Engine uses to generate a recommended price**. The Club uses these outputs to set the official ticket prices. The Fan, in turn, sees these prices and uses the system's guidance (e.g., price-drop alerts) to decide when to buy. This entire process creates a responsive, market-driven pricing strategy that is more sophisticated than a static, pre-set price list; this moves from a reactive, manual process to a proactive, automated one with human-in-the-loop (HiTL).
 
-## Methodology
+This project implemented a complete, production-ready dynamic pricing solution. The core challenge was to move from a rigid, manual pricing strategy to a data-driven, automated one.
 
 | 🚩 The Problem | 💡 The Solution |
 | :--------------------------- | :---------------------------- |
@@ -48,52 +52,190 @@ The system operates in a continuous loop: the Dynamic Pricing Engine constantly 
 | **Data Bottleneck**: Extracting data manually from fragmented systems was slow and operationally complex. | **Centralized Data**: Automatically aggregates all key data points—sales, web analytics, contextual data, etc.—into one place. |
 | **Slow Implementation**: The process to act on a decision was manual and disconnected from the sales platform. | **Seamless Integration**: Allows for one-click approval on a dashboard, which triggers a price update to the live ticketing system via REST API. |
 
-This project implemented a complete, production-ready dynamic pricing solution, from initial business discovery to final deployment.
+
+## Methodology
+
+The project followed a 5-step lifecycle, from initial business scoping to final deployment.
+
 
 ### 1) Scoping
 
-The initial phase involved meeting with business stakeholders (product, legal, and marketing) to define the exact objective. The goal was set to maximize revenue while respecting key business constraints, such as price caps, minumum occupacy and limits on price change frequency.
+The initial phase involved meeting with business stakeholders to define the project's objective: **maximize revenue while respecting key business constraints**. These constraints included price caps, minimum occupancy targets, and limits on the frequency of price changes.
 
-### 2) Modeling
 
-> For a detailed description of the modeling approach and design choices, please refer to [🌐 Modeling –Extended](reports/modeling_extended.md).
+### 2) Modeling & Feature Engineering
 
-The modeling strategy follows a two-stage process: first predict, then optimize. The system first forecasts demand with high accuracy and then uses that forecast within a Decision Engine to find the optimal price.
+The modeling strategy follows a two-stage process: first **predict**, then **optimize**. The system first forecasts demand with high accuracy and then uses that forecast within a Decision Engine to find the optimal price.
 
-| Modeling Task | Modeling Approach | Key Technology | Rationale for Choice |
-| :--- | :--- | :--- | :--- |
-| **Stage 1: Demand Forecasting** | Forecast future ticket demand for each match **at various potential price points**. Optimized for **predictive accuracy**. | `GradientBoostingRegressor` | Handles complex non-linear relationships essential for accurate "what-if" simulations. |
-| **Stage 2: Price Optimization** | **Use the demand model to simulate outcomes** and recommend a revenue-maximizing price. Optimized for **business impact** and **constraints**. | `Custom Python Logic` | A simulation and grid-search framework that uses the demand model to find the optimal price, while respecting business rules (e.g., price caps). |
+<details>
+<summary><b>Click to see a detailed description of the modeling approach, design choices, and performance evaluation.</b></summary>
 
-The core of this project is the **Decision Engine**, which translates the demand forecast into actionable business recommendations. It consists of two key components that work together to support a Human-in-the-Loop (HITL) workflow.
+## Stage 1: 📈 Demand Forecasting
 
-### 3) Feature Engineering
+This stage answers the question: *"At a given price, how many tickets are we likely to sell?"*
 
-> For a detailed description of the features in the synthetic dataset, please refer to [📖 Data Dictionary](reports/data_dictionary.md).
+| Aspect         | Description                                                                                                                                                                             |
+| :------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Model** | A `GradientBoostingRegressor` forecasts ticket demand (`zone_historical_sales`) for each match.                                                                                           |
+| **Rationale** | Gradient Boosting excels at handling the complex, non-linear relationships discovered during EDA and is robust against outliers, making it a strong choice for this task.                  |
+| **Features** | The model uses a rich set of internal and external factors, including historical sales, opponent tier, social media sentiment, and the `ticket_price` itself to learn price elasticity. |
+| **Application**| This trained model powers the **Simulation Engine**, allowing the commercial team to perform "what-if" analysis by inputting a hypothetical price and instantly seeing the likely impact on sales and revenue. |
+| **Design Choice**| While `XGBoost` or `LightGBM` are often faster and can sometimes provide a performance edge, the choice of scikit-learn's `GradientBoostingRegressor`, because of the synthetic dataset size, the difference would be negligible. |
 
-A key part of the strategy was to enrich our models with external data, a common gap in existing research.
-* **🏠 Internal factors**: Utilized traditional data such as historical sales, opponent tier, days until the match, and real-time ticket availability.
-* **🌍 External factors**: Integrated novel real-time signals including social media sentiment, search engine trends, and competing city events to capture market dynamics.
+### Performance Evaluation
+
+The primary goal here is to accurately predict ticket sales. The performance was evaluated against a **baseline model** (a `DummyRegressor` that always predicts the average sales from the training data) to ensure the model was genuinely learning from the features.
+
+| Metric                        | Value           | Description & Rationale                                                                                                                                                             |
+| :---------------------------- | :-------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **R² Score** | **0.86** | **Why we chose it:** This is the primary metric. It measures the proportion of the variance in sales that our model can explain. An `R²` of 0.86 signifies a strong fit and a significant improvement over the baseline's `R²` of 0. |
+| **Mean Absolute Error (MAE)** | **~254 tickets**| **For context:** MAE tells us, on average, how far off our predictions are in absolute terms. This is more interpretable for business stakeholders than other error metrics.             |
+| **Root Mean Squared Error (RMSE)**| **~312 tickets**| **For robustness:** RMSE penalizes larger errors more heavily. A higher RMSE relative to MAE suggests the model makes a few, larger prediction errors, which is useful to know for risk assessment. |
+
+The performance is considered **highly successful**. An `R²` of 0.86 demonstrates a robust and reliable forecasting engine.
+
+Several strategies were employed to achieve this level of performance:
+
+* **Better Data**: Integrated external data like social media sentiment and opponent rankings. This added crucial context that historical sales data alone could not provide.
+* **Feature Engineering**: Created interaction terms (e.g., `day_of_week` vs. `opponent_tier`). This helped the model capture nuanced behaviors, such as high demand for a top-tier opponent even on a weekday.
+* **Hyperparameter Tuning**: Used `GridSearchCV` to systematically test different model configurations (`n_estimators`, `max_depth`, `learning_rate`), finding the optimal combination that minimized prediction error on the validation set.
+
+## Stage 2: ⚙️ Price Optimization
+
+This stage answers the business question: *"What is the single best price to maximize total revenue?"*
+
+| Aspect         | Description                                                                                                                                                                                          |
+| :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Model** | A custom **Optimization Engine** performs an exhaustive grid search over a range of valid prices.                                                                                                        |
+| **Rationale** | A grid search is a reliable and straightforward method to find the optimal price within defined business constraints (e.g., price caps and floors). It guarantees finding the maximum projected revenue. |
+| **Process** | The engine iterates through potential prices (e.g., from €75 to €350), uses the demand model to predict sales for each, calculates the projected revenue (Price × Predicted Sales), and returns the optimal price. |
+| **Output** | The engine's primary output is the official `Price Variation Proposal`, which is sent to the commercial team for review and approval.                                                                   |
+| **Design Choice**| Bayesian Optimization would likely find a near-optimal price much faster by intelligently exploring the price space. However, it doesn't guarantee finding the absolute maximum. Guaranteeing the optimal recommendation (within the model's predictive power) is often more valuable than the computational speed gained from a heuristic approach. |
+
+### Performance Evaluation
+
+Since this is an optimization engine, not a predictive model, its performance is measured by its business value and efficiency.
+
+| Metric            | How We Measure It                                                                                              | Success Criteria                                                                                        |
+| :---------------- | :------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------ |
+| **Revenue Lift** | Through A/B testing (simulated or live), comparing the revenue generated by the engine's prices against a control group (e.g., prices set manually or by a simpler heuristic). | A consistent, statistically significant increase in average revenue per match.                               |
+| **Adoption Rate** | Tracking the percentage of `Price Variation Proposals` that are reviewed and approved by the commercial team.    | A high adoption rate (>80%) indicates that the team trusts and values the engine's recommendations.         |
+| **Computation Time**| Measuring the wall-clock time it takes for the grid search to complete for a given match.                       | The time must be within acceptable operational limits (e.g., under 1 minute) to allow for rapid, on-demand analysis by the commercial team. |
+
+
+</details>
+
+A key part of the modeling strategy was to enrich our models with both internal and external data to capture market dynamics more effectively.
+
+<details>
+<summary><b>Click to see the full list of features used</b></summary>
+
+## Overview
+
+Each row in the synthetic dataset (`synthetic_match_data.csv`) represents the state of a specific seating **zone** for a single **match** at a particular point in time, defined by the `days_until_match`. The primary goal is to predict the `ticket_price` based on the other features.
+
+## Identifiers & Categorical Features
+
+| Feature Name | Data Type | Description |
+| :--- | :--- | :--- |
+| `match_id` | Integer | A unique identifier for each football match. |
+| `zone` | String | The name of the seating zone in the stadium (e.g., 'Gol Nord', 'Lateral', 'VIP'). |
+| `opponent_tier` | String | A categorical rating of the opponent's quality and appeal (`A++`, `A`, `B`, `C`). Higher tiers signify more attractive matches, influencing demand. |
+| `weather_forecast` | String | The predicted weather for the match day ('Sunny', 'Cloudy', 'Rain'). Can influence last-minute purchase decisions. |
+| `competing_city_events` | Boolean | `True` if there are other major events (concerts, festivals) in the city on the same day, which could reduce local demand. `False` otherwise. |
+
+
+## Time-Based & Demand Signals
+
+These features capture the dynamics of demand over time and external market interest.
+
+| Feature Name | Data Type | Description |
+| :--- | :--- | :--- |
+| `days_until_match` | Integer | The number of days remaining before the match. A key feature for time-series analysis, as demand typically increases as the match date approaches. |
+| `flights_to_barcelona_index`| Integer | A synthetic index (scaled 20-100) representing the volume of inbound flights to the city. This serves as a proxy for tourist demand. |
+| `google_trends_index` | Integer | A synthetic index (scaled 20-100) representing public search interest for the match on Google. A proxy for general public interest and hype. |
+| `internal_search_trends`| Integer | A synthetic count of searches for the match on the club's own website or app. A direct signal of purchase intent from the user base. |
+| `web_visits` | Integer | A synthetic count of visits to the ticketing section of the club's official website. A measure of online traffic and interest. |
+| `web_conversion_rate` | Float | The synthetic conversion rate on the website (ticket purchases / visits). A measure of how effectively web traffic is converting into sales. |
+| `social_media_sentiment`| Float | A synthetic score representing the overall public sentiment (e.g., from -1.0 for very negative to +1.0 for very positive) about the match on social media platforms. |
+
+
+## Sales, Availability & Pricing
+
+| Feature Name | Data Type | Description |
+| :--- | :--- | :--- |
+| **`zone_historical_sales`** | **Integer** | **(Target Variable)** The historical number of tickets sold for a similar match in that zone. This is the *primary target variable* for the demand forecast model. |
+| `zone_seats_availability` | Integer | The absolute number of seats still available for purchase in that zone. |
+| `ticket_availability_pct` | Float | The percentage of total seats in the zone that are still available. |
+| `competitor_avg_price` | Float | The average ticket price for a comparable entertainment event (e.g., another major football match, a concert) on the same day. Represents the competitive landscape. |
+| `ticket_price` | Float | The price of the ticket. This is a *key input* feature for the demand model and the *final output* of the optimization engine. |
+
+</details>
 
 ### 4) A/B Testing & Validation
 
 Before a full rollout, the system was rigorously validated through controlled A/B tests. The new dynamic pricing model was applied to a few sections of the stadium, with the rest serving as a control group. This allowed us to scientifically prove the model's positive impact on revenue.
 
+
 ### 5) Deployment
 
-The entire system was deployed within an automated MLOps pipeline. This ensures models are automatically retrained on new data, performance is constantly monitored for degradation, and price recommendations are reliably fed to the ticketing system via an API. All models were designed for batch prediction, running on a daily schedule to balance cost and the need for timely updates.
+The entire system was deployed within an automated MLOps pipeline. This ensures models are automatically retrained on new data, performance is constantly monitored, and price recommendations are reliably fed to the ticketing system via an API. All models were designed for batch prediction, running on a daily schedule to balance cost and timeliness.
+
 
 ## Architecture
 
-> For a detailed description of the diagram and its' components, please refer to [🧩 Architecture –Extended](reports/architecture_extended.md).
+The general workflow is as follows:
+1.  **Data Sources** are collected and fed into the central engine.
+2.  The **Dynamic Pricing Engine** uses machine learning models and business rules to generate a price recommendation.
+3.  The pricing team uses the **UI & Integration** layer to review, simulate, and approve the price, which is then updated in the live ticketing system.
 
-The architecture is designed for a robust, human-in-the-loop workflow. Data from various internal and external sources is ingested and processed by the core ML models. The resulting proposals and simulations are then presented to the commercial team on a User Control Panel for final review and approval, which triggers the price update via a REST API.
+<details>
+<summary><b>Click to see the detailed architecture breakdown</b></summary>
+
+### Data Sources
+
+| Component | Description |
+| :--- | :--- |
+| **Ticket Sales & Availability** | Historical and real-time data on ticket inventory, sales velocity, and transactions. |
+| **Competitors Pricing** | Scraped pricing data from secondary markets (e.g., Viagogo, Stubhub) for competitive analysis. |
+| **Web/App Analytics** | Data on user behavior from the official website and app, including page visits, clicks, and conversion funnels. |
+| **Matches, Competitions & Channels** | Foundational information about each match, including opponent, date, competition type, and sales channel. |
+
+### Dynamic Pricing Engine
+
+| Component | Description |
+| :--- | :--- |
+| **Data Ingestion & Centralization** | The entry point that gathers data from all sources and consolidates it into a unified data store for processing. |
+| **ML & Analytics Core** | The central "brain" where data is processed, features are engineered, and the machine learning models are trained and executed. |
+| **Business Constraints** | A module containing hardcoded business logic (e.g., price floors/caps) that provides rules directly to the Decision Engine to ensure recommendations are compliant with club strategy. |
+| **Decision Module** | A container for the core predictive models that feed the optimization engine. |
+| ┣ **Price Elasticity Model** | A model that calculates how sensitive ticket demand is to changes in price. |
+| ┣ **Demand Forecast Model** | A model that predicts the expected volume of ticket sales at various price points. |
+| ┣ **Match Clustering** | An algorithm that groups similar matches together (e.g., "Weekday league match vs. mid-tier team") to improve model accuracy. |
+| **Decision Engine: Optimization & Simulation** | Takes the outputs from the Decision Module and Business Constraints to find the revenue-maximizing price. It also allows for "what-if" simulations. |
+| **Anomaly Warnings** | An alerting system that flags unusual sales patterns or pricing recommendations that deviate from norms. |
+| **Impact Simulation** | A feature that allows a human user to test a hypothetical price and see the model's prediction for its impact on sales and revenue. |
+| **Price Variation Proposal** | The final output of the engine: a concrete price recommendation for a given seat or section. |
+
+### UI & Integration
+
+| Component | Description |
+| :--- | :--- |
+| **User Control Panel** | The dashboard used by the pricing team to view price proposals, run impact simulations, and approve or reject changes, enabling Human-in-the-Loop (HITL) control. |
+| **REST API** | The communication layer that allows the User Control Panel to send approved price change commands to the live ticketing system. |
+| **Price Drop Logic** | An automated module that can trigger price change events based on predefined rules, such as slow ticket sales. |
+| **Ticketing Purchase System** | The club's main backend system that processes transactions and manages ticket inventory. It receives price update commands from the API. |
+| **Fan Engagement** | The final layer where fans interact with the system's output. |
+| ┗ **Ticketing Purchase UI** | The public-facing website or application screen where fans see the dynamically adjusted prices and make their purchases. |
+
+</details>
 
 <p align="center">
   <img src="./assets/dp-ll.png" alt="Low-level Project Diagram" width="950">
     <br>
-  <em>Fig. 2: The low-level architecture used for this project.</em>
+  <em>Fig. 2: The low-level architecture diagram.</em>
 </p>
+
 
 ## Project Structure
 
@@ -112,9 +254,6 @@ FCB_Dynamic-Pricing/
 ├── notebooks/                       # Jupyter notebooks for analysis and experimentation.
 │   └── eda.ipynb                    # Exploratory Data Analysis notebook.
 ├── reports/                         # Contains explanatory documents.
-│   ├── data_dictionary.md           # A detailed description of the dataset features.
-│   └── architecture_extended.md     # An extended explanation of the system architecture.
-│   └── modeling_extended.md         # An extended explanation of the modeling approach.
 └── src/                             # Source code for the project.
     ├── __init__.py                  # Makes src a Python package.
     ├── data/                        # Scripts for data ingestion and processing.
@@ -129,6 +268,7 @@ FCB_Dynamic-Pricing/
         └── optimize.py              # Script to find the optimal price.
 
 ```
+
 
 ## Usage
 
@@ -164,6 +304,7 @@ To run the project and see the full pipeline in action, follow these steps from 
     # Get a revenue-optimal price recommendation
     python -m src.decision_engine.optimize
 
+
 ### Using the Decision Engine's output
 
 The system provides two key outputs for the commercial team via the User Control Panel:
@@ -172,6 +313,7 @@ The system provides two key outputs for the commercial team via the User Control
 2. **The Impact Simulation**: This allows the team to test their own hypotheses by entering any price and instantly seeing the predicted impact on ticket sales and revenue.
 
 The workflow is designed to be **Human-in-the-Loop (HiTL)**. The team uses these outputs to make a final, informed decision, blending machine intelligence with their expert knowledge.
+
 
 ### How the Simulation works
 
