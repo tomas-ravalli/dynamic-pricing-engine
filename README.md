@@ -33,15 +33,13 @@
 
 ## Project Overview
 
-The diagram below illustrates the conceptual framework for the Dynamic Pricing project. At its core, the system sits between two main stakeholders, The Club and The Fan, each with opposing goals. The engine's purpose is to find an optimal balance by ingesting various data points, processing them, and providing data-driven answers to both sides. It essentially acts as the *brain* that determines ticket prices based on a range of real-time and historical information.
+The diagram below illustrates the project's conceptual framework. The system acts as the central "brain" to balance the goals of The Club and The Fan. It operates in a continuous loop by ingesting internal data (like seat availability) and external factors (like social media buzz) to forecast demand at various price points. The **Decision Engine** then uses this forecast to recommend an optimal price. This transforms a static, manual pricing strategy into a responsive, automated system with a human-in-the-loop (HiTL), creating a market-driven approach for both setting and responding to ticket prices.
 
 <p align="center">
   <img src="./assets/dp-hl.png" alt="High-level Project Diagram" width="2000">
   <br>
   <em>Fig. 1: A high-level diagram for this project.</em>
 </p>
-
-The system operates in a continuous loop: the Dynamic Pricing Engine constantly ingests and analyzes both Internal Factors (like how many seats are left) and External Factors (like social media buzz). Based on this combined data, it **forecasts demand at various price points, which the Decision Engine uses to generate a recommended price**. The Club uses these outputs to set the official ticket prices. The Fan, in turn, sees these prices and uses the system's guidance (e.g., price-drop alerts) to decide when to buy. This entire process creates a responsive, market-driven pricing strategy that is more sophisticated than a static, pre-set price list; this moves from a reactive, manual process to a proactive, automated one with human-in-the-loop (HiTL).
 
 This project implemented a complete, production-ready dynamic pricing solution. The core challenge was to move from a rigid, manual pricing strategy to a data-driven, automated one.
 
