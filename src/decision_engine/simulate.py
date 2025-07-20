@@ -3,6 +3,7 @@ import pandas as pd
 import logging
 import os
 import sys
+from .constants import SAMPLE_BASE_FEATURES
 
 # Add the project root to the Python path to allow for absolute imports
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
@@ -67,22 +68,7 @@ if __name__ == '__main__':
 
     # Create a sample feature set for a hypothetical match.
     # This dictionary contains all features the demand model expects, EXCEPT 'ticket_price'.
-    sample_base_features = {
-        'zone': 'Lateral',
-        'days_until_match': 10,
-        'opponent_tier': 'A',
-        'weather_forecast': 'Sunny',
-        'competing_city_events': False,
-        'flights_to_barcelona_index': 85,
-        'google_trends_index': 75,
-        'internal_search_trends': 3500,
-        'web_visits': 60000,
-        'web_conversion_rate': 0.04,
-        'social_media_sentiment': 0.6,
-        'competitor_avg_price': 220.50,
-        'zone_seats_availability': 10000,
-        'ticket_availability_pct': 33.3
-    }
+    sample_base_features = SAMPLE_BASE_FEATURES
     features_df = pd.DataFrame([sample_base_features])
 
     # Initialize the simulation engine
