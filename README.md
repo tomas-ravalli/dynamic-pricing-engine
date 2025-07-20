@@ -68,7 +68,7 @@ The initial phase involved meeting with business stakeholders to define the proj
 The modeling strategy follows a two-stage process: first **predict**, then **optimize**. The system first forecasts demand with high accuracy and then uses that forecast within a Decision Engine to find the optimal price.
 
 <details>
-<summary><b>Click to see a detailed description of the modeling approach, design choices, and performance evaluation.</b></summary>
+<summary><b>Click to see the detailed modeling approach</b></summary>
 
 ## Stage 1: 📈 Demand Forecasting
 
