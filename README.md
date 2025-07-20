@@ -50,11 +50,11 @@ The system operates in a continuous loop: the Dynamic Pricing Engine constantly 
 
 This project implemented a complete, production-ready dynamic pricing solution, from initial business discovery to final deployment.
 
-### 1. Scoping
+### 1) Scoping
 
 The initial phase involved meeting with business stakeholders (product, legal, and marketing) to define the exact objective. The goal was set to maximize revenue while respecting key business constraints, such as price caps, minumum occupacy and limits on price change frequency.
 
-### 2. Modeling
+### 2) Modeling
 
 > For a detailed description of the modeling approach and design choices, please refer to [🌐 Modeling –Extended](reports/modeling_extended.md).
 
@@ -62,12 +62,12 @@ The modeling strategy follows a two-stage process: first predict, then optimize.
 
 | Modeling Task | Modeling Approach | Key Technology | Rationale for Choice |
 | :--- | :--- | :--- | :--- |
-| **A) Demand Forecasting** | Forecast future ticket demand for each match **at various potential price points**. Optimized for **predictive accuracy**. | `GradientBoostingRegressor` | Handles complex non-linear relationships essential for accurate "what-if" simulations. |
-| **B) Price Optimization** | **Use the demand model to simulate outcomes** and recommend a revenue-maximizing price. Optimized for **business impact** and **constraints**. | `Custom Python Logic` | A simulation and grid-search framework that uses the demand model to find the optimal price, while respecting business rules (e.g., price caps). |
+| **Stage 1: Demand Forecasting** | Forecast future ticket demand for each match **at various potential price points**. Optimized for **predictive accuracy**. | `GradientBoostingRegressor` | Handles complex non-linear relationships essential for accurate "what-if" simulations. |
+| **Stage 2: Price Optimization** | **Use the demand model to simulate outcomes** and recommend a revenue-maximizing price. Optimized for **business impact** and **constraints**. | `Custom Python Logic` | A simulation and grid-search framework that uses the demand model to find the optimal price, while respecting business rules (e.g., price caps). |
 
 The core of this project is the **Decision Engine**, which translates the demand forecast into actionable business recommendations. It consists of two key components that work together to support a Human-in-the-Loop (HITL) workflow.
 
-### 3. Feature Engineering
+### 3) Feature Engineering
 
 > For a detailed description of the features in the synthetic dataset, please refer to [📖 Data Dictionary](reports/data_dictionary.md).
 
@@ -75,11 +75,11 @@ A key part of the strategy was to enrich our models with external data, a common
 * **🏠 Internal factors**: Utilized traditional data such as historical sales, opponent tier, days until the match, and real-time ticket availability.
 * **🌍 External factors**: Integrated novel real-time signals including social media sentiment, search engine trends, and competing city events to capture market dynamics.
 
-### 4. A/B Testing & Validation
+### 4) A/B Testing & Validation
 
 Before a full rollout, the system was rigorously validated through controlled A/B tests. The new dynamic pricing model was applied to a few sections of the stadium, with the rest serving as a control group. This allowed us to scientifically prove the model's positive impact on revenue.
 
-### 5. Deployment
+### 5) Deployment
 
 The entire system was deployed within an automated MLOps pipeline. This ensures models are automatically retrained on new data, performance is constantly monitored for degradation, and price recommendations are reliably fed to the ticketing system via an API. All models were designed for batch prediction, running on a daily schedule to balance cost and the need for timely updates.
 
