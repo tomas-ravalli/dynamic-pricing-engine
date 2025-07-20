@@ -18,6 +18,7 @@ def build_feature_pipeline():
     """
     Defines the feature engineering pipeline for the dataset.
     This includes scaling for numerical features and one-hot encoding for categorical features.
+    It returns the pipeline and the lists of features used.
     """
     # Define numerical features to be scaled
     numerical_features = [
@@ -53,13 +54,14 @@ def build_feature_pipeline():
         remainder='passthrough'  # Keep other columns (like boolean flags)
     )
     
-    return preprocessor
+    return preprocessor, numerical_features, categorical_features
 
 def main():
     """
     Main function to run the feature engineering pipeline.
     It loads the synthetic data, processes it, and saves the result.
     """
+    
     logging.info("Starting feature engineering process...")
     
     # Load the raw synthetic dataset
@@ -81,17 +83,19 @@ def main():
     y = df[target_column]
 
     # Build and fit the feature engineering pipeline
-    feature_pipeline = build_feature_pipeline()
+    feature_pipeline, numerical_features, categorical_features = build_feature_pipeline()
     X_processed = feature_pipeline.fit_transform(X)
+    logging.info("Successfully applied feature engineering pipeline.")
 
     # Get feature names after transformation for the new DataFrame
     # This is important for model interpretability and debugging
-    num_features = feature_pipeline.named_transformers_['num'].get_feature_names_out()
+    num_features = numerical_features
     cat_features = feature_pipeline.named_transformers_['cat'].get_feature_names_out(categorical_features)
     
     # Get remainder columns if any (passthrough)
-    remainder_cols = [col for col in X.columns if col not in X.select_dtypes(include=['number', 'object']).columns and col not in numerical_features and col not in categorical_features]
-
+    processed_cols = X.columns.drop(numerical_features + categorical_features)
+    remainder_cols = [col for col in processed_cols if col in X.columns]
+    
     processed_feature_names = list(num_features) + list(cat_features) + remainder_cols
 
     # Create a new DataFrame with the processed features

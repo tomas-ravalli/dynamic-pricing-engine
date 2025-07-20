@@ -1,9 +1,21 @@
 SAMPLE_BASE_FEATURES = {
+    # Match context
     'days_until_match': 15,
-    'opponent_strength': 4,
-    'match_importance': 5,
-    'month_of_match': 12,
-    'social_sentiment': 0.65,
-    'search_trends': 85,
-    'competing_events': 1
+    'opponent_tier': 'Tier A',        
+    'weather_forecast': 'Sunny',
+
+    # Zone and availability
+    'zone': 'Upper Tier 1',
+    'zone_seats_availability': 0.65,  
+
+    # External factors
+    'flights_to_barcelona_index': 110,
+    'google_trends_index': 85,
+    'social_media_sentiment': 0.7,
+    'competitor_avg_price': 150.0,
+
+    # Internal metrics
+    'internal_search_trends': 120,
+    'web_visits': 5000,
+    'web_conversion_rate': 0.05,
 }
