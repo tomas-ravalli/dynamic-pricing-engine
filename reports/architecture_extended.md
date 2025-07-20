@@ -2,6 +2,8 @@
 
 > This document outlines the architecture of the Dynamic Pricing Engine system. The system is designed as a three-layer structure that ingests data, processes it through a core analytics engine, and integrates with user-facing systems to manage and apply pricing decisions.
 
+## **Overview**
+
 The general workflow is as follows:
 1.  **Data Sources** are collected and fed into the central engine.
 2.  The **Dynamic Pricing Engine** uses machine learning models and business rules to generate a price recommendation.
