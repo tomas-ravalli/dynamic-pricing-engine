@@ -5,7 +5,7 @@
   <img src="https://img.shields.io/badge/Language-Python-lightgrey" alt="Language">
 </p>
 
-> A dynamic pricing and decision support system for football match tickets. **Objective:** To evolve a manual price-decision process into a data-driven, semi-automated workflow.
+> A dynamic pricing and decision support system for football match tickets. **Objective:** To evolve a manual price-decision process into a data-driven, semi-automated workflow that improves revenue and sales.
 
 
 ### Outline
