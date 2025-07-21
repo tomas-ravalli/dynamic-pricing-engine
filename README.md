@@ -295,7 +295,7 @@ To run the project and see the full pipeline in action, follow these steps from 
     python -m src.models.train_demand_model
     ```
 
-5.  **Run the Decision Engine scripts (optional):**
+5.  **Run the Decision Engine scripts:**
     ```bash
     # Get a "what-if" analysis for a specific price
     python -m src.decision_engine.simulate
