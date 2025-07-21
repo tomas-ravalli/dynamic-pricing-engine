@@ -80,7 +80,7 @@ This stage answers the question: *"At a given price, how many tickets are we lik
 | **Application**| This trained model powers the **Simulation Engine**, allowing the commercial team to perform "what-if" analysis by inputting a hypothetical price and instantly seeing the likely impact on sales and revenue. |
 | **Design Choice**| While `XGBoost` or `LightGBM` are often faster and can sometimes provide a performance edge, the choice of scikit-learn's `GradientBoostingRegressor`, because of the synthetic dataset size, the difference would be negligible. |
 
-### Performance Evaluation
+### Demand Forecasting Performance Evaluation
 
 The primary goal here is to accurately predict ticket sales. The performance was evaluated against a **baseline model** (a `DummyRegressor` that always predicts the average sales from the training data) to ensure the model was genuinely learning from the features.
 
@@ -110,7 +110,7 @@ This stage answers the business question: *"What is the single best price to max
 | **Output** | The engine's primary output is the official `Price Variation Proposal`, which is sent to the commercial team for review and approval.                                                                   |
 | **Design Choice**| Bayesian Optimization would likely find a near-optimal price much faster by intelligently exploring the price space. However, it doesn't guarantee finding the absolute maximum. Guaranteeing the optimal recommendation (within the model's predictive power) is often more valuable than the computational speed gained from a heuristic approach. |
 
-### Performance Evaluation
+### Price Optimization Performance Evaluation
 
 Since this is an optimization engine, not a predictive model, its performance is measured by its business value and efficiency.
 
