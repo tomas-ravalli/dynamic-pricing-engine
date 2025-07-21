@@ -186,6 +186,12 @@ The general workflow is as follows:
 2.  The **Dynamic Pricing Engine** uses machine learning models and business rules to generate a price recommendation.
 3.  The pricing team uses the **UI & Integration** layer to review, simulate, and approve the price, which is then updated in the live ticketing system.
 
+<p align="center">
+  <img src="./assets/dp-ll.png" alt="Low-level Project Diagram" width="950">
+    <br>
+  <em>Fig. 2: The low-level architecture diagram.</em>
+</p>
+
 <details>
 <summary><b>Click to see the detailed architecture breakdown</b></summary>
 
@@ -226,12 +232,6 @@ The general workflow is as follows:
 | ┗ **Ticketing Purchase UI** | The public-facing website or application screen where fans see the dynamically adjusted prices and make their purchases. |
 
 </details>
-
-<p align="center">
-  <img src="./assets/dp-ll.png" alt="Low-level Project Diagram" width="950">
-    <br>
-  <em>Fig. 2: The low-level architecture diagram.</em>
-</p>
 
 
 ## Project Structure
