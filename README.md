@@ -128,11 +128,11 @@ A key part of the modeling strategy was to enrich our models with both internal 
 <details>
 <summary><b>Click to see the full list of features used</b></summary>
 
-### Overview
+## Overview
 
 Each row in the synthetic dataset (`synthetic_match_data.csv`) represents the state of a specific seating **zone** for a single **match** at a particular point in time, defined by the `days_until_match`. The primary goal is to predict the `ticket_price` based on the other features.
 
-### Identifiers & Categorical Features
+## Identifiers & Categorical Features
 
 | Feature Name | Data Type | Description |
 | :--- | :--- | :--- |
@@ -143,7 +143,7 @@ Each row in the synthetic dataset (`synthetic_match_data.csv`) represents the st
 | `competing_city_events` | Boolean | `True` if there are other major events (concerts, festivals) in the city on the same day, which could reduce local demand. `False` otherwise. |
 
 
-### Time-Based & Demand Signals
+## Time-Based & Demand Signals
 
 These features capture the dynamics of demand over time and external market interest.
 
@@ -158,7 +158,7 @@ These features capture the dynamics of demand over time and external market inte
 | `social_media_sentiment`| Float | A synthetic score representing the overall public sentiment (e.g., from -1.0 for very negative to +1.0 for very positive) about the match on social media platforms. |
 
 
-### Sales, Availability & Pricing
+## Sales, Availability & Pricing
 
 | Feature Name | Data Type | Description |
 | :--- | :--- | :--- |
