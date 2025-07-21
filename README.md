@@ -56,20 +56,19 @@ This project implemented a complete, production-ready dynamic pricing solution. 
 
 The project followed a 5-step lifecycle, from initial business scoping to final deployment.
 
-
-### 1. Scoping
+### 1. **Scoping**
 
 The initial phase involved meeting with business stakeholders to define the project's objective: **maximize revenue while respecting key business constraints**. These constraints included price caps, minimum occupancy targets, and limits on the frequency of price changes.
 
 
-### 2. Modeling & Feature Engineering
+### 2. **Modeling & Feature Engineering**
 
 The modeling strategy follows a two-stage process: first **predict**, then **optimize**. The system first forecasts demand with high accuracy and then uses that forecast within a Decision Engine to find the optimal price.
 
 <details>
-<summary><b>Click to see the detailed modeling approach</b></summary>
+<summary><b>Click to see the full modeling approach</b></summary>
 
-## Stage 1: 📈 Demand Forecasting
+### Stage 1: 📈 Demand Forecasting
 
 This stage answers the question: *"At a given price, how many tickets are we likely to sell?"*
 
@@ -81,7 +80,7 @@ This stage answers the question: *"At a given price, how many tickets are we lik
 | **Application**| This trained model powers the **Simulation Engine**, allowing the commercial team to perform "what-if" analysis by inputting a hypothetical price and instantly seeing the likely impact on sales and revenue. |
 | **Design Choice**| While `XGBoost` or `LightGBM` are often faster and can sometimes provide a performance edge, the choice of scikit-learn's `GradientBoostingRegressor`, because of the synthetic dataset size, the difference would be negligible. |
 
-### Demand Forecasting Performance Evaluation
+**Demand Forecasting Performance Evaluation**
 
 The primary goal here is to accurately predict ticket sales. The performance was evaluated against a **baseline model** (a `DummyRegressor` that always predicts the average sales from the training data) to ensure the model was genuinely learning from the features.
 
@@ -99,7 +98,7 @@ Several strategies were employed to achieve this level of performance:
 * **Feature Engineering**: Created interaction terms (e.g., `day_of_week` vs. `opponent_tier`). This helped the model capture nuanced behaviors, such as high demand for a top-tier opponent even on a weekday.
 * **Hyperparameter Tuning**: Used `GridSearchCV` to systematically test different model configurations (`n_estimators`, `max_depth`, `learning_rate`), finding the optimal combination that minimized prediction error on the validation set.
 
-## Stage 2: ⚙️ Price Optimization
+### Stage 2: ⚙️ Price Optimization
 
 This stage answers the business question: *"What is the single best price to maximize total revenue?"*
 
@@ -111,7 +110,7 @@ This stage answers the business question: *"What is the single best price to max
 | **Output** | The engine's primary output is the official `Price Variation Proposal`, which is sent to the commercial team for review and approval.                                                                   |
 | **Design Choice**| Bayesian Optimization would likely find a near-optimal price much faster by intelligently exploring the price space. However, it doesn't guarantee finding the absolute maximum. Guaranteeing the optimal recommendation (within the model's predictive power) is often more valuable than the computational speed gained from a heuristic approach. |
 
-### Price Optimization Performance Evaluation
+**Price Optimization Performance Evaluation**
 
 Since this is an optimization engine, not a predictive model, its performance is measured by its business value and efficiency.
 
@@ -121,10 +120,9 @@ Since this is an optimization engine, not a predictive model, its performance is
 | **Adoption Rate** | Tracking the percentage of `Price Variation Proposals` that are reviewed and approved by the commercial team.    | A high adoption rate (>80%) indicates that the team trusts and values the engine's recommendations.         |
 | **Computation Time**| Measuring the wall-clock time it takes for the grid search to complete for a given match.                       | The time must be within acceptable operational limits (e.g., under 1 minute) to allow for rapid, on-demand analysis by the commercial team. |
 
-
 </details>
 
-A key part of the modeling strategy was to enrich our models with both internal and external data to capture market dynamics more effectively.
+A key part of the modeling strategy was to move beyond our internal sales history by enriching our models with external data. Through feature engineering, we combined our own historical performance data with real-world market signals—like opponent rankings and social media hype—to create a more holistic and predictive view of market dynamics.
 
 <details>
 <summary><b>Click to see the full list of features used</b></summary>
@@ -171,12 +169,12 @@ These features capture the dynamics of demand over time and external market inte
 
 </details>
 
-### 4. A/B Testing & Validation
+### 4. **A/B Testing & Validation**
 
 Before a full rollout, the system was rigorously validated through controlled A/B tests. The new dynamic pricing model was applied to a few sections of the stadium, with the rest serving as a control group. This allowed us to scientifically prove the model's positive impact on revenue.
 
 
-### 5. Deployment
+### 5. **Deployment**
 
 The entire system was deployed within an automated MLOps pipeline. This ensures models are automatically retrained on new data, performance is constantly monitored, and price recommendations are reliably fed to the ticketing system via an API. All models were designed for batch prediction, running on a daily schedule to balance cost and timeliness.
 
