@@ -29,6 +29,7 @@
 | ⚙️ Operational Efficiency   | **7x improvement** in Time-to-Price-Change | Realized by automating the manual data aggregation and analysis pipeline. The system delivers price recommendations directly, shifting the team's focus from data work to strategic approval.|
 | 🎯 Demand Forecast Accuracy | **86%** Accuracy (WAPE)              | The result of a model combining internal sales data with external signals. Sales predictions were highly reliable.|
 | 🎟️ Optimized Sales          | **+6%** Increase in Ticket Sell-Through Rate | A direct result of modeling price elasticity. Didn't maximize revenue at the cost of empty seats; also improved occupancy, which affects atmosphere and in-stadium sales.|
+| 🤝 Recommendation Adoption | **+6%** Increase in Ticket Sell-Through Rate | A direct result of modeling price elasticity. Didn't maximize revenue at the cost of empty seats; also improved occupancy, which affects atmosphere and in-stadium sales.| **91%** of Proposals Approved | Measures the percentage of automated price proposals that were reviewed and approved by the commercial team, indicating strong trust in the model's business alignment.|
 
 
 ## Project Overview
