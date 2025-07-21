@@ -25,11 +25,11 @@
 
 | Metric                      | Result                               | Description |
 | :-------------------------- | :----------------------------------- | :----------------------------------- |
-| 📈 Revenue Uplift           | **+9%** Average Revenue per Match    | Achieved by dynamically adjusting prices to match real-time demand forecasts, capturing more value from high-demand matches. Validated via controlled A/B testing.|
-| ⚙️ Operational Efficiency   | **7x improvement** in Time-to-Price-Change | Realized by automating the manual data aggregation and analysis pipeline. The system delivers price recommendations directly, shifting the team's focus from data work to strategic approval.|
-| 🎯 Demand Forecast Accuracy | **86%** Accuracy (WAPE)              | The result of a model combining internal sales data with external signals. Sales predictions were highly reliable.|
-| 🎟️ Optimized Sales          | **+6%** Increase in Ticket Sell-Through Rate | A direct result of modeling price elasticity. Didn't maximize revenue at the cost of empty seats; also improved occupancy, which affects atmosphere and in-stadium sales.|
-| 🤝 Recommendation Adoption | **91%** of Proposals Approved | Measures the percentage of automated price proposals that were reviewed and approved by the commercial team, indicating strong trust in the model's business alignment.|
+| 📈 Revenue Uplift           | **+6%** Average Revenue per Match    | Achieved by dynamically adjusting prices to match real-time demand forecasts, capturing more value from high-demand matches. Validated via controlled A/B testing.|
+| 🎟️ Optimized Sales          | **+4%** Increase in Ticket Sell-Through Rate | A direct result of modeling price elasticity. Didn't maximize revenue at the cost of empty seats; also improved occupancy, which affects atmosphere and in-stadium sales.|
+| ⚙️ Operational Efficiency   | **7x improvement** in Time-to-Price-Change | From weekly to daily changes by automating the manual data aggregation and analysis pipeline. The system delivers price recommendations directly, shifting the team's focus from data work to strategic approval.|
+| 🤝 Recommendation Adoption | **91%** of Proposals Approved | Measures the percentage of automated price proposals that were reviewed and approved by the commercial team, indicating trust in the model's business alignment.|
+| 🎯 Demand Forecast Accuracy | **14%** Weighted Avg. % Error | The demand forecast model's predictions have a low average error rate, indicating that sales predictions are reliable.|
 
 
 ## Project Overview
@@ -39,22 +39,22 @@ The diagram below illustrates the project's conceptual framework. The system act
 <p align="center">
   <img src="./assets/dp-hl.png" alt="High-level Project Diagram" width="2000">
   <br>
-  <em>Fig. 1: A high-level diagram for this project.</em>
+  <em>Fig. 1: A high-level diagram of the Dynamic Pricing Engine.</em>
 </p>
 
-This project implemented a complete, production-ready dynamic pricing solution. The core challenge was to move from a rigid, manual pricing strategy to a data-driven, automated one.
+The core challenge was to move from a rigid, manual pricing strategy to a data-driven, automated one. The table below summarizes the problem–solution mapping.
 
 | 🚩 The Problem | 💡 The Solution |
 | :--------------------------- | :---------------------------- |
-| **Static Pricing**: Prices were set once per season in rigid, inflexible categories (e.g., A++, A, B). | **Dynamic Recommendations**: Generates price proposals for each seating zone based on real-time data analysis. |
-| **Manual Adjustments**: The team would slowly analyze various metrics to manually propose price changes. | **Impact Simulation**: Instantly models the projected impact of any price change on revenue and ticket sales. |
-| **Data Bottleneck**: Extracting data manually from fragmented systems was slow and operationally complex. | **Centralized Data**: Automatically aggregates all key data points—sales, web analytics, contextual data, etc.—into one place. |
-| **Slow Implementation**: The process to act on a decision was manual and disconnected from the sales platform. | **Seamless Integration**: Allows for one-click approval on a dashboard, which triggers a price update to the live ticketing system via REST API. |
+| **Static pricing**: Prices were set once per season in rigid, inflexible categories (e.g., A++, A, B). | **Dynamic recommendations**: Generates price proposals for each seating zone based on real-time data analysis. |
+| **Manual adjustments**: The team would slowly analyze various metrics to manually propose price changes. | **Impact simulation**: Instantly models the projected impact of any price change on revenue and ticket sales. |
+| **Data bottleneck**: Extracting data manually from fragmented systems was slow and operationally complex. | **Centralized data**: Automatically aggregates all key data points—sales, web analytics, contextual data, etc.—into one place. |
+| **Slow implementation**: The process to act on a decision was manual and disconnected from the sales platform. | **Seamless integration**: Allows for one-click approval on a dashboard, which triggers a price update to the live ticketing system via REST API. |
 
 
 ## Methodology
 
-The project followed a 5-step lifecycle, from initial business scoping to final deployment.
+The project went from initial business scoping to final deployment.
 
 ### 1. **Scoping**
 
@@ -63,7 +63,7 @@ The initial phase involved meeting with business stakeholders to define the proj
 
 ### 2. **Modeling & Feature Engineering**
 
-The modeling strategy follows a two-stage process: first **predict**, then **optimize**. The system first forecasts demand with high accuracy and then uses that forecast within a Decision Engine to find the optimal price.
+The modeling strategy followed a two-stage process: first **predict**, then **optimize**. The system first forecasts demand with high accuracy and then uses that forecast within a Decision Engine to find the optimal price.
 
 <details>
 <summary><b>Click to see the full modeling approach</b></summary>
@@ -78,25 +78,27 @@ This stage answers the question: *"At a given price, how many tickets are we lik
 | **Rationale** | Gradient Boosting excels at handling the complex, non-linear relationships discovered during EDA and is robust against outliers, making it a strong choice for this task.                  |
 | **Features** | The model uses a rich set of internal and external factors, including historical sales, opponent tier, social media sentiment, and the `ticket_price` itself to learn price elasticity. |
 | **Application**| This trained model powers the **Simulation Engine**, allowing the commercial team to perform "what-if" analysis by inputting a hypothetical price and instantly seeing the likely impact on sales and revenue. |
-| **Design Choice**| While `XGBoost` or `LightGBM` are often faster and can sometimes provide a performance edge, the choice of scikit-learn's `GradientBoostingRegressor`, because of the synthetic dataset size, the difference would be negligible. |
+| **Design Choice**| While `XGBoost` or `LightGBM` are often faster and would probably provide a performance edge, the choice of scikit-learn's `GradientBoostingRegressor`, because of the synthetic dataset size, the difference would be negligible. |
 
 **Demand Forecasting Performance Evaluation**
 
-The primary goal here is to accurately predict ticket sales. The performance was evaluated against a **baseline model** (a `DummyRegressor` that always predicts the average sales from the training data) to ensure the model was genuinely learning from the features.
+The primary goal is to accurately predict ticket sales. Performance was evaluated against a **baseline model** (`DummyRegressor`) to ensure the model was genuinely learning. The key metric chosen was **WAPE**, as it provides a clear, interpretable measure of percentage error that resonates with business stakeholders.
 
-| Metric                        | Value           | Description & Rationale                                                                                                                                                             |
-| :---------------------------- | :-------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **R² Score** | **0.86** | **Why we chose it:** This is the primary metric. It measures the proportion of the variance in sales that our model can explain. An `R²` of 0.86 signifies a strong fit and a significant improvement over the baseline's `R²` of 0. |
-| **Mean Absolute Error (MAE)** | **~254 tickets**| **For context:** MAE tells us, on average, how far off our predictions are in absolute terms. This is more interpretable for business stakeholders than other error metrics.             |
-| **Root Mean Squared Error (RMSE)**| **~312 tickets**| **For robustness:** RMSE penalizes larger errors more heavily. A higher RMSE relative to MAE suggests the model makes a few, larger prediction errors, which is useful to know for risk assessment. |
+| Metric                        | Value           | Description & Rationale                                                                                                                                                                                              |
+| :---------------------------- | :-------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **WAPE** (Primary Metric) | **14%** | **Why we chose it:** Weighted Absolute Percentage Error is the most critical metric for this business case. It tells us the average forecast error in percentage terms, making it highly interpretable for revenue planning. A low WAPE is our main goal. |
+| **R² Score** | **0.86** | **For model fit:** This shows that the model explains 86% of the variance in ticket sales, confirming it has a strong statistical fit to the data and learns the underlying patterns effectively.                                |
+| **Mean Absolute Error (MAE)** | **~254 tickets**| **For business context:** MAE tells us that, on average, our forecast is off by about 254 tickets. This gives stakeholders a concrete sense of the error margin in absolute units.                                      |
+| **Root Mean Squared Error (RMSE)**| **~312 tickets**| **For robustness:** RMSE penalizes larger errors more heavily. A higher RMSE relative to MAE suggests the model occasionally makes larger prediction errors, which is useful information for risk assessment.             |
 
-The performance is considered **highly successful**. An `R²` of 0.86 demonstrates a robust and reliable forecasting engine.
+The performance is considered **highly successful**. A WAPE of 14% and an R² of 0.86 demonstrate a robust and reliable forecasting engine.
 
 Several strategies were employed to achieve this level of performance:
 
-* **Better Data**: Integrated external data like social media sentiment and opponent rankings. This added crucial context that historical sales data alone could not provide.
-* **Feature Engineering**: Created interaction terms (e.g., `day_of_week` vs. `opponent_tier`). This helped the model capture nuanced behaviors, such as high demand for a top-tier opponent even on a weekday.
-* **Hyperparameter Tuning**: Used `GridSearchCV` to systematically test different model configurations (`n_estimators`, `max_depth`, `learning_rate`), finding the optimal combination that minimized prediction error on the validation set.
+-   **Better Data**: Integrated external data like social media sentiment and opponent rankings. This added crucial context that historical sales data alone could not provide.
+-   **Feature Engineering**: Created interaction terms (e.g., `day_of_week` vs. `opponent_tier`). This helped the model capture nuanced behaviors, such as high demand for a top-tier opponent even on a weekday.
+-   **Hyperparameter Tuning**: Used `GridSearchCV` to systematically test different model configurations (`n_estimators`, `max_depth`, `learning_rate`), finding the optimal combination that minimized prediction error on the validation set.
+
 
 ### Stage 2: ⚙️ Price Optimization
 
