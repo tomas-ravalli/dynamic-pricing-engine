@@ -58,7 +58,7 @@ The general workflow is as follows:
 <p align="center">
   <img src="./assets/dp-ll.png" alt="Low-level Project Diagram" width="950">
     <br>
-  <em>Fig. 2: The low-level architecture diagram.</em>
+  <em>Fig. 2: A low-level diagram of the Dynamic Pricing Engine.</em>
 </p>
 
 <details>
