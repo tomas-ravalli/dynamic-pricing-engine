@@ -316,7 +316,7 @@ To run the project and see the full pipeline in action, follow these steps from 
 
 </br>
 
-> ⚠️ **Project Disclaimer:**
+> ⚠️ **DISCLAIMER**
 >
 > * **Illustrative purpose:** This repository serves as a high-level demonstration of the project's architecture and methodology. Many implementation details and model complexities have been simplified for clarity.
 > * **Synthetic data:** The code runs on synthetic data, as the original data is proprietary and cannot be shared. The purpose is to demonstrate the modeling approach and engineering best practices of the real-world project.
