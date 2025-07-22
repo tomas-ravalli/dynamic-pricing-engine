@@ -5,7 +5,7 @@
   <img src="https://img.shields.io/badge/Language-Python-lightgrey" alt="Language">
 </p>
 
-> A machine learning powered dynamic pricing and decision support system for football match tickets. **Objective:** To evolve a manual price-decision process into a data-driven, semi-automated workflow that improves revenue and sales.
+> A machine learning powered dynamic pricing and decision support system for football match tickets. This project addresses the challenge of static ticket pricing in the sports industry, which often leads to missed revenue opportunities and suboptimal attendance. **Objective:** To evolve a manual price-decision process into a data-driven, semi-automated workflow that improves revenue and sales.
 
 ### Outline
 
