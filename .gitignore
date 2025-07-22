@@ -1,27 +1,18 @@
-# Python artifacts
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
-env/
-venv/
-.venv/
-
-# IDE and OS-specific files
-.DS_Store
+# IDE and environment files
 .idea/
 .vscode/
+*.pyc
+__pycache__/
+.env
 
-# Data files - as specified in the project structure
-# We only commit the synthetic data for the demo
-data/01_raw/
-data/02_processed/
-data/03_external/
-
-# Notebook checkpoints
+# Notebook cache
 .ipynb_checkpoints
 
-# Environment variables
-.env
-*.env
+# Data files - never commit data
+data/
+models/
+
+# Ignore all code and notebooks
+*.py
+*.ipynb
+*.joblib
