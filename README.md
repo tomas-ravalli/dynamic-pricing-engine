@@ -113,13 +113,13 @@ The system first forecasts demand with high accuracy and then uses that forecast
 
 This stage answers the question: *"At a given price, how many tickets are we likely to sell?"*
 
-| Aspect         | Description                                                                                                                                                                             |
-| :------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Model** | A `GradientBoostingRegressor` forecasts ticket demand (`zone_historical_sales`) by seating zone for each match.                                                                              |
-| **Rationale** | Gradient Boosting excels at handling the complex, non-linear relationships discovered during EDA and is robust against outliers, making it a strong choice for this task. |
-| **Features** | The model uses a rich set of internal and external factors, including historical sales, opponent tier, social media sentiment, and other engineered features.|
-| **Application**| This trained model powers the *Impact Simulation* feature, allowing the commercial team to perform "what-if" analysis by inputting a hypothetical price and instantly seeing the likely impact on revenue and sales. |
-| **Design choice**| While `XGBoost` or `LightGBM` are often faster and would probably provide a performance edge, the choice of scikit-learn's `GradientBoostingRegressor`, because of the synthetic dataset size, the difference would be negligible. |
+| Aspect | Description |
+| :--- | :--- |
+| **Model** | An `XGBoost` regressor forecasts ticket demand (`zone_historical_sales`) by seating zone for each match. |
+| **Rationale** | XGBoost was chosen for its exceptional performance, speed, and ability to handle the complex, non-linear relationships discovered during EDA. Its regularization features also help prevent overfitting, making it a robust choice. |
+| **Features** | The model uses a rich set of internal and external factors, including historical sales, opponent tier, social media sentiment, and other engineered features. |
+| **Application** | This trained model powers the *Impact Simulation* feature, allowing the commercial team to perform "what-if" analysis by inputting a hypothetical price and instantly seeing the likely impact on revenue and sales. |
+| **Design Choice** | XGBoost is an industry standard for structured data problems, known for its performance and optimization. It was selected for its proven effectiveness in similar real-world forecasting tasks. |
 
 <details>
 <summary><b>Click to see the detailed model performance evaluation</b></summary>
@@ -164,49 +164,44 @@ Since this is an optimization engine, not a predictive model, its performance is
 
 ### Feature Engineering
 
-A key part of the modeling strategy was to move beyond our internal sales history by enriching our models with external data. Through feature engineering, we combined our own historical performance data with real-world market signals—like opponent rankings and social media hype—to create a more holistic and predictive view of market dynamics. The model's accuracy is dependent on a feature set combining internal and external data:
-
-* **🏠 Internal factors**: `opponent_tier`, `historical_sales`, `zone_seats_availability`, and `days_until_match`.
-* **🌍 External factors**: `weather_forecast`, `social_media_sentiment`, `search_engine_trends`, and `competing_city_events`.
+A key part of the modeling strategy was to move beyond our internal sales history by enriching our models with external data. Through feature engineering, we combined our own historical performance data with real-world market signals—like opponent rankings and social media hype—to create a more holistic and predictive view of market dynamics. The model's accuracy is dependent on a feature set combining **internal and external** data:
 
 <details>
-<summary><b>Click to see the detailed list of features</b></summary>
+<summary><b>Click to see the full list of features</b></summary>
 
-Each row in the synthetic dataset (`synthetic_match_data.csv`) represents the state of a specific seating *zone* for a single *match* at a particular point in time, defined by the `days_until_match`. The primary goal is to predict `zone_historical_sales` based on the other features.
+#### Identifiers & Categorical Features
 
-### Identifiers & categorical features
+-   `match_id` (*Integer*): A unique identifier for each football match.
+-   `seat_zone` (*String*): The name of the seating zone in the stadium (e.g., 'Gol Nord', 'Lateral', 'VIP').
+-   `opponent_tier` (*String*): A categorical rating of the opponent's quality and appeal (`A++`, `A`, `B`, `C`). Higher tiers signify more attractive matches.
+-   `ea_opponent_strength` (*Integer*): A rating of the opponent's strength based on the EA Sports FC game, determined by player ratings and team tactics.
+-   `team_position` (*Integer*): The team's current position in the league table at the time of the match.
+-   `weekday_match` (*Boolean*): `True` if the match is played on a weekday (Monday-Friday).
+-   `top_player_injured` (*Boolean*): `True` if a key player is injured and not expected to play in the match.
+-   `league_winner_known` (*Boolean*): `True` if the winner of the league has already been decided before the match.
+-   `holidays` (*Boolean*): `True` if the match day falls on or near a local or national holiday.
+-   `weather_forecast` (*String*): The predicted weather for the match day ('Sunny', 'Windy', 'Rain').
+-   `competing_city_events` (*Boolean*): `True` if there are other major events (concerts, festivals, summits) in the city on the same day.
 
-| Feature Name | Data Type | Description |
-| :--- | :--- | :--- |
-| `match_id` | Integer | A unique identifier for each football match. |
-| `zone` | String | The name of the seating zone in the stadium (e.g., 'Gol Nord', 'Lateral', 'VIP'). |
-| `opponent_tier` | String | A categorical rating of the opponent's quality and appeal (`A++`, `A`, `B`, `C`). Higher tiers signify more attractive matches, influencing demand. |
-| `weather_forecast` | String | The predicted weather for the match day ('Sunny', 'Cloudy', 'Rain'). Can influence last-minute purchase decisions. |
-| `competing_city_events` | Boolean | `True` if there are other major events (concerts, festivals) in the city on the same day, which could reduce local demand. `False` otherwise. |
-
-### Time-based & demand signals
+#### Time-based & Demand Signals
 
 These features capture the dynamics of demand over time and external market interest.
 
-| Feature Name | Data Type | Description |
-| :--- | :--- | :--- |
-| `days_until_match` | Integer | The number of days remaining before the match. A key feature for time-series analysis, as demand typically increases as the match date approaches. |
-| `flights_to_barcelona_index`| Integer | A synthetic index (scaled 20-100) representing the volume of inbound flights to the city. This serves as a proxy for tourist demand. |
-| `google_trends_index` | Integer | A synthetic index (scaled 20-100) representing public search interest for the match on Google. A proxy for general public interest and hype. |
-| `internal_search_trends`| Integer | A synthetic count of searches for match tickets on the club's own website or app. A direct signal of purchase intent from the user base. |
-| `web_visits` | Integer | A synthetic count of visits to the ticketing section of the club's official website. A measure of online traffic and interest. |
-| `web_conversion_rate` | Float | The synthetic conversion rate on the website (ticket purchases / visits). A measure of how effectively web traffic is converting into sales. |
-| `social_media_sentiment`| Float | A synthetic score representing the overall public sentiment (e.g., from -1.0 for strong negative to +1.0 for strong positive) about the match on social media platforms. |
+-   `days_until_match` (*Integer*): The number of days remaining before the match. A key feature for time-series analysis, as demand typically increases as the match date approaches.
+-   `flights_to_barcelona_index` (*Integer*): A synthetic index (scaled 20-100) representing the volume of inbound flights to the city. This serves as a proxy for tourist demand.
+-   `google_trends_index` (*Integer*): A synthetic index (scaled 20-100) representing public search interest for the match on Google. A proxy for general public interest and hype.
+-   `internal_search_trends` (*Integer*): A synthetic count of searches for match tickets on the club's own website or app. A direct signal of purchase intent from the user base.
+-   `web_visits` (*Integer*): A synthetic count of visits to the ticketing section of the club's official website. A measure of online traffic and interest.
+-   `web_conversion_rate` (*Float*): The synthetic conversion rate on the website (ticket purchases / visits). A measure of how effectively web traffic is converting into sales.
+-   `social_media_sentiment` (*Float*): A synthetic score representing the overall public sentiment (e.g., from -1.0 for strong negative to +1.0 for strong positive) about the match on social media platforms.
 
-### Sales, availability & pricing
+#### Sales, Availability & Pricing
 
-| Feature Name | Data Type | Description |
-| :--- | :--- | :--- |
-| **`zone_historical_sales`** | **Integer** | **(Target Variable)** The historical number of tickets sold for a similar match in that zone. This is the *primary target variable* for the demand forecast model. |
-| `zone_seats_availability` | Integer | The absolute number of seats still available for purchase in that zone. |
-| `ticket_availability_pct` | Float | The percentage of total seats in the zone that are still available. |
-| `competitor_avg_price` | Float | The average ticket price for a comparable entertainment event (e.g., mobile world congress, a concert) on the same day. Represents the competitive landscape. |
-| `ticket_price` | Float | The price of the ticket. This is a *key input* feature for the demand model and the *final output* of the optimization engine. |
+-   **`zone_historical_sales`** (*Integer*): **(Target Variable)** The historical number of tickets sold for a similar match in that zone. This is the *primary target variable* for the demand forecast model.
+-   `zone_seats_availability` (*Integer*): The absolute number of seats still available for purchase in that zone.
+-   `ticket_availability_pct` (*Float*): The percentage of total seats in the zone that are still available.
+-   `competitor_avg_price` (*Float*): The average ticket price for a comparable entertainment event (e.g., mobile world congress, a concert) on the same day. Represents the competitive landscape.
+-   `ticket_price` (*Float*): The price of the ticket. This is a *key input* feature for the demand model and the *final output* of the optimization engine.
 
 </details>
 
@@ -214,12 +209,12 @@ These features capture the dynamics of demand over time and external market inte
 
 Before a full rollout, the system was rigorously validated through a series of controlled **A/B tests** to scientifically measure its impact and mitigate risk. The core principle was to isolate the effect of the dynamic pricing engine from all other market variables. 
 
-The results from the A/B tests confirmed our hypothesis, showing a consistent **+6% lift in average revenue** for the treatment group. Crucially, this was achieved while also increasing the sell-through rate, demonstrating that the model was effective at finding the true market equilibrium. These conclusive, data-backed results gave the business full confidence to proceed with a full-scale rollout of the dynamic pricing system across all stadium zones.
+The results from the A/B tests confirmed our hypothesis, showing a consistent **+6% lift in average revenue** for the treatment group. Additionaly, this was achieved while also increasing the sell-through rate, demonstrating that the model was effective at finding the true market equilibrium. These conclusive, data-backed results gave the business full confidence to proceed with a full-scale rollout of the dynamic pricing system across all stadium zones.
 
 <details>
-<summary><b>Click to see the detailed experimental design</b></summary>
+<summary><b>Click to see the full experimental design</b></summary>
 
-### Experimental Design
+### Experimental design
 
 1.  **Treatment vs. Control Groups**: The stadium was segmented into statistically similar groups of seating zones.
     * **Treatment Group (Dynamic Pricing)**: A select number of zones had their prices set by the new automated engine. These prices could change daily based on the model's recommendations.
@@ -229,11 +224,11 @@ The results from the A/B tests confirmed our hypothesis, showing a consistent **
 
 3.  **Duration**: The tests were run over several matches of varying importance (e.g., high-demand league matches, lower-demand cup matches) to ensure the results were robust and not skewed by the unique characteristics of a single event.
 
-### Key Metrics Tracked
+### Key metrics tracked
 
 To evaluate the experiment's outcome, we continuously monitored several KPIs for both groups:
 
-* **Primary Metric**: Avg. Revenue Per Available Seat.
+* **Primary Metric**: Avg. Revenue Per Seating Zone.
 * **Secondary Metrics**:
     * Ticket Sell-Through Rate (Occupancy).
     * Avg. Ticket Price.
@@ -244,9 +239,7 @@ To evaluate the experiment's outcome, we continuously monitored several KPIs for
 
 ## Structure
 
-While the source code and data for this project are kept private to honor confidentiality agreements, this section outlines the project's structure. This demonstrates a professional, modular, and reproducible approach to building machine learning systems, designed for easy maintenance and scalability.
-
-The project was designed with the following directory structure:
+While the source code and data for this project are kept private due to confidentiality agreements, this section outlines the project's structure.
 
 ```bash
 FCB_Dynamic-Pricing/
@@ -267,8 +260,6 @@ FCB_Dynamic-Pricing/
         └── optimize.py             # (Private) Script to find the optimal price.
 ```
 
-### Descriptions
-
 * **`notebooks/eda.ipynb`**: A Jupyter Notebook was used for all Exploratory Data Analysis. It contained the initial data visualizations and statistical analysis that guided the feature engineering and modeling strategy.
 
 * **`src/features/build_features.py`**: This script handled all preprocessing and feature engineering. It was designed to take raw data and transform it into a clean, model-ready feature set by handling categorical variables, creating interaction terms, and engineering relevant time-based features.
@@ -283,9 +274,10 @@ FCB_Dynamic-Pricing/
 </br>
 
 > ⚠️ **DISCLAIMER**
->
-> * **Illustrative purpose:** This repository serves as a high-level demonstration of the project's architecture and methodology. Many implementation details and model complexities have been simplified for clarity.
-> * **Confidentiality:** Source code and data for this project are kept private to honor confidentiality agreements. The purpose is to demonstrate the modeling approach and engineering best practices of the real-world project.
+> * **Complexity:** This repository provides a high-level demonstration of the project's architecture and methodology. Certain implementation details and model complexities have been simplified for clarity.
+> * **Confidentiality:** To honor confidentiality agreements, the source code and data for the original project are private. This repository demonstrates the modeling approach and best practices used in the real-world solution.
+> * > * **Synthetic data:** All data presented in this public repository is synthetically generated. It is designed to mirror the statistical properties of the original dataset without revealing any confidential information.
+
 
 </br>
 
