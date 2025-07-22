@@ -14,7 +14,6 @@
 - [Architecture](#architecture)
 - [Modeling](#modeling)
 - [Structure](#structure)
-- [Usage](#usage)
 
 ---
 
@@ -245,76 +244,48 @@ To evaluate the experiment's outcome, we continuously monitored several KPIs for
 
 ## Structure
 
-```
+While the source code and data for this project are kept private to honor confidentiality agreements, this section outlines the project's structure. This demonstrates a professional, modular, and reproducible approach to building machine learning systems, designed for easy maintenance and scalability.
+
+The project was designed with the following directory structure:
+
+```bash
 FCB_Dynamic-Pricing/
-├── .gitignore                       # Specifies files for Git to ignore.
-├── LICENSE                          # Project license (MIT).
-├── README.md                        # An overview of the project. <-- YOU ARE HERE
-├── requirements.txt                 # The requirements file for reproducing the analysis.
-├── config.py                        # Configuration file for paths, parameters, etc.
-├── assets/                          # Contains images and diagrams for the README.
-├── data/                            # Stores data related to the project.
-│   └── 03_synthetic/                # Synthetic data created for this repository.
-├── models/                          # Stores trained model artifacts.
-├── notebooks/                       # Jupyter notebooks for analysis and experimentation.
-│   └── eda.ipynb                    # Exploratory Data Analysis notebook.
-├── reports/                         # Contains explanatory documents.
-└── src/                             # Source code for the project.
-    ├── __init__.py                  # Makes src a Python package.
-    ├── data/                        # Scripts for data ingestion and processing.
-    │   └── make_dataset.py          # Script to generate the synthetic dataset.
-    └── features/                    # Scripts for feature engineering.
-    │    └── build_features.py       # Script to process data into model-ready features. 
-    ├── models/                      # Scripts for model training and prediction.
-    │   ├── train_demand_model.py    # Script to train the demand prediction model.
-    │   └── predict_demand.py        # Script to get a sample demand prediction.
-    └── decision_engine/             # Scripts for simulation and optimization.
-        ├── simulate.py              # Script to run a what-if simulation.
-        └── optimize.py              # Script to find the optimal price.
-
+├── assets/                         # Diagrams and images for documentation.
+├── data/                           # (Private) Stores raw, intermediate, and synthetic data.
+├── models/                         # (Private) Stores trained model artifacts.
+├── notebooks/                      # (Private) Jupyter notebooks for EDA.
+│   └── eda.ipynb                   # (Private) Exploratory Data Analysis notebook.
+└── src/                            # (Private) Source code, organized by function.
+    ├── data/                       # (Private) Scripts for data ingestion and processing.
+    └── features/                   # (Private) Scripts for feature engineering.
+    │    └── build_features.py      # (Private) Script to process data into model-ready features. 
+    ├── models/                     # (Private) Scripts for model training and prediction.
+    │   ├── train_demand_model.py   # (Private) Script to train the demand prediction model.
+    │   └── predict_demand.py       # (Private) Script to get a sample demand prediction.
+    └── decision_engine/            # (Private) Scripts for simulation and optimization.
+        ├── simulate.py             # (Private) Script to run a what-if simulation.
+        └── optimize.py             # (Private) Script to find the optimal price.
 ```
 
-## Usage
+### Descriptions
 
-### 🚀 Running the Pipeline
+* **`notebooks/eda.ipynb`**: A Jupyter Notebook was used for all Exploratory Data Analysis. It contained the initial data visualizations and statistical analysis that guided the feature engineering and modeling strategy.
 
-To run the project and see the full pipeline in action, follow these steps from your terminal.
+* **`src/features/build_features.py`**: This script handled all preprocessing and feature engineering. It was designed to take raw data and transform it into a clean, model-ready feature set by handling categorical variables, creating interaction terms, and engineering relevant time-based features.
 
-1. **Set up the environment** (only needed once):
-    ```bash
-    pip install -r requirements.txt
-    ```
+* **`src/models/train_demand_model.py`**: The core machine learning model was trained here. The script loaded the processed features, trained a demand forecasting model (e.g., Gradient Boosting), and saved the final trained model artifact to the `models/` directory for later use.
 
-2. **Generate the dataset:**
-    ```bash
-    python -m src.data.make_dataset
-    ```
+* **`src/decision_engine/`**: This package contained the logic for the dynamic pricing system.
+    * **`simulate.py`**: A script that used the trained model to run "what-if" scenarios, predicting demand and revenue across a range of potential price points.
+    * **`optimize.py`**: The final script that orchestrated the simulation to identify the single price point that would maximize projected revenue for a given match.
 
-3. **Process features for modeling:**
-    ```bash
-    python -m src.features.build_features
-    ```
-
-4. **Run the training pipeline:**
-    ```bash
-    python -m src.models.train_demand_model
-    ```
-
-5. **Run the Decision Engine scripts:**
-    ```bash
-    # Get a "what-if" analysis for a specific price
-    python -m src.decision_engine.simulate
-
-    # Get a revenue-optimal price recommendation
-    python -m src.decision_engine.optimize
-    ```
 
 </br>
 
 > ⚠️ **DISCLAIMER**
 >
 > * **Illustrative purpose:** This repository serves as a high-level demonstration of the project's architecture and methodology. Many implementation details and model complexities have been simplified for clarity.
-> * **Synthetic data:** The code runs on synthetic data, as the original data is proprietary and cannot be shared. The purpose is to demonstrate the modeling approach and engineering best practices of the real-world project.
+> * **Confidentiality:** Source code and data for this project are kept private to honor confidentiality agreements. The purpose is to demonstrate the modeling approach and engineering best practices of the real-world project.
 
 </br>
 
