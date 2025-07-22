@@ -167,7 +167,15 @@ Since this is an optimization engine, not a predictive model, its performance is
 
 ### Feature Engineering
 
+The model's accuracy is heavily dependent on a rich feature set combining internal and external data.
+
+* **🏠 Internal factors**: one, two, three
+* **🌍 External factors**: four, five, six
+
 A key part of the modeling strategy was to move beyond our internal sales history by enriching our models with external data. Through feature engineering, we combined our own historical performance data with real-world market signals—like opponent rankings and social media hype—to create a more holistic and predictive view of market dynamics.
+
+<details>
+<summary><b>Click to see the detailed list of features</b></summary>
 
 Each row in the synthetic dataset (`synthetic_match_data.csv`) represents the state of a specific seating **zone** for a single **match** at a particular point in time, defined by the `days_until_match`. The primary goal is to predict the `ticket_price` based on the other features.
 
@@ -204,6 +212,8 @@ These features capture the dynamics of demand over time and external market inte
 | `ticket_availability_pct` | Float | The percentage of total seats in the zone that are still available. |
 | `competitor_avg_price` | Float | The average ticket price for a comparable entertainment event (e.g., another major football match, a concert) on the same day. Represents the competitive landscape. |
 | `ticket_price` | Float | The price of the ticket. This is a *key input* feature for the demand model and the *final output* of the optimization engine. |
+
+</details>
 
 > **Notes on Deployment**
 > - *Validation*: Before a full rollout, the system was rigorously validated through controlled A/B tests. The new dynamic pricing model was applied to a few sections of the stadium, with the rest serving as a control group. This allowed us to scientifically prove the model's positive impact on revenue and sales.
