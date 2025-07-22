@@ -217,9 +217,14 @@ These features capture the dynamics of demand over time and external market inte
 
 ### Validation
 
-Before a full rollout, the system was rigorously validated through a series of controlled A/B tests to scientifically measure its impact and mitigate risk. The core principle was to isolate the effect of the dynamic pricing engine from all other market variables.
+Before a full rollout, the system was rigorously validated through a series of controlled **A/B tests** to scientifically measure its impact and mitigate risk. The core principle was to isolate the effect of the dynamic pricing engine from all other market variables. 
 
-#### Experimental Design
+The results from the A/B tests confirmed our hypothesis, showing a consistent **+6% lift in average revenue** for the treatment group. Crucially, this was achieved while also increasing the sell-through rate, demonstrating that the model was effective at finding the true market equilibrium. These conclusive, data-backed results gave the business full confidence to proceed with a full-scale rollout of the dynamic pricing system across all stadium zones.
+
+<details>
+<summary><b>Click to see the detailed experimental design</b></summary>
+
+### Experimental Design
 
 1.  **Treatment vs. Control Groups**: The stadium was segmented into statistically similar groups of seating zones.
     * **Treatment Group (Dynamic Pricing)**: A select number of zones had their prices set by the new automated engine. These prices could change daily based on the model's recommendations.
@@ -229,7 +234,7 @@ Before a full rollout, the system was rigorously validated through a series of c
 
 3.  **Duration**: The tests were run over several matches of varying importance (e.g., high-demand league matches, lower-demand cup matches) to ensure the results were robust and not skewed by the unique characteristics of a single event.
 
-#### Key Metrics Tracked
+### Key Metrics Tracked
 
 To evaluate the experiment's outcome, we continuously monitored several key performance indicators (KPIs) for both groups:
 
@@ -239,9 +244,8 @@ To evaluate the experiment's outcome, we continuously monitored several key perf
     * Average Ticket Price.
     * Sales Velocity (how quickly tickets sold).
 
-#### Results and Rollout
+</details>
 
-The results from the A/B tests confirmed our hypothesis, showing a consistent **+6% lift in average revenue** for the treatment group. Crucially, this was achieved while also increasing the sell-through rate, demonstrating that the model was effective at finding the true market equilibrium. These conclusive, data-backed results gave the business full confidence to proceed with a full-scale rollout of the dynamic pricing system across all stadium zones.
 
 ## Structure
 
