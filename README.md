@@ -177,7 +177,7 @@ A key part of the modeling strategy was to move beyond our internal sales histor
 <details>
 <summary><b>Click to see the detailed list of features</b></summary>
 
-Each row in the synthetic dataset (`synthetic_match_data.csv`) represents the state of a specific seating **zone** for a single **match** at a particular point in time, defined by the `days_until_match`. The primary goal is to predict the `ticket_price` based on the other features.
+Each row in the synthetic dataset (`synthetic_match_data.csv`) represents the state of a specific seating **zone** for a single **match** at a particular point in time, defined by the `days_until_match`. The primary goal is to predict `zone_historical_sales` based on the other features.
 
 ### Identifiers & Categorical Features
 
@@ -258,8 +258,7 @@ FCB_Dynamic-Pricing/
 ├── config.py                        # Configuration file for paths, parameters, etc.
 ├── assets/                          # Contains images and diagrams for the README.
 ├── data/                            # Stores data related to the project.
-│   ├── 01_raw/                      # The original, immutable data.
-│   └── 02_processed/                # Processed and cleaned data ready for modeling.
+│   └── 03_synthetic/                # Synthetic data created for this repository.
 ├── models/                          # Stores trained model artifacts.
 ├── notebooks/                       # Jupyter notebooks for analysis and experimentation.
 │   └── eda.ipynb                    # Exploratory Data Analysis notebook.
