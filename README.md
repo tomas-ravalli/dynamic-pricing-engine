@@ -273,32 +273,32 @@ While most of the source code for this project is private, this section outlines
 
 ```bash
 FCB_Dynamic-Pricing/
-├── .gitignore                         # (Public) Specifies files for Git to ignore.
-├── LICENSE                            # (Public) Project license.
-├── README.md                          # (Public) This project overview.
-├── requirements.txt                   # (Private) The requirements file for the full project.
-├── config.py                          # (Private) Configuration file for paths and parameters.
-├── assets/                            # (Public) Diagrams and images for documentation.
+├── .gitignore                          # (Public) Specifies files for Git to ignore.
+├── LICENSE                             # (Public) Project license.
+├── README.md                           # (Public) This project overview.
+├── requirements.txt                    # (Private) The requirements file for the full project.
+├── config.py                           # (Private) Configuration file for paths and parameters.
+├── assets/                             # (Public) Diagrams and images for documentation.
 │   ├── dp-hl.png
 │   └── dp-ll.png
 ├── data/
 │   └── 03_synthetic/
-│       └── synthetic_match_data.csv   # (Public) The generated synthetic dataset.
-├── models/                            # (Private) Stores trained model artifacts.
+│       └── synthetic_match_data.csv    # (Public) The generated synthetic dataset.
+├── models/                             # (Private) Stores trained model artifacts.
 │   ├── demand_forecast_model.joblib
 │   └── feature_pipeline.joblib
-├── notebooks/                         # (Private) Jupyter notebooks for analysis.
+├── notebooks/                          # (Private) Jupyter notebooks for analysis.
 │   └── eda.ipynb
 └── src/
-    ├── __init__.py                    # (Private) Makes src a Python package.
+    ├── __init__.py                     # (Private) Makes src a Python package.
     ├── data/
-    │   └── make_dataset.py            # (Public) The script to generate the synthetic data.
-    ├── features/                      # (Private) Scripts for feature engineering.
+    │   └── make_dataset.py             # (Public) The script to generate the synthetic data.
+    ├── features/                       # (Private) Scripts for feature engineering.
     │   └── build_features.py
-    ├── models/                        # (Private) Scripts for model training and prediction.
+    ├── models/                         # (Private) Scripts for model training and prediction.
     │   ├── train_demand_model.py
     │   └── predict_demand.py
-    └── decision_engine/               # (Private) Scripts for simulation and optimization.
+    └── decision_engine/                # (Private) Scripts for simulation and optimization.
         ├── constants.py
         ├── simulate.py
         └── optimize.py
