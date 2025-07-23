@@ -119,39 +119,29 @@ A key part of the modeling strategy was to move beyond our internal sales histor
 <details>
 <summary><b>Click to see the full list of features</b></summary>
 
-#### Identifiers & Categorical Features
-
--   `match_id` (*Integer*): A unique identifier for each football match.
--   `seat_zone` (*String*): The name of the seating zone in the stadium (e.g., 'Gol Nord', 'Lateral', 'VIP').
--   `opponent_tier` (*String*): A categorical rating of the opponent's quality and appeal (`A++`, `A`, `B`, `C`). Higher tiers signify more attractive matches.
--   `ea_opponent_strength` (*Integer*): A rating of the opponent's strength based on the EA Sports FC game, determined by player ratings and team tactics.
--   `team_position` (*Integer*): The team's current position in the league table at the time of the match.
--   `weekday_match` (*Boolean*): `True` if the match is played on a weekday (Monday-Friday).
--   `top_player_injured` (*Boolean*): `True` if a key player is injured and not expected to play in the match.
--   `league_winner_known` (*Boolean*): `True` if the winner of the league has already been decided before the match.
--   `holidays` (*Boolean*): `True` if the match day falls on or near a local or national holiday.
--   `weather_forecast` (*String*): The predicted weather for the match day ('Sunny', 'Windy', 'Rain').
 -   `competing_city_events` (*Boolean*): `True` if there are other major events (concerts, festivals, summits) in the city on the same day.
-
-#### Time-based & Demand Signals
-
-These features capture the dynamics of demand over time and external market interest.
-
+-   `competitor_avg_price` (*Float*): The average ticket price for a comparable entertainment event (e.g., mobile world congress, a concert) on the same day. Represents the competitive landscape.
 -   `days_until_match` (*Integer*): The number of days remaining before the match. A key feature for time-series analysis, as demand typically increases as the match date approaches.
+-   `ea_opponent_strength` (*Integer*): A rating of the opponent's strength based on the EA Sports FC game, determined by player ratings and team tactics.
 -   `flights_to_barcelona_index` (*Integer*): A synthetic index (scaled 20-100) representing the volume of inbound flights to the city. This serves as a proxy for tourist demand.
 -   `google_trends_index` (*Integer*): A synthetic index (scaled 20-100) representing public search interest for the match on Google. A proxy for general public interest and hype.
+-   `holidays` (*Boolean*): `True` if the match day falls on or near a local or national holiday.
 -   `internal_search_trends` (*Integer*): A synthetic count of searches for match tickets on the club's own website or app. A direct signal of purchase intent from the user base.
--   `web_visits` (*Integer*): A synthetic count of visits to the ticketing section of the club's official website. A measure of online traffic and interest.
--   `web_conversion_rate` (*Float*): The synthetic conversion rate on the website (ticket purchases / visits). A measure of how effectively web traffic is converting into sales.
+-   `league_winner_known` (*Boolean*): `True` if the winner of the league has already been decided before the match.
+-   `match_id` (*Integer*): A unique identifier for each football match.
+-   `opponent_tier` (*String*): A categorical rating of the opponent's quality and appeal (`A++`, `A`, `B`, `C`). Higher tiers signify more attractive matches.
+-   `seat_zone` (*String*): The name of the seating zone in the stadium (e.g., 'Gol Nord', 'Lateral', 'VIP').
 -   `social_media_sentiment` (*Float*): A synthetic score representing the overall public sentiment (e.g., from -1.0 for strong negative to +1.0 for strong positive) about the match on social media platforms.
-
-#### Sales, Availability & Pricing
-
+-   `team_position` (*Integer*): The team's current position in the league table at the time of the match.
+-   `ticket_availability_pct` (*Float*): The percentage of total seats in the zone that are still available.
+-   `ticket_price` (*Float*): The price of the ticket. This is a *key input* feature for the demand model and the *final output* of the optimization engine.
+-   `top_player_injured` (*Boolean*): `True` if a key player is injured and not expected to play in the match.
+-   `weather_forecast` (*String*): The predicted weather for the match day ('Sunny', 'Windy', 'Rain').
+-   `web_conversion_rate` (*Float*): The synthetic conversion rate on the website (ticket purchases / visits). A measure of how effectively web traffic is converting into sales.
+-   `web_visits` (*Integer*): A synthetic count of visits to the ticketing section of the club's official website. A measure of online traffic and interest.
+-   `weekday_match` (*Boolean*): `True` if the match is played on a weekday (Monday-Friday).
 -   **`zone_historical_sales`** (*Integer*): **(Target Variable)** The historical number of tickets sold for a similar match in that zone. This is the *primary target variable* for the demand forecast model.
 -   `zone_seats_availability` (*Integer*): The absolute number of seats still available for purchase in that zone.
--   `ticket_availability_pct` (*Float*): The percentage of total seats in the zone that are still available.
--   `competitor_avg_price` (*Float*): The average ticket price for a comparable entertainment event (e.g., mobile world congress, a concert) on the same day. Represents the competitive landscape.
--   `ticket_price` (*Float*): The price of the ticket. This is a *key input* feature for the demand model and the *final output* of the optimization engine.
 
 </details>
 
