@@ -104,6 +104,16 @@ The general workflow is as follows:
 
 ## Dataset
 
+To showcase the model's capabilities without exposing confidential information, this repository uses a synthetically generated dataset. This dataset is not just random data; it is carefully engineered to mirror the complexity, scale, and statistical properties of a real-world ticketing environment for a top-tier football club.
+
+This version of the dataset emphasizes **time-series depth over breadth**. It simulates:
+
+* **A Focused Set of Matches:** It contains data for **10 unique matches**, representing a diverse sample of fixtures including league, cup, and international games.
+* **Complete Sales History:** For each of these matches, a **full 90-day time-series** is generated. This means there is a daily record capturing how demand signals, sales, and availability evolve from the day tickets go on sale until match day.
+* **Zone-Level Granularity:** Each daily record is further broken down by **5 distinct seating zones**, each with its own capacity and base price, reflecting how different stadium areas have unique demand curves.
+
+This deep, time-series structure is ideal for building sophisticated forecasting models that can learn the complex dynamics of demand over time.
+
 A key part of the modeling strategy was to move beyond our internal sales history by enriching our models with external data. Through feature engineering, we combined our own historical performance data with real-world market signals—like opponent rankings and social media hype—to create a more holistic and predictive view of market dynamics. The model's accuracy is dependent on a feature set combining **internal and external** data.
 
 #### Identifiers & Categorical Features
@@ -254,36 +264,40 @@ To evaluate the experiment's outcome, we continuously monitored several KPIs for
 
 ## Structure
 
-While the source code and data for this project are kept private due to confidentiality agreements, this section outlines the project's structure.
+While most of the source code for this project is private, this section outlines the full structure:
 
 ```bash
 FCB_Dynamic-Pricing/
-├── assets/                         # Diagrams and images for documentation.
-├── data/                           # (Private) Stores raw, intermediate, and synthetic data.
-├── models/                         # (Private) Stores trained model artifacts.
-├── notebooks/                      # (Private) Jupyter notebooks for EDA.
-│   └── eda.ipynb                   # (Private) Exploratory Data Analysis notebook.
-└── src/                            # (Private) Source code, organized by function.
-    ├── data/                       # (Private) Scripts for data ingestion and processing.
-    └── features/                   # (Private) Scripts for feature engineering.
-    │    └── build_features.py      # (Private) Script to process data into model-ready features. 
-    ├── models/                     # (Private) Scripts for model training and prediction.
-    │   ├── train_demand_model.py   # (Private) Script to train the demand prediction model.
-    │   └── predict_demand.py       # (Private) Script to get a sample demand prediction.
-    └── decision_engine/            # (Private) Scripts for simulation and optimization.
-        ├── simulate.py             # (Private) Script to run a what-if simulation.
-        └── optimize.py             # (Private) Script to find the optimal price.
-```
-
-* **`notebooks/eda.ipynb`**: A Jupyter Notebook was used for all Exploratory Data Analysis. It contained the initial data visualizations and statistical analysis that guided the feature engineering and modeling strategy.
-
-* **`src/features/build_features.py`**: This script handled all preprocessing and feature engineering. It was designed to take raw data and transform it into a clean, model-ready feature set by handling categorical variables, creating interaction terms, and engineering relevant time-based features.
-
-* **`src/models/train_demand_model.py`**: The core machine learning model was trained here. The script loaded the processed features, trained a demand forecasting model (e.g., Gradient Boosting), and saved the final trained model artifact to the `models/` directory for later use.
-
-* **`src/decision_engine/`**: This package contained the logic for the dynamic pricing system.
-    * **`simulate.py`**: A script that used the trained model to run "what-if" scenarios, predicting demand and revenue across a range of potential price points.
-    * **`optimize.py`**: The final script that orchestrated the simulation to identify the single price point that would maximize projected revenue for a given match.
+├── .gitignore                         # (Public) Specifies files for Git to ignore.
+├── LICENSE                            # (Public) Project license.
+├── README.md                          # (Public) This project overview.
+├── requirements.txt                   # (Private) The requirements file for the full project.
+├── config.py                          # (Private) Configuration file for paths and parameters.
+├── assets/                            # (Public) Diagrams and images for documentation.
+│   ├── dp-hl.png
+│   └── dp-ll.png
+├── data/
+│   └── 03_synthetic/
+│       └── synthetic_match_data.csv   # (Public) The generated synthetic dataset.
+├── models/                            # (Private) Stores trained model artifacts.
+│   ├── demand_forecast_model.joblib
+│   └── feature_pipeline.joblib
+├── notebooks/                         # (Private) Jupyter notebooks for analysis.
+│   └── eda.ipynb
+└── src/
+    ├── __init__.py                    # (Private) Makes src a Python package.
+    ├── data/
+    │   └── make_dataset.py            # (Public) The script to generate the synthetic data.
+    ├── features/                      # (Private) Scripts for feature engineering.
+    │   └── build_features.py
+    ├── models/                        # (Private) Scripts for model training and prediction.
+    │   ├── train_demand_model.py
+    │   └── predict_demand.py
+    └── decision_engine/               # (Private) Scripts for simulation and optimization.
+        ├── constants.py
+        ├── simulate.py
+        └── optimize.py
+````
 
 </br>
 
