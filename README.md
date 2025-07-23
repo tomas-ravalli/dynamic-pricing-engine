@@ -108,13 +108,16 @@ To showcase the model's capabilities without exposing confidential information, 
 
 This version of the dataset emphasizes **time-series depth over breadth**. It simulates:
 
-* **A Focused Set of Matches:** It contains data for **10 unique matches**, representing a diverse sample of fixtures including league, cup, and international games.
-* **Complete Sales History:** For each of these matches, a **full 90-day time-series** is generated. This means there is a daily record capturing how demand signals, sales, and availability evolve from the day tickets go on sale until match day.
-* **Zone-Level Granularity:** Each daily record is further broken down by **5 distinct seating zones**, each with its own capacity and base price, reflecting how different stadium areas have unique demand curves.
+* **A focused set of matches:** It contains data for **10 unique matches**, representing a diverse sample of fixtures including league, cup, and international games.
+* **Complete sales history:** For each of these matches, a full **90-day time-series** is generated. This means there is a daily record capturing how demand signals, sales, and availability evolve from the day tickets go on sale until match day.
+* **Zone-level granularity:** Each daily record is further broken down by **5 distinct seating zones**, each with its own capacity and base price, reflecting how different stadium areas have unique demand curves.
 
 This deep, time-series structure is ideal for building sophisticated forecasting models that can learn the complex dynamics of demand over time.
 
 A key part of the modeling strategy was to move beyond our internal sales history by enriching our models with external data. Through feature engineering, we combined our own historical performance data with real-world market signals—like opponent rankings and social media hype—to create a more holistic and predictive view of market dynamics. The model's accuracy is dependent on a feature set combining **internal and external** data.
+
+<details>
+<summary><b>Click to see the full list of features</b></summary>
 
 #### Identifiers & Categorical Features
 
@@ -150,13 +153,15 @@ These features capture the dynamics of demand over time and external market inte
 -   `competitor_avg_price` (*Float*): The average ticket price for a comparable entertainment event (e.g., mobile world congress, a concert) on the same day. Represents the competitive landscape.
 -   `ticket_price` (*Float*): The price of the ticket. This is a *key input* feature for the demand model and the *final output* of the optimization engine.
 
-### Synthetic data generation
+</details>
+
+### Match Excitement Factor
 
 To create a realistic dataset, the generation script doesn't just create random numbers. Instead, it simulates the underlying market dynamics by creating a unified **"Match Excitement Factor"**. This single, powerful variable acts as the primary driver for most of the demand signals in the dataset.
 
 The logic is designed to mimic how a real fan's interest level would change based on the context of a match:
 
-1.  **Start with the Opponent:** The excitement level begins with the quality of the opponent (`opponent_tier`). A top-tier opponent naturally generates more interest.
+1.  **Start with the opponent:** The excitement level begins with the quality of the opponent (`opponent_tier`). A top-tier opponent naturally generates more interest.
 
 2.  **Adjust for context:** The base excitement is then adjusted up or down based on several real-world factors:
     * **League position:** Excitement increases slightly if the team is high in the league standings.
