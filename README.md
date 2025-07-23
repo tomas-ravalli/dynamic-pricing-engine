@@ -285,14 +285,12 @@ FCB_Dynamic-Pricing/
     * **`simulate.py`**: A script that used the trained model to run "what-if" scenarios, predicting demand and revenue across a range of potential price points.
     * **`optimize.py`**: The final script that orchestrated the simulation to identify the single price point that would maximize projected revenue for a given match.
 
-
 </br>
 
 > ⚠️ **DISCLAIMER**
+> * **Data:** All data presented in this public repository is synthetically generated. It is designed to mirror the statistical properties of the original dataset without revealing any confidential information.
+> * **Code:** To honor confidentiality agreements, the source code and data for the original project are private. This repository demonstrates the modeling approach and best practices used in the real-world solution.
 > * **Complexity:** This repository provides a high-level demonstration of the project's architecture and methodology. Certain implementation details and model complexities have been simplified for clarity.
-> * **Confidentiality:** To honor confidentiality agreements, the source code and data for the original project are private. This repository demonstrates the modeling approach and best practices used in the real-world solution.
-> * > * **Synthetic data:** All data presented in this public repository is synthetically generated. It is designed to mirror the statistical properties of the original dataset without revealing any confidential information.
-
 
 </br>
 
