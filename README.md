@@ -163,8 +163,6 @@ The logic is designed to mimic how a real fan's interest level would change base
 
 3.  **Drives demand signals:** The final "Match Excitement Factor" is then used to generate all the other demand signals. For example, a match with a high excitement score will also have higher `google_trends_index`, more positive `social_media_sentiment`, and more `internal_search_trends`.
 
-This systemic approach ensures that the relationships between the features in the synthetic dataset are correlated in a logical and realistic way.
-
 
 ## Modeling
 
