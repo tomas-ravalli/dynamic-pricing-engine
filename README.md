@@ -32,6 +32,12 @@
 
 ## Overview
 
+<p align="center">
+  <img src="./assets/co-ss.png" alt="Stadium ticketing price list" width="1000">
+  <br>
+  <em>Fig. 1: Standard stadium ticket pricing by zone during checkout process.</em>
+</p>
+
 The diagram below illustrates the project's conceptual framework. The system acts as the central *brain* to balance the goals of The Club and The Fan. It operates in a continuous loop by ingesting internal and external factors to forecast demand at various price points. The **Decision Engine** then uses this forecast to recommend an optimal price.
 
 <p align="center">
@@ -60,7 +66,7 @@ The general workflow is as follows:
 <p align="center">
   <img src="./assets/dp-ll.png" alt="Low-level Project Diagram" width="950">
     <br>
-  <em>Fig. 2: A low-level diagram of the Dynamic Pricing Engine.</em>
+  <em>Fig. 3: A low-level diagram of the Dynamic Pricing Engine.</em>
 </p>
 
 <details>
