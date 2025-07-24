@@ -7,7 +7,7 @@
   <img src="https://img.shields.io/badge/Language-Python-lightgrey" alt="Language">
 </p>
 
-> A machine learning powered dynamic pricing and decision support system for ticket pricing in the sports industry. **Objective:** To evolve a manual price-decision process into a data-driven, semi-automated workflow that improves ticketing revenue and sales.
+> A machine learning powered dynamic pricing and decision support system for tickets pricing in the sports industry. **Objective:** To evolve a manual price-decision process into a data-driven, semi-automated workflow that improves ticketing revenue and sales.
 
 ### Outline
 
@@ -26,9 +26,9 @@
 | :-------------------------- | :----------------------------------- | :----------------------------------- |
 | 📈 Revenue Uplift           | **+6%** Average Revenue per Match    | Achieved by dynamically adjusting prices to match real-time demand forecasts, capturing more value from high-demand periods. Validated via A/B testing.|
 | 🎟️ Optimized Sales          | **+4%** Increase in Ticket Sell-Through Rate | Didn't maximize revenue at the cost of empty seats; also improved occupancy, which positively affects atmosphere and in-stadium sales.|
-| ⚙️ Operational Efficiency   | **7x improvement** in Time-to-Price-Change | From weekly to daily changes by automating the manual data aggregation and analysis pipeline. The system delivers price recommendations directly, shifting the team's focus from data work to strategic approval.|
+| ⚙️ Operational Efficiency   | **7x improvement** in Time-to-Price-Change | From weekly to daily changes by automating the manual data aggregation and analysis pipeline. The system delivered price recommendations directly, which shifted the team's focus from data work to strategic approval.|
 | 🤝 Recommendation Adoption | **86%** of Proposals Approved | Percentage of automated price proposals that were reviewed and approved by the commercial team, indicating trust in the model's business alignment.|
-| 🎯 Demand Forecast Accuracy | **19%** WAPE | The model's predictions have a low average error, performing 60% better than a baseline `DummyRegressor` and indicating that sales forecasts are reliable.|
+| 🎯 Demand Forecast Accuracy | **19%** WAPE | The model's predictions had a low average error, performed 60% better than a baseline `DummyRegressor`, indicating that sales forecasts are reliable.|
 
 ## Overview
 
@@ -168,7 +168,9 @@ This systemic approach ensures that the relationships between the features in th
 
 ## Modeling
 
-The modeling strategy followed a two-stage process: first *predict*, then *optimize*. The system first forecasts demand and then uses that forecast within a *Decision Engine* to find the optimal price.
+The goal is not just to build a black-box forecasting model, but to create a system that models the underlying drivers of ticket sales. By breaking down the problem into its constituent parts (time-series patterns, event-based impacts, external factors), we can better understand how each component contributes to the final outcome and more accurately quantify uncertainty. This approach, inspired by building a "driver tree" for the business, allows us to pinpoint the exact sources of error and continuously refine our understanding of the market.
+
+This philosophy translates into a two-stage process: first **predict**, then **optimize**. The system first forecasts demand based on our business theory and then uses that forecast within a *Decision Engine* to find the optimal price.
 
 ### Stage 1: 📈 Demand Forecasting
 
@@ -178,27 +180,29 @@ This stage answers the question: *"At a given price, how many tickets are we lik
 | :--- | :--- |
 | **Model** | A hybrid **ensemble model** that combines `Prophet` and `XGBoost` in a residual fitting approach. |
 | **Rationale** | This two-step model leverages the strengths of both algorithms. **Prophet** first models the core time-series components (trend, seasonality, and match-day effects). **XGBoost** then models the remaining variance (the residuals) using a rich feature set, capturing complex interactions that Prophet cannot. |
-| **Features** | The model uses a rich set of internal and external factors, including historical sales, opponent tier, social media sentiment, and other engineered features. |
+| **Features** | The model uses a rich set of internal and external factors–including historical sales, opponent tier, social media sentiment, and other engineered features–to build a comprehensive **"driver tree"** that explains demand. |
 | **Application** | This trained model powers the *Impact Simulation* feature, allowing the commercial team to perform "what-if" analysis by inputting a hypothetical price and instantly seeing the likely impact on revenue and sales. |
-| **Design Choice** | A hybrid model was chosen over a single model to improve accuracy. This approach creates a more robust forecast by dedicating a specialized model (Prophet) to the time-series structure before using a powerful gradient boosting model (XGBoost) to capture the remaining complex patterns, leading to a lower overall error. |
+| **Design Choice** | Choosing the right forecasting method is a function of many factors, including how much historical data is available, if exogenous variables (e.g., weather, concerts) play a big role, and business needs (e.g., interpretability). The bottom line is that we cannot know for sure which approach will yield the best performance, so it becomes necessary to **compare model performance across multiple approaches**. A hybrid model was chosen over a single model to improve accuracy by dedicating a specialized model (Prophet) to the time-series structure before using a powerful gradient boosting model (XGBoost) to capture the remaining complex patterns, leading to a lower overall error. |
 
 <details>
 <summary><b>Click to see the detailed model performance evaluation</b></summary>
-
+  
 </br>
 
-To ensure the final pricing decision is effective, the underlying demand forecast must be highly accurate. Therefore, the primary goal of this evaluation was to minimize prediction error. Performance was evaluated against a **baseline model** (`DummyRegressor`) to ensure the model was genuinely learning. The key metric chosen was **WAPE**, as it provides a clear, interpretable measure of percentage error that resonates with business stakeholders.
+To ensure the final pricing decision is effective, the underlying demand forecast must be highly accurate. The primary goal was to minimize prediction error, evaluated against a **baseline model** (`DummyRegressor`). The key metric chosen was **WAPE**, as it provides a clear, interpretable measure of percentage error.
+
+Determining the best forecasting method is only one half of the equation. We also need to estimate **prediction intervals**–the upper and lower forecast values that the actual value is expected to fall between with a high probability. Prediction intervals are a function of how much data we have, the variation in that data, the forecast horizon, and the chosen model. They are crucial for risk assessment.
 
 As this project uses a hybrid ensemble model, performance is evaluated on the **final, combined forecast**. The system first generates a baseline forecast with `Prophet`, then uses `XGBoost` to predict the remaining error (residuals). The final prediction (`Prophet forecast + XGBoost error forecast`) is then compared against the actual historical sales to derive the metrics below.
 
-| Metric                        | Value           | Rationale                                                                                                                                                                                    |
-| :---------------------------- | :-------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **WAPE** (Primary Metric)     | **19%** | **Why we chose it:** Weighted Absolute Percentage Error is the most critical metric for this business case. It tells us the average forecast error in percentage terms, making it highly interpretable for revenue planning. A low WAPE is our main goal. |
-| **R² Score** | **0.83** | **For model fit:** This shows that the model explains 83% of the variance in ticket sales, confirming it has a strong statistical fit to the data and learns the underlying patterns effectively.        |
-| **Mean Absolute Error (MAE)** | **~254 tickets**| **For business context:** MAE tells us that, on average, our forecast is off by about 254 tickets. This gives stakeholders a concrete sense of the error margin in absolute units.                       |
-| **Root Mean Squared Error (RMSE)**| **~312 tickets**| **For robustness:** RMSE penalizes larger errors more heavily. A higher RMSE relative to MAE suggests the model occasionally makes larger prediction errors, which is useful information for risk assessment. |
+| Metric | Value | Rationale |
+| :--- | :--- | :--- |
+| **WAPE** (Primary Metric) | **19%** | **Why we chose it:** Weighted Absolute Percentage Error tells us the average forecast error in percentage terms, making it highly interpretable for revenue planning. A low WAPE is our main goal. |
+| **R² Score** | **0.83** | **For model fit:** This shows that the model explains 83% of the variance in ticket sales, confirming it has a strong statistical fit to the data and learns the underlying patterns effectively. |
+| **Mean Absolute Error (MAE)** | **~254 tickets**| **For business context:** MAE tells us that, on average, our forecast is off by about 254 tickets. This gives stakeholders a concrete sense of the error margin in absolute units. |
+| **Root Mean Squared Error (RMSE)**| **~312 tickets**| **For robustness & uncertainty:** RMSE penalizes larger errors more heavily. A higher RMSE relative to MAE suggests the model occasionally makes larger prediction errors. This is critical for risk assessment and for estimating **prediction intervals** to understand the forecast's range of uncertainty. |
 
-The performance was considered *successful*. A WAPE of 19% and an R² of 0.83 demonstrated a robust and reliable forecasting engine.
+The performance was considered **successful**. A WAPE of 19% and an R² of 0.83 demonstrated a robust and reliable forecasting engine.
 
 </details>
 
@@ -206,26 +210,26 @@ The performance was considered *successful*. A WAPE of 19% and an R² of 0.83 de
 
 This stage answers the business question: *"What is the single best price to maximize total revenue?"*
 
-| Aspect         | Description                                                                                                                                                                                          |
-| :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Model** | A custom *Optimization Engine* performs an exhaustive grid search over a range of valid prices.                                                                                                        |
+| Aspect | Description |
+| :--- | :--- |
+| **Model** | A custom *Optimization Engine* that performs an exhaustive grid search over a range of valid prices. |
 | **Rationale** | A grid search is a reliable and straightforward method to find the optimal price within defined business constraints (e.g., price caps and floors). It guarantees finding the maximum projected revenue. |
 | **Process** | The engine iterates through potential prices (e.g., from €75 to €350), uses the demand model to predict sales for each, calculates the projected revenue `(Price × Predicted Sales)`, and returns the optimal price. |
-| **Output** | The engine's primary output is the official `Price Variation Proposal`, which is sent to the commercial team for review and approval.                                                                   |
-| **Design choice**| Bayesian Optimization would likely find a near-optimal price much faster by intelligently exploring the price space. However, it doesn't guarantee finding the absolute maximum. Guaranteeing the optimal recommendation (within the model's predictive power) is often more valuable than the computational speed gained from a heuristic approach. |
+| **Output** | The engine's primary output is the official `Price Variation Proposal`, which is sent to the commercial team for review and approval. |
+| **Design Choice**| Bayesian Optimization would likely find a near-optimal price much faster by intelligently exploring the price space. However, it doesn't guarantee finding the absolute maximum. For a critical business decision like pricing, **guaranteeing the optimal recommendation** (within the model's predictive power) is often more valuable than the computational speed gained from a heuristic approach. |
 
 <details>
 <summary><b>Click to see the detailed model performance evaluation</b></summary>
-
+  
 </br>
 
 Since this is an optimization engine, not a predictive model, its performance is measured by its business value and efficiency.
 
-| Metric            | Measurement                                                                                          | Success Criteria                                                                                        |
-| :---------------- | :------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------ |
-| **Revenue lift** | Through A/B testing, comparing the revenue generated by the engine's prices against a control group. | A consistent, statistically significant increase in average revenue per match.                               |
-| **Adoption rate** | Tracking the percentage of `Price Variation Proposals` that are reviewed and approved by the commercial team.    | A high adoption rate (>80%) indicates that the team trusts and values the engine's recommendations.         |
-| **Computation time**| Measuring the wall-clock time it takes for the grid search to complete for a given match.                       | The time must be within acceptable operational limits (<10') to allow for rapid, on-demand analysis by the commercial team. |
+| Metric | Measurement | Success Criteria |
+| :--- | :--- | :--- |
+| **Revenue lift** | Through A/B testing, comparing the revenue generated by the engine's prices against a control group. | A consistent, statistically significant increase in average revenue per match. |
+| **Adoption rate** | Tracking the percentage of `Price Variation Proposals` that are reviewed and approved by the commercial team. | A high adoption rate (>80%) indicates that the team trusts and values the engine's recommendations. |
+| **Computation time**| Measuring the wall-clock time it takes for the grid search to complete for a given match. | The time must be within acceptable operational limits (<10') to allow for rapid, on-demand analysis by the commercial team. |
 
 </details>
 
@@ -238,7 +242,7 @@ The results from the A/B tests confirmed our hypothesis, showing a consistent **
 <details>
 <summary><b>Click to see the full experimental design</b></summary>
 
-### Experimental design
+### Experimental Design
 
 1.  **Treatment vs. Control Groups**: The stadium was segmented into statistically similar groups of seating zones.
     * **Treatment Group = Dynamic Pricing**: A subset of zones had their prices set by the new automated engine. These prices could change daily based on the model's recommendations.
