@@ -64,7 +64,7 @@ The general workflow is as follows:
 <details>
 <summary><b>Click to see the detailed architecture breakdown</b></summary>
 
-### 1. Data Sources
+### Data Sources
 
 | Component | Description |
 | :--- | :--- |
@@ -73,7 +73,7 @@ The general workflow is as follows:
 | **Web/App Analytics** | Data on user behavior from the official website and app, including page visits, clicks, and conversion funnels. |
 | **Matches, Competitions & Channels** | Foundational information about each match, including opponent, date, competition type, and sales channel. |
 
-### 2. Dynamic Pricing Engine
+### Dynamic Pricing Engine
 
 | Component | Description |
 | :--- | :--- |
@@ -88,7 +88,7 @@ The general workflow is as follows:
 | **Impact Simulation** | A feature that allows a human user to test a hypothetical price and see a projection of its impact on sales and revenue. |
 | **Price Variation Proposal** | The final output of the engine: a concrete price recommendation for a given seat or section. |
 
-### 3. UI & Integration
+### UI & Integration
 
 | Component | Description |
 | :--- | :--- |
@@ -104,7 +104,7 @@ The general workflow is as follows:
 
 ## Dataset
 
-To showcase the model's capabilities without exposing confidential information, this repository uses a synthetically generated dataset. This dataset is not random data; it is engineered to mirror the complexity, scale, and statistical properties of a real-world ticketing environment for a top-tier football club.
+To showcase the model's capabilities, this repository uses a synthetically generated dataset. This dataset is not random data; it is engineered to mirror the complexity, scale, and statistical properties of a real-world ticketing environment for a top-tier football club.
 
 The dataset simulates:
 
@@ -112,7 +112,7 @@ The dataset simulates:
 * **Complete sales history:** For each of these matches, a full **90-day time-series** is generated. This means there is a daily record capturing how demand signals, sales, and availability evolve from the day tickets go on sale until match day.
 * **Zone-level granularity:** Each daily record is further broken down by **5 distinct seating zones**, each with its own capacity and base price, reflecting how different stadium areas have unique demand curves.
 
-A key part of the modeling strategy was to move beyond our internal sales history by enriching our models with external data. Through feature engineering, we combined our own historical performance data with real-world market signals—like opponent rankings and social media hype—to create a more holistic and predictive view of market dynamics. This means that the model's accuracy is dependent on a feature set combining **internal and external** data.
+A key part of the strategy was to move beyond our internal sales history by enriching our models with external data. Through feature engineering, we combined our own historical performance data with real-world market signals—like opponent rankings and social media hype—to create a more holistic and predictive view of market dynamics, resulting in a feature set combining **internal and external** data.
 
 <details>
 <summary><b>Click to see the full list of features</b></summary>
@@ -200,6 +200,7 @@ As this project uses a hybrid ensemble model, performance is evaluated on the **
 The performance was considered *successful*. A WAPE of 19% and an R² of 0.83 demonstrated a robust and reliable forecasting engine.
 
 </details>
+
 ### Stage 2: ⚙️ Price Optimization
 
 This stage answers the business question: *"What is the single best price to maximize total revenue?"*
