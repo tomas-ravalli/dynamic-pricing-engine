@@ -30,13 +30,8 @@
 | 🤝 Recommendation Adoption | **86%** of Proposals Approved | Percentage of automated price proposals that were reviewed and approved by the commercial team, indicating trust in the model's business alignment.|
 | 🎯 Demand Forecast Accuracy | **19%** WAPE | The model's predictions had a low average error, performed 60% better than a baseline `DummyRegressor`, indicating that sales forecasts are reliable.|
 
-## Overview
 
-<p align="center">
-  <img src="./assets/co-ss.png" alt="Stadium ticketing price list" width="1000">
-  <br>
-  <em>Fig. 1: Standard stadium ticket pricing by zone during checkout process.</em>
-</p>
+## Overview
 
 The diagram below illustrates the project's conceptual framework. The system acts as the central *brain* to balance the goals of The Club and The Fan. It operates in a continuous loop by ingesting internal and external factors to forecast demand at various price points. The **Decision Engine** then uses this forecast to recommend an optimal price.
 
@@ -54,6 +49,12 @@ This transforms a static, manual pricing strategy into a responsive, automated s
 | **Manual adjustments**: The team would slowly analyze various metrics to manually propose price changes. | **Impact simulation**: Instantly models the projected impact of any price change on revenue and ticket sales. |
 | **Data bottleneck**: Extracting data manually from fragmented systems was slow and operationally complex. | **Centralized data**: Automatically aggregates all key data points –sales, web analytics, contextual data, etc.– into one place. |
 | **Slow implementation**: The process to act on a decision was manual and disconnected from the sales platform. | **Seamless integration**: Allows for one-click approval on a dashboard, which triggers a price update to the live ticketing system via REST API. |
+
+<p align="center">
+  <img src="./assets/co-ss.png" alt="Stadium ticketing price list" width="1000">
+  <br>
+  <em>Fig. 1: Standard stadium ticket pricing by zone during checkout process.</em>
+</p>
 
 
 ## Architecture
