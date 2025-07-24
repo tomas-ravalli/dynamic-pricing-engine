@@ -30,7 +30,7 @@
 
 ## Overview
 
-The diagram below illustrates the project's conceptual framework. The system acts as the central *brain* to balance the goals of The Club and The Fan. It operates in a continuous loop by ingesting internal and external factors to forecast demand at various price points. The **Decision Engine** then uses this forecast to recommend an optimal price. This transforms a static, manual pricing strategy into a responsive, automated system with a human-in-the-loop (HiTL), creating a market-driven approach for both setting and responding to ticket prices.
+The diagram below illustrates the project's conceptual framework. The system acts as the central *brain* to balance the goals of The Club and The Fan. It operates in a continuous loop by ingesting internal and external factors to forecast demand at various price points. The **Decision Engine** then uses this forecast to recommend an optimal price.
 
 <p align="center">
   <img src="./assets/dp-hl.png" alt="High-level Project Diagram" width="2000">
@@ -38,13 +38,13 @@ The diagram below illustrates the project's conceptual framework. The system act
   <em>Fig. 1: A high-level diagram of the Dynamic Pricing Engine.</em>
 </p>
 
-The core challenge was to move from a rigid, manual pricing strategy to a data-driven, automated one. The table below maps pain points and solutions.
+This transforms a static, manual pricing strategy into a responsive, automated system with a human-in-the-loop (HiTL), creating a market-driven approach for both setting and responding to ticket prices. The table below maps pain points with solutions.
 
 | 🚩 Problem | 💡 Solution |
 | :--------------------------- | :---------------------------- |
 | **Static pricing**: Prices were set once per season in rigid, inflexible categories (e.g., A++, A, B), then updated weekly/monthly. | **Dynamic recommendations**: Generates price proposals for each seating zone based on near real-time data analysis, allowing for daily updates. |
 | **Manual adjustments**: The team would slowly analyze various metrics to manually propose price changes. | **Impact simulation**: Instantly models the projected impact of any price change on revenue and ticket sales. |
-| **Data bottleneck**: Extracting data manually from fragmented systems was slow and operationally complex. | **Centralized data**: Automatically aggregates all key data points—sales, web analytics, contextual data, etc.—into one place. |
+| **Data bottleneck**: Extracting data manually from fragmented systems was slow and operationally complex. | **Centralized data**: Automatically aggregates all key data points –sales, web analytics, contextual data, etc.– into one place. |
 | **Slow implementation**: The process to act on a decision was manual and disconnected from the sales platform. | **Seamless integration**: Allows for one-click approval on a dashboard, which triggers a price update to the live ticketing system via REST API. |
 
 
@@ -117,6 +117,8 @@ A key part of the strategy was to move beyond our internal sales history by enri
 <details>
 <summary><b>Click to see the full list of features</b></summary>
 
+</br>
+
 -   `competing_city_events` (*Boolean*): `True` if there are other major events (concerts, festivals, summits) in the city on the same day.
 -   `competitor_avg_price` (*Float*): The average ticket price for a comparable entertainment event (e.g., mobile world congress, a concert) on the same day. Represents the competitive landscape.
 -   `days_until_match` (*Integer*): The number of days remaining before the match. A key feature for time-series analysis, as demand typically increases as the match date approaches.
@@ -145,31 +147,26 @@ A key part of the strategy was to move beyond our internal sales history by enri
 
 ### Match Excitement Factor
 
-To create a realistic dataset, the generation script doesn't just create random numbers. Instead, it simulates the underlying market dynamics by creating a unified **"Match Excitement Factor"**. This single, powerful variable acts as the primary driver for most of the demand signals in the dataset.
+To create a realistic dataset, the generation script doesn't just create random numbers. Instead, it simulates the underlying market dynamics by creating a unified **"Match Excitement Factor"**. This single variable acts as the primary driver for most of the demand signals in the dataset.
 
 The logic is designed to mimic how a real fan's interest level would change based on the context of a match:
 
-1.  **Start with the opponent:** The excitement level begins with the quality of the opponent (`opponent_tier`). A top-tier opponent naturally generates more interest.
+1.  **Starts with the opponent:** The excitement level begins with the quality of the opponent (`opponent_tier`). A top-tier opponent naturally generates more interest.
 
-2.  **Adjust for context:** The base excitement is then adjusted up or down based on several real-world factors:
+2.  **Adjusts for context:** The base excitement is then adjusted up or down based on several real-world factors:
     * **League position:** Excitement increases slightly if the team is high in the league standings.
     * **Player injuries:** Excitement decreases significantly if a star player is injured, especially for a high-profile match.
     * **Match importance:** Excitement drops for less meaningful matches, such as when the league winner is already known.
     * **Holidays & weekdays:** Matches near holidays get a boost in excitement, while weekday matches see a slight decrease.
 
-3.  **Drive demand signals:** The final "Match Excitement Factor" is then used to generate all the other demand signals. For example, a match with a high excitement score will also have higher `google_trends_index`, more positive `social_media_sentiment`, and more `internal_search_trends`.
+3.  **Drives demand signals:** The final "Match Excitement Factor" is then used to generate all the other demand signals. For example, a match with a high excitement score will also have higher `google_trends_index`, more positive `social_media_sentiment`, and more `internal_search_trends`.
 
 This systemic approach ensures that the relationships between the features in the synthetic dataset are correlated in a logical and realistic way.
 
 
 ## Modeling
 
-The modeling strategy followed a two-stage process: first *predict*, then *optimize*. This phase included the following tasks:
-- Select and train a model using the prepared dataset.
-- Conduct error analysis to identify improvement areas.
-- Iterate on model architecture, hyper-parameters, or data as needed.
- 
-The system first forecasts demand with high accuracy and then uses that forecast within a *Decision Engine* to find the optimal price.
+The modeling strategy followed a two-stage process: first *predict*, then *optimize*. The system first forecasts demand and then uses that forecast within a *Decision Engine* to find the optimal price.
 
 ### Stage 1: 📈 Demand Forecasting
 
@@ -186,11 +183,13 @@ This stage answers the question: *"At a given price, how many tickets are we lik
 <details>
 <summary><b>Click to see the detailed model performance evaluation</b></summary>
 
+</br>
+
 To ensure the final pricing decision is effective, the underlying demand forecast must be highly accurate. Therefore, the primary goal of this evaluation was to minimize prediction error. Performance was evaluated against a **baseline model** (`DummyRegressor`) to ensure the model was genuinely learning. The key metric chosen was **WAPE**, as it provides a clear, interpretable measure of percentage error that resonates with business stakeholders.
 
-As this project uses a hybrid ensemble model, performance is evaluated on the **final, combined forecast**. The system first generates a baseline forecast with `Prophet`, then uses `XGBoost` to predict the remaining error (residuals). The final prediction (`Prophet forecast + XGBoost error forecast`) is then compared against the actual historical sales to derive the metrics below. This ensures the evaluation reflects the true performance of the entire modeling strategy.
+As this project uses a hybrid ensemble model, performance is evaluated on the **final, combined forecast**. The system first generates a baseline forecast with `Prophet`, then uses `XGBoost` to predict the remaining error (residuals). The final prediction (`Prophet forecast + XGBoost error forecast`) is then compared against the actual historical sales to derive the metrics below.
 
-| Metric                        | Value           | Description & Rationale                                                                                                                                                                                    |
+| Metric                        | Value           | Rationale                                                                                                                                                                                    |
 | :---------------------------- | :-------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **WAPE** (Primary Metric)     | **19%** | **Why we chose it:** Weighted Absolute Percentage Error is the most critical metric for this business case. It tells us the average forecast error in percentage terms, making it highly interpretable for revenue planning. A low WAPE is our main goal. |
 | **R² Score** | **0.83** | **For model fit:** This shows that the model explains 83% of the variance in ticket sales, confirming it has a strong statistical fit to the data and learns the underlying patterns effectively.        |
@@ -216,13 +215,15 @@ This stage answers the business question: *"What is the single best price to max
 <details>
 <summary><b>Click to see the detailed model performance evaluation</b></summary>
 
+</br>
+
 Since this is an optimization engine, not a predictive model, its performance is measured by its business value and efficiency.
 
-| Metric            | How We Measure It                                                                                              | Success Criteria                                                                                        |
+| Metric            | Measurement                                                                                          | Success Criteria                                                                                        |
 | :---------------- | :------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------ |
-| **Revenue Lift** | Through A/B testing, comparing the revenue generated by the engine's prices against a control group. | A consistent, statistically significant increase in average revenue per match.                               |
-| **Adoption Rate** | Tracking the percentage of `Price Variation Proposals` that are reviewed and approved by the commercial team.    | A high adoption rate (>80%) indicates that the team trusts and values the engine's recommendations.         |
-| **Computation Time**| Measuring the wall-clock time it takes for the grid search to complete for a given match.                       | The time must be within acceptable operational limits to allow for rapid, on-demand analysis by the commercial team. |
+| **Revenue lift** | Through A/B testing, comparing the revenue generated by the engine's prices against a control group. | A consistent, statistically significant increase in average revenue per match.                               |
+| **Adoption rate** | Tracking the percentage of `Price Variation Proposals` that are reviewed and approved by the commercial team.    | A high adoption rate (>80%) indicates that the team trusts and values the engine's recommendations.         |
+| **Computation time**| Measuring the wall-clock time it takes for the grid search to complete for a given match.                       | The time must be within acceptable operational limits (<10') to allow for rapid, on-demand analysis by the commercial team. |
 
 </details>
 
@@ -238,8 +239,8 @@ The results from the A/B tests confirmed our hypothesis, showing a consistent **
 ### Experimental design
 
 1.  **Treatment vs. Control Groups**: The stadium was segmented into statistically similar groups of seating zones.
-    * **Treatment Group (Dynamic Pricing)**: A select number of zones had their prices set by the new automated engine. These prices could change daily based on the model's recommendations.
-    * **Control Group (Static Pricing)**: The remaining zones operated under the existing pricing strategy (e.g., prices set manually at the beginning of the season), serving as our baseline for comparison.
+    * **Treatment Group = Dynamic Pricing**: A subset of zones had their prices set by the new automated engine. These prices could change daily based on the model's recommendations.
+    * **Control Group = Static Pricing**: The remaining zones operated under the existing pricing strategy (e.g., prices set manually at the beginning of the season), serving as our baseline for comparison.
 
 2.  **Hypothesis**: Our primary hypothesis was that the treatment group would generate a statistically significant lift in total revenue per match without negatively impacting the ticket sell-through rate compared to the control group.
 
@@ -249,9 +250,9 @@ The results from the A/B tests confirmed our hypothesis, showing a consistent **
 
 To evaluate the experiment's outcome, we continuously monitored several KPIs for both groups:
 
-* **Primary Metric**: Avg. Revenue Per Seating Zone.
-* **Secondary Metrics**:
-    * Ticket Sell-Through Rate (Occupancy).
+* **Primary metric**: Avg. Revenue Per Seating Zone.
+* **Secondary metrics**:
+    * Ticket Sell-Through Rate (occupancy).
     * Avg. Ticket Price.
     * Sales Velocity (how quickly tickets sold).
 
