@@ -40,7 +40,7 @@ The diagram below illustrates the project's conceptual framework. The system act
 
 The core challenge was to move from a rigid, manual pricing strategy to a data-driven, automated one. The table below summarizes the problem–solution mapping.
 
-| 🚩 The Problem | 💡 The Solution |
+| 🚩 Problem | 💡 Solution |
 | :--------------------------- | :---------------------------- |
 | **Static pricing**: Prices were set once per season in rigid, inflexible categories (e.g., A++, A, B), then updated weekly/monthly. | **Dynamic recommendations**: Generates price proposals for each seating zone based on near real-time data analysis, allowing for daily updates. |
 | **Manual adjustments**: The team would slowly analyze various metrics to manually propose price changes. | **Impact simulation**: Instantly models the projected impact of any price change on revenue and ticket sales. |
