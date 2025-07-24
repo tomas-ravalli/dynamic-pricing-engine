@@ -25,8 +25,8 @@
 | 📈 Revenue Uplift           | **+6%** Average Revenue per Match    | Achieved by dynamically adjusting prices to match real-time demand forecasts, capturing more value from high-demand periods. Validated via A/B testing.|
 | 🎟️ Optimized Sales          | **+4%** Increase in Ticket Sell-Through Rate | Didn't maximize revenue at the cost of empty seats; also improved occupancy, which positively affects atmosphere and in-stadium sales.|
 | ⚙️ Operational Efficiency   | **7x improvement** in Time-to-Price-Change | From weekly to daily changes by automating the manual data aggregation and analysis pipeline. The system delivers price recommendations directly, shifting the team's focus from data work to strategic approval.|
-| 🤝 Recommendation Adoption | **91%** of Proposals Approved | Percentage of automated price proposals that were reviewed and approved by the commercial team, indicating trust in the model's business alignment.|
-| 🎯 Demand Forecast Accuracy | **14%** Weighted Avg. % Error | The model's predictions have a low average error, performing 60% better than a baseline `DummyRegressor` and indicating that sales forecasts are reliable.|
+| 🤝 Recommendation Adoption | **86%** of Proposals Approved | Percentage of automated price proposals that were reviewed and approved by the commercial team, indicating trust in the model's business alignment.|
+| 🎯 Demand Forecast Accuracy | **19%** WAPE | The model's predictions have a low average error, performing 60% better than a baseline `DummyRegressor` and indicating that sales forecasts are reliable.|
 
 ## Overview
 
@@ -38,7 +38,7 @@ The diagram below illustrates the project's conceptual framework. The system act
   <em>Fig. 1: A high-level diagram of the Dynamic Pricing Engine.</em>
 </p>
 
-The core challenge was to move from a rigid, manual pricing strategy to a data-driven, automated one. The table below summarizes the problem–solution mapping.
+The core challenge was to move from a rigid, manual pricing strategy to a data-driven, automated one. The table below maps pain points and solutions.
 
 | 🚩 Problem | 💡 Solution |
 | :--------------------------- | :---------------------------- |
@@ -104,17 +104,15 @@ The general workflow is as follows:
 
 ## Dataset
 
-To showcase the model's capabilities without exposing confidential information, this repository uses a synthetically generated dataset. This dataset is not just random data; it is carefully engineered to mirror the complexity, scale, and statistical properties of a real-world ticketing environment for a top-tier football club.
+To showcase the model's capabilities without exposing confidential information, this repository uses a synthetically generated dataset. This dataset is not random data; it is engineered to mirror the complexity, scale, and statistical properties of a real-world ticketing environment for a top-tier football club.
 
-This version of the dataset emphasizes **time-series depth over breadth**. It simulates:
+The dataset simulates:
 
 * **A focused set of matches:** It contains data for **10 unique matches**, representing a diverse sample of fixtures including league, cup, and international games.
 * **Complete sales history:** For each of these matches, a full **90-day time-series** is generated. This means there is a daily record capturing how demand signals, sales, and availability evolve from the day tickets go on sale until match day.
 * **Zone-level granularity:** Each daily record is further broken down by **5 distinct seating zones**, each with its own capacity and base price, reflecting how different stadium areas have unique demand curves.
 
-This deep, time-series structure is ideal for building sophisticated forecasting models that can learn the complex dynamics of demand over time.
-
-A key part of the modeling strategy was to move beyond our internal sales history by enriching our models with external data. Through feature engineering, we combined our own historical performance data with real-world market signals—like opponent rankings and social media hype—to create a more holistic and predictive view of market dynamics. The model's accuracy is dependent on a feature set combining **internal and external** data.
+A key part of the modeling strategy was to move beyond our internal sales history by enriching our models with external data. Through feature engineering, we combined our own historical performance data with real-world market signals—like opponent rankings and social media hype—to create a more holistic and predictive view of market dynamics. This means that the model's accuracy is dependent on a feature set combining **internal and external** data.
 
 <details>
 <summary><b>Click to see the full list of features</b></summary>
@@ -159,9 +157,10 @@ The logic is designed to mimic how a real fan's interest level would change base
     * **Match importance:** Excitement drops for less meaningful matches, such as when the league winner is already known.
     * **Holidays & weekdays:** Matches near holidays get a boost in excitement, while weekday matches see a slight decrease.
 
-3.  **Drive demand signals:** This final "Match Excitement Factor" is then used to generate all the other demand signals. For example, a match with a high excitement score will also have higher `google_trends_index`, more positive `social_media_sentiment`, and more `internal_search_trends`.
+3.  **Drive demand signals:** The final "Match Excitement Factor" is then used to generate all the other demand signals. For example, a match with a high excitement score will also have higher `google_trends_index`, more positive `social_media_sentiment`, and more `internal_search_trends`.
 
-This systemic approach ensures that the relationships between the features in the synthetic dataset are correlated in a logical and realistic way, making it a robust foundation for building and testing a demand forecasting model.
+This systemic approach ensures that the relationships between the features in the synthetic dataset are correlated in a logical and realistic way.
+
 
 ## Modeling
 
@@ -169,7 +168,7 @@ The modeling strategy followed a two-stage process: first *predict*, then *optim
 - Select and train a model using the prepared dataset.
 - Conduct error analysis to identify improvement areas.
 - Iterate on model architecture, hyper-parameters, or data as needed.
-  
+ 
 The system first forecasts demand with high accuracy and then uses that forecast within a *Decision Engine* to find the optimal price.
 
 ### Stage 1: 📈 Demand Forecasting
@@ -178,28 +177,29 @@ This stage answers the question: *"At a given price, how many tickets are we lik
 
 | Aspect | Description |
 | :--- | :--- |
-| **Model** | An `XGBoost` regressor forecasts ticket demand (`zone_historical_sales`) by seating zone for each match. |
-| **Rationale** | XGBoost was chosen for its exceptional performance, speed, and ability to handle the complex, non-linear relationships discovered during EDA. Its regularization features also help prevent overfitting, making it a robust choice. |
+| **Model** | A hybrid **ensemble model** that combines `Prophet` and `XGBoost` in a residual fitting approach. |
+| **Rationale** | This two-step model leverages the strengths of both algorithms. **Prophet** first models the core time-series components (trend, seasonality, and match-day effects). **XGBoost** then models the remaining variance (the residuals) using a rich feature set, capturing complex interactions that Prophet cannot. |
 | **Features** | The model uses a rich set of internal and external factors, including historical sales, opponent tier, social media sentiment, and other engineered features. |
 | **Application** | This trained model powers the *Impact Simulation* feature, allowing the commercial team to perform "what-if" analysis by inputting a hypothetical price and instantly seeing the likely impact on revenue and sales. |
-| **Design Choice** | XGBoost is an industry standard for structured data problems, known for its performance and optimization. It was selected for its proven effectiveness in similar real-world forecasting tasks. |
+| **Design Choice** | A hybrid model was chosen over a single model to improve accuracy. This approach creates a more robust forecast by dedicating a specialized model (Prophet) to the time-series structure before using a powerful gradient boosting model (XGBoost) to capture the remaining complex patterns, leading to a lower overall error. |
 
 <details>
 <summary><b>Click to see the detailed model performance evaluation</b></summary>
 
 To ensure the final pricing decision is effective, the underlying demand forecast must be highly accurate. Therefore, the primary goal of this evaluation was to minimize prediction error. Performance was evaluated against a **baseline model** (`DummyRegressor`) to ensure the model was genuinely learning. The key metric chosen was **WAPE**, as it provides a clear, interpretable measure of percentage error that resonates with business stakeholders.
 
-| Metric                        | Value           | Description & Rationale                                                                                                                                                                                              |
-| :---------------------------- | :-------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **WAPE** (Primary Metric) | **14%** | **Why we chose it:** Weighted Absolute Percentage Error is the most critical metric for this business case. It tells us the average forecast error in percentage terms, making it highly interpretable for revenue planning. A low WAPE is our main goal. |
-| **R² Score** | **0.86** | **For model fit:** This shows that the model explains 86% of the variance in ticket sales, confirming it has a strong statistical fit to the data and learns the underlying patterns effectively.                                |
-| **Mean Absolute Error (MAE)** | **~254 tickets**| **For business context:** MAE tells us that, on average, our forecast is off by about 254 tickets. This gives stakeholders a concrete sense of the error margin in absolute units.                                      |
-| **Root Mean Squared Error (RMSE)**| **~312 tickets**| **For robustness:** RMSE penalizes larger errors more heavily. A higher RMSE relative to MAE suggests the model occasionally makes larger prediction errors, which is useful information for risk assessment.             |
+As this project uses a hybrid ensemble model, performance is evaluated on the **final, combined forecast**. The system first generates a baseline forecast with `Prophet`, then uses `XGBoost` to predict the remaining error (residuals). The final prediction (`Prophet forecast + XGBoost error forecast`) is then compared against the actual historical sales to derive the metrics below. This ensures the evaluation reflects the true performance of the entire modeling strategy.
 
-The performance was considered *successful*. A WAPE of 14% and an R² of 0.86 demonstrated a robust and reliable forecasting engine.
+| Metric                        | Value           | Description & Rationale                                                                                                                                                                                    |
+| :---------------------------- | :-------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **WAPE** (Primary Metric)     | **19%** | **Why we chose it:** Weighted Absolute Percentage Error is the most critical metric for this business case. It tells us the average forecast error in percentage terms, making it highly interpretable for revenue planning. A low WAPE is our main goal. |
+| **R² Score** | **0.83** | **For model fit:** This shows that the model explains 83% of the variance in ticket sales, confirming it has a strong statistical fit to the data and learns the underlying patterns effectively.        |
+| **Mean Absolute Error (MAE)** | **~254 tickets**| **For business context:** MAE tells us that, on average, our forecast is off by about 254 tickets. This gives stakeholders a concrete sense of the error margin in absolute units.                       |
+| **Root Mean Squared Error (RMSE)**| **~312 tickets**| **For robustness:** RMSE penalizes larger errors more heavily. A higher RMSE relative to MAE suggests the model occasionally makes larger prediction errors, which is useful information for risk assessment. |
+
+The performance was considered *successful*. A WAPE of 19% and an R² of 0.83 demonstrated a robust and reliable forecasting engine.
 
 </details>
-
 ### Stage 2: ⚙️ Price Optimization
 
 This stage answers the business question: *"What is the single best price to maximize total revenue?"*
