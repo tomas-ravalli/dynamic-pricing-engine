@@ -180,7 +180,7 @@ This philosophy translates into a two-stage process: first **predict**, then **o
 
 ### Stage 1: 📈 Demand Forecasting
 
-> This stage answers the question: *"At a given price, how many tickets are we likely to sell?"*
+> This stage answers the business question: *"At a given price, how many tickets are we likely to sell?"*
 
 | Aspect | Description |
 | :--- | :--- |
