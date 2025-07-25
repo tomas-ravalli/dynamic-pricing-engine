@@ -53,7 +53,7 @@ This transforms a static, manual pricing strategy into a responsive, automated s
 <p align="center">
   <img src="./assets/co-ss.png" alt="Stadium ticketing price list" width="1000">
   <br>
-  <em>Fig. 1: Standard stadium ticket pricing by zone during checkout process.</em>
+  <em>Fig. 2: A standard stadium ticket pricing by zone during checkout process.</em>
 </p>
 
 
