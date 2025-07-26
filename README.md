@@ -1,4 +1,4 @@
-![My Cover](./assets/dp-cover.png)
+![My Cover](./assets/dp-cover.jpeg)
 
 # 💹 FCB_Dynamic-Pricing
 
