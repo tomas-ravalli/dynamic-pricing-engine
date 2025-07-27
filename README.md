@@ -4,7 +4,6 @@
 
 <p align="left">
   <img src="https://img.shields.io/badge/License-MIT-lightgrey" alt="License">
-  <img src="https://img.shields.io/badge/Language-Python-lightgrey" alt="Language">
 </p>
 
 > This repo showcases a machine learning powered dynamic pricing and decision support system for tickets pricing in the sports industry. 
