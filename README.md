@@ -1,6 +1,6 @@
 ![My Cover](./assets/dp-cover.jpeg)
 
-# 💹 Dynamic Pricing for Sports Ticketing
+# 💹 Dynamic Pricing Engine
 
 <p align="left">
   <img src="https://img.shields.io/badge/License-MIT-lightgrey" alt="License">
