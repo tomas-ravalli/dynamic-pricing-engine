@@ -1,13 +1,13 @@
 ![My Cover](./assets/dp-cover.jpeg)
 
-# 💹 FCB_Dynamic-Pricing
+# 💹 Dynamic Pricing Engine for Sports Ticketing
 
 <p align="left">
   <img src="https://img.shields.io/badge/License-MIT-lightgrey" alt="License">
   <img src="https://img.shields.io/badge/Language-Python-lightgrey" alt="Language">
 </p>
 
-> A machine learning powered dynamic pricing and decision support system for tickets pricing in the sports industry. 
+> This repo showcases a machine learning powered dynamic pricing and decision support system for tickets pricing in the sports industry. 
 > **Objective:** To evolve a manual price-decision process into a data-driven, semi-automated workflow that improves ticketing revenue and sales.
 
 ### Outline
@@ -25,24 +25,16 @@
 
 | Metric                      | Result                               | Description |
 | :-------------------------- | :----------------------------------- | :----------------------------------- |
-| 📈 Revenue Uplift           | **+6%** Average Revenue per Match    | Achieved by dynamically adjusting prices to match real-time demand forecasts, capturing more value from high-demand periods. Validated via A/B testing.|
-| 🎟️ Optimized Sales          | **+4%** Increase in Ticket Sell-Through Rate | Didn't maximize revenue at the cost of empty seats; also improved occupancy, which positively affects atmosphere and in-stadium sales.|
-| ⚙️ Operational Efficiency   | **7x improvement** in Time-to-Price-Change | From weekly to daily changes by automating the manual data aggregation and analysis pipeline. The system delivered price recommendations directly, which shifted the team's focus from data work to strategic approval.|
-| 🤝 Recommendation Adoption | **86%** of Proposals Approved | Percentage of automated price proposals that were reviewed and approved by the commercial team, indicating trust in the model's business alignment.|
-| 🎯 Demand Forecast Accuracy | **19%** WAPE | The model's predictions had a low average error, performed 60% better than a baseline `DummyRegressor`, indicating that sales forecasts are reliable.|
+| 📈 Revenue uplift           | **+6%** Average Revenue per Match    | Achieved by dynamically adjusting prices to match real-time demand forecasts, capturing more value from high-demand periods. Validated via A/B testing.|
+| 🎟️ Optimized sales          | **+4%** Increase in Ticket Sell-Through Rate | Didn't maximize revenue at the cost of empty seats; also improved occupancy, which positively affects atmosphere and in-stadium sales.|
+| ⚙️ Operational efficiency   | **7x improvement** in Time-to-Price-Change | From weekly to daily changes by automating the manual data aggregation and analysis pipeline. The system delivered price recommendations directly, which shifted the team's focus from data work to strategic approval.|
+| 🤝 Recommendation adoption | **86%** of Proposals Approved | Percentage of automated price proposals that were reviewed and approved by the commercial team, indicating trust in the model's business alignment.|
+| 🎯 Demand forecast accuracy | **19%** WAPE | The model's predictions had a low average error, performed 60% better than a baseline `DummyRegressor`, indicating that sales forecasts are reliable.|
 
 
 ## Overview
 
-The diagram below illustrates the project's conceptual framework. The system acts as the central *brain* to balance the goals of The Club and The Fan. It operates in a continuous loop by ingesting internal and external factors to forecast demand at various price points. The **Decision Engine** then uses this forecast to recommend an optimal price.
-
-<p align="center">
-  <img src="./assets/dp-hl.png" alt="High-level Project Diagram" width="2000">
-  <br>
-  <em>Fig. 1: A high-level diagram of the Dynamic Pricing Engine.</em>
-</p>
-
-This transforms a static, manual pricing strategy into a responsive, automated system with a human-in-the-loop (HiTL), creating a market-driven approach for both setting and responding to ticket prices. The table below maps pain points with solutions.
+The main challenge was to transform a static, manual pricing strategy into a responsive, automated system with a human-in-the-loop (HiTL), creating a market-driven approach for both setting and responding to ticket prices. The table below maps pain points with solutions.
 
 | 🚩 Problem | 💡 Solution |
 | :--------------------------- | :---------------------------- |
@@ -55,6 +47,14 @@ This transforms a static, manual pricing strategy into a responsive, automated s
   <img src="./assets/co-ss.png" alt="Stadium ticketing price list" width="1000">
   <br>
   <em>Fig. 2: A standard stadium ticket pricing by zone during checkout process.</em>
+</p>
+
+The diagram below illustrates the project's conceptual framework. The system acts as the central *brain* to balance the goals of The Club and The Fan. It operates in a continuous loop by ingesting internal and external factors to forecast demand at various price points. The **Decision Engine** then uses this forecast to recommend an optimal price.
+
+<p align="center">
+  <img src="./assets/dp-hl.png" alt="High-level Project Diagram" width="2000">
+  <br>
+  <em>Fig. 1: A high-level diagram of the Dynamic Pricing Engine.</em>
 </p>
 
 
