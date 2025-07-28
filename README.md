@@ -34,12 +34,20 @@
 
 ## Overview
 
-The main challenge was to transform a static, manual pricing strategy into a responsive, automated system with a human-in-the-loop (HiTL), creating a market-driven approach for both setting and responding to ticket prices. The diagram below illustrates the project's conceptual framework. The system acts as the central *brain* to balance the goals of The Club and The Fan. It operates in a continuous loop by ingesting internal and external factors to forecast demand at various price points. The **Decision Engine** then uses this forecast to recommend an optimal price.
+The main challenge was to transform a static, manual pricing strategy into a responsive, automated system with a human-in-the-loop (HiTL), creating a market-driven approach for both setting and responding to ticket prices per game.
+
+<p align="center">
+  <img src="./assets/co-ss.png" alt="Stadium ticketing price list" width="1000">
+  <br>
+  <em>Fig. 1: A standard stadium ticket pricing by zone during checkout process.</em>
+</p>
+
+The diagram below illustrates the project's conceptual framework. The system acts as the central *brain* to balance the goals of The Club and The Fan. It operates in a continuous loop by ingesting internal and external factors to forecast demand at various price points. The **Decision Engine** then uses this forecast to recommend an optimal price.
 
 <p align="center">
   <img src="./assets/dp-hl.png" alt="High-level Project Diagram" width="2000">
   <br>
-  <em>Fig. 1: A high-level diagram of the Dynamic Pricing Engine.</em>
+  <em>Fig. 2: A high-level diagram of the Dynamic Pricing Engine.</em>
 </p>
 
 To illustrate how the system directly addresses key business challenges, the following table maps each identified pain point to its corresponding solution:
@@ -50,12 +58,6 @@ To illustrate how the system directly addresses key business challenges, the fol
 | **Manual adjustments**: The team would slowly analyze various metrics to manually propose price changes. | **Impact simulation**: Instantly models the projected impact of any price change on revenue and ticket sales. |
 | **Data bottleneck**: Extracting data manually from fragmented systems was slow and operationally complex. | **Centralized data**: Automatically aggregates all key data points –sales, web analytics, contextual data, etc.– into one place. |
 | **Slow implementation**: The process to act on a decision was manual and disconnected from the sales platform. | **Seamless integration**: Allows for one-click approval on a dashboard, which triggers a price update to the live ticketing system via REST API. |
-
-<p align="center">
-  <img src="./assets/co-ss.png" alt="Stadium ticketing price list" width="1000">
-  <br>
-  <em>Fig. 2: A standard stadium ticket pricing by zone during checkout process.</em>
-</p>
 
 
 ## Architecture
