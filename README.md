@@ -1,6 +1,6 @@
 ![My Cover](./assets/dp-cover.jpeg)
 
-# 💹 A Hybrid ML Engine for Dynamic Pricing
+# 💹 A Dynamic Pricing Optimization Engine
 
 <p align="left">
   <img src="https://img.shields.io/badge/License-MIT-lightgrey" alt="License">
