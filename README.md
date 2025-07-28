@@ -2,13 +2,13 @@
 
 # 💹 Dynamic Pricing Engine with Human-in-the-loop
 
-> This repo showcases a machine learning powered dynamic pricing and decision support system for tickets pricing in the sports industry. 
-> **Objective:** To evolve a manual price-decision process into a data-driven, semi-automated workflow that improves ticketing revenue and sales.
-
 <p align="left">
   <img src="https://img.shields.io/badge/License-MIT-lightgrey" alt="License">
   <img src="https://img.shields.io/badge/ML-Supervised-lightgrey" alt="License">
 </p>
+
+> This repo showcases a machine learning powered dynamic pricing and decision support system for tickets pricing in the sports industry. 
+> **Objective:** To evolve a manual price-decision process into a data-driven, semi-automated workflow that improves ticketing revenue and sales.
 
 ### Outline
 
