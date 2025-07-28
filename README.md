@@ -1,6 +1,6 @@
 ![My Cover](./assets/dp-cover.jpeg)
 
-# 💹 A Dynamic Pricing Engine for Sports Ticketing
+# 💹 A Hybrid ML Engine for Ticket Pricing
 
 <p align="left">
   <img src="https://img.shields.io/badge/License-MIT-lightgrey" alt="License">
