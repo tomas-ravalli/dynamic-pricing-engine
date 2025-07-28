@@ -1,6 +1,6 @@
 ![My Cover](./assets/dp-cover.jpeg)
 
-# 💹 A Hybrid ML Engine for Ticket Pricing
+# 💹 A Hybrid ML Engine for Dynamic Pricing
 
 <p align="left">
   <img src="https://img.shields.io/badge/License-MIT-lightgrey" alt="License">
