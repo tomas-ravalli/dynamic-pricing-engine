@@ -34,7 +34,7 @@
 
 ## Overview
 
-The main challenge was to transform a static, manual pricing strategy into a responsive, automated system with a human-in-the-loop (HiTL), creating a market-driven approach for both setting and responding to ticket prices per game.
+The main challenge was to transform a static, manual pricing strategy into a responsive, automated system with a human-in-the-loop (HiTL), creating a market-driven approach for both setting and responding to ticket prices per match.
 
 <p align="center">
   <img src="./assets/co-ss.png" alt="Stadium ticketing price list" width="1000">
