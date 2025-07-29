@@ -54,7 +54,7 @@ To illustrate how the system directly addresses key business challenges, the fol
 The diagram below illustrates the project's conceptual framework. The system acts as the central *brain* to balance the goals of The Club and The Fan. It operates in a continuous loop by ingesting internal and external factors to forecast demand at various price points. The **Decision Engine** then uses this forecast to recommend an optimal price.
 
 <p align="center">
-  <img src="./assets/dp-hl.png" alt="High-level market dynamics diagarm" width="2000">
+  <img src="./assets/dp-hl.png" alt="High-level market dynamics diagram" width="2000">
   <br>
   <em>Fig. 2: A high-level diagram of the system's market dynamics.</em>
 </p>
