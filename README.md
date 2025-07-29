@@ -62,7 +62,9 @@ The diagram below illustrates the project's conceptual framework. The system act
 
 ## Architecture
 
-The following diagram provides a high-level, System Context view of a Dynamic Pricing System designed to optimize ticket sales for the club. The central component is the **Dynamic Pricing Engine**, an ML-driven system that ingests historical data from the **Club's Data Systems** and real-time sales data from the **Ticketing System**. It uses this information to recommend prices, which are then simulated and approved by the **Club's Pricing Team**. Once approved, these prices are pushed to the live Ticketing System for purchase by **The Fan**, creating a continuous feedback loop for price optimization.
+The following diagram provides a high-level, system context view of a Dynamic Pricing System designed to optimize ticket sales for the club. 
+
+The central component is the **Dynamic Pricing Engine**, an ML-driven system that ingests historical data from the **Club's Data Systems** and real-time sales data from the **Ticketing System**. It uses this information to recommend prices, which are then simulated and approved by the **Club's Pricing Team**. Once approved, these prices are pushed to the live Ticketing System for purchase by **The Fan**, creating a continuous feedback loop for price optimization.
 
 <p align="center">
   <img src="./assets/dp-scd.png" alt="System Context Diagram" width="850">
@@ -135,7 +137,13 @@ The logic is designed to mimic how a real fan's interest level would change base
 
 The goal is not just to build a black-box forecasting model, but to create a system that models the underlying drivers of ticket sales. By breaking down the problem into its constituent parts (time-series patterns, event-based impacts, external factors), we can better understand how each component contributes to the final outcome and more accurately quantify uncertainty. This approach of building a "driver tree" for the business, allows us to pinpoint the exact sources of error and continuously refine our understanding of the market.
 
-This translates into a two-stage process: first **predict**, then **optimize**. The system first forecasts demand based on our business theory and then uses that forecast within a *Decision Engine* to find the optimal price.
+This translates into a two-stage process: first **predict**, then **optimize**. The engine first forecasts demand based on our business theory and then uses that forecast to find the optimal price.
+
+<p align="left">
+  <img src="./assets/dp-dpe.png" alt="Dynamic Pricing Engine" width="350">
+    <br>
+  <em>Fig. 4: Dynamic Pricing Engine component from the system architecture.</em>
+</p>
 
 ### Stage 1: 📈 Demand Forecasting
 
