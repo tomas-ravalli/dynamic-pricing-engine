@@ -141,7 +141,7 @@ This translates into a two-stage process: first **predict**, then **optimize**. 
 
 <p align="left">
   <img src="./assets/dp-dpe.png" alt="Dynamic Pricing Engine" width="275">
-    <br>
+  <br>
   <em>Fig. 4: Dynamic Pricing Engine component.</em>
 </p>
 
