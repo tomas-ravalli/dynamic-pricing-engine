@@ -37,7 +37,7 @@
 The main challenge was to transform a static, manual pricing strategy into a responsive, automated system with a human-in-the-loop (HiTL), creating a market-driven approach for both setting and responding to ticket prices per match.
 
 <p align="center">
-  <img src="./assets/co-ss.png" alt="Stadium ticketing price list" width="1000">
+  <img src="./assets/dp-ss.jpeg" alt="Stadium ticketing price list" width="1000">
   <br>
   <em>Fig. 1: A standard stadium ticket pricing by zone during checkout process.</em>
 </p>
@@ -54,7 +54,7 @@ To illustrate how the system directly addresses key business challenges, the fol
 The diagram below illustrates the project's conceptual framework. The system acts as the central *brain* to balance the goals of The Club and The Fan. It operates in a continuous loop by ingesting internal and external factors to forecast demand at various price points. The **Decision Engine** then uses this forecast to recommend an optimal price.
 
 <p align="center">
-  <img src="./assets/dp-hl.png" alt="High-level Project Diagram" width="2000">
+  <img src="./assets/dp-hl.png" alt="High-level market dynamics diagram" width="2000">
   <br>
   <em>Fig. 2: A high-level diagram of the system's market dynamics.</em>
 </p>
@@ -62,56 +62,15 @@ The diagram below illustrates the project's conceptual framework. The system act
 
 ## Architecture
 
-The general workflow is as follows:
-1. **Data Sources** are collected and fed into the central engine.
-2. The **Dynamic Pricing Engine** uses machine learning models and business rules to generate a price recommendation.
-3. The pricing team uses the **UI & Integration** layer to review, simulate, and approve the price, which is then updated in the live ticketing system.
+The following diagram provides a high-level, system context view of a Dynamic Pricing System designed to optimize ticket sales for the club. 
+
+The central component is the **Dynamic Pricing Engine**, an ML-driven system that ingests historical data from the **Club's Data Systems** and real-time sales data from the **Ticketing System**. It uses this information to recommend prices, which are then simulated and approved by the **Club's Pricing Team**. Once approved, these prices are pushed to the live Ticketing System for purchase by **The Fan**, creating a continuous feedback loop for price optimization.
 
 <p align="center">
-  <img src="./assets/dp-ll.png" alt="Low-level Project Diagram" width="950">
-    <br>
-  <em>Fig. 3: A low-level diagram of the Dynamic Pricing Engine.</em>
+  <img src="./assets/dp-scd.png" alt="System Context Diagram" width="800">
+  <br>
+  <em>Fig. 3: [System Context Diagram] Dynamic Pricing System</em>
 </p>
-
-<details>
-<summary><b>Click to see the detailed architecture breakdown</b></summary>
-
-### Data Sources
-
-| Component | Description |
-| :--- | :--- |
-| **Ticket Sales & Availability** | Historical and real-time data on ticket inventory, sales velocity, and transactions per seating zone. |
-| **Competitors Pricing** | Scraped pricing data from secondary markets (e.g., Viagogo, Stubhub, etc.) for competitive analysis. |
-| **Web/App Analytics** | Data on user behavior from the official website and app, including page visits, clicks, and conversion funnels. |
-| **Matches, Competitions & Channels** | Foundational information about each match, including opponent, date, competition type, and sales channel. |
-
-### Dynamic Pricing Engine
-
-| Component | Description |
-| :--- | :--- |
-| **Data Ingestion & Centralization** | The entry point that gathers data from all sources and consolidates it into a unified data store for processing. |
-| **ML & Analytics Core** | The central "brain" where data is processed, features are engineered, and the machine learning models are trained and executed. |
-| **Business Constraints** | A module that receives strategic inputs from the club (e.g., price floors/caps) and applies these rules to the optimization process, ensuring recommendations are compliant with business strategy. |
-| **Decision Module** | A container for the core predictive models that feed the optimization engine. |
-| ┣ **Demand Forecast Model** | A model that predicts the expected volume of ticket sales at various price points, using historical data and match context to inform its forecast. |
-| ┣ **Match Clustering** | An algorithm that groups similar past matches to provide a contextual baseline for the *Demand Forecast Model*. |
-| **Decision Engine: Optimization & Simulation** | Takes the predicted demand curve and business rules to find the revenue-maximizing price. It also runs simulations for "what-if" scenarios. |
-| **Anomaly Warnings** | An alerting system that flags unusual sales patterns or pricing recommendations that deviate from norms. |
-| **Impact Simulation** | A feature that allows a human user to test a hypothetical price and see a projection of its impact on sales and revenue. |
-| **Price Variation Proposal** | The final output of the engine: a concrete price recommendation for a given seat or section. |
-
-### UI & Integration
-
-| Component | Description |
-| :--- | :--- |
-| **User Control Panel** | The dashboard used by the pricing team to view price proposals, run impact simulations, and approve or reject changes, enabling Human-in-the-Loop (HITL) control. |
-| **REST API** | The communication layer that allows the User Control Panel to send approved price change commands to the live ticketing system. |
-| **Price Drop Logic** | An automated module that can trigger price change events based on predefined rules, such as slow ticket sales. |
-| **Ticketing Purchase System** | The club's main backend system that processes transactions and manages ticket inventory. It receives price update commands from the API. |
-| **Fan Engagement** | The final layer where fans interact with the system's output. |
-| ┗ **Ticketing Purchase UI** | The public-facing website or application screen where fans see the dynamically adjusted prices and make their purchases. |
-
-</details>
 
 
 ## Dataset
@@ -178,7 +137,13 @@ The logic is designed to mimic how a real fan's interest level would change base
 
 The goal is not just to build a black-box forecasting model, but to create a system that models the underlying drivers of ticket sales. By breaking down the problem into its constituent parts (time-series patterns, event-based impacts, external factors), we can better understand how each component contributes to the final outcome and more accurately quantify uncertainty. This approach of building a "driver tree" for the business, allows us to pinpoint the exact sources of error and continuously refine our understanding of the market.
 
-This translates into a two-stage process: first **predict**, then **optimize**. The system first forecasts demand based on our business theory and then uses that forecast within a *Decision Engine* to find the optimal price.
+This translates into a two-stage process: first **predict**, then **optimize**. The engine first forecasts demand based on our business theory and then uses that forecast to find the optimal price.
+
+<p align="left">
+  <img src="./assets/dp-dpe.png" alt="Dynamic Pricing Engine" width="275">
+  <br>
+  <em>Fig. 4: Dynamic Pricing Engine component.</em>
+</p>
 
 ### Stage 1: 📈 Demand Forecasting
 
