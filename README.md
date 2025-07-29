@@ -56,7 +56,7 @@ The diagram below illustrates the project's conceptual framework. The system act
 <p align="center">
   <img src="./assets/dp-hl.png" alt="High-level Project Diagram" width="2000">
   <br>
-  <em>Fig. 2: A high-level diagram of the Dynamic Pricing Engine.</em>
+  <em>Fig. 2: A high-level diagram of the system's market dynamics.</em>
 </p>
 
 
