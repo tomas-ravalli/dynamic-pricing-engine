@@ -140,9 +140,9 @@ The goal is not just to build a black-box forecasting model, but to create a sys
 This translates into a two-stage process: first **predict**, then **optimize**. The engine first forecasts demand based on our business theory and then uses that forecast to find the optimal price.
 
 <p align="left">
-  <img src="./assets/dp-dpe.png" alt="Dynamic Pricing Engine" width="350">
+  <img src="./assets/dp-dpe.png" alt="Dynamic Pricing Engine" width="275">
     <br>
-  <em>Fig. 4: Dynamic Pricing Engine component from the system architecture.</em>
+  <em>Fig. 4: Dynamic Pricing Engine component.</em>
 </p>
 
 ### Stage 1: 📈 Demand Forecasting
