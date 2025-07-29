@@ -67,7 +67,7 @@ The following diagram provides a high-level, system context view of a Dynamic Pr
 The central component is the **Dynamic Pricing Engine**, an ML-driven system that ingests historical data from the **Club's Data Systems** and real-time sales data from the **Ticketing System**. It uses this information to recommend prices, which are then simulated and approved by the **Club's Pricing Team**. Once approved, these prices are pushed to the live Ticketing System for purchase by **The Fan**, creating a continuous feedback loop for price optimization.
 
 <p align="center">
-  <img src="./assets/dp-scd.png" alt="System Context Diagram" width="850">
+  <img src="./assets/dp-scd.png" alt="System Context Diagram" width="800">
     <br>
   <em>Fig. 3: [System Context Diagram] Dynamic Pricing System</em>
 </p>
