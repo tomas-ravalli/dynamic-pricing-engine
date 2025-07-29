@@ -65,7 +65,7 @@ The diagram below illustrates the project's conceptual framework. The system act
 The following diagram provides a high-level, System Context view of a Dynamic Pricing System designed to optimize ticket sales for the club. The central component is the **Dynamic Pricing Engine**, an ML-driven system that ingests historical data from the **Club's Data Systems** and real-time sales data from the **Ticketing System**. It uses this information to recommend prices, which are then simulated and approved by the **Club's Pricing Team**. Once approved, these prices are pushed to the live Ticketing System for purchase by **The Fan**, creating a continuous feedback loop for price optimization.
 
 <p align="center">
-  <img src="./assets/dp-scd.png" alt="System Context Diagram" width="750">
+  <img src="./assets/dp-scd.png" alt="System Context Diagram" width="850">
     <br>
   <em>Fig. 3: [System Context Diagram] Dynamic Pricing System</em>
 </p>
