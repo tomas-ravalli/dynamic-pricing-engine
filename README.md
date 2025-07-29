@@ -68,7 +68,7 @@ The central component is the **Dynamic Pricing Engine**, an ML-driven system tha
 
 <p align="center">
   <img src="./assets/dp-scd.png" alt="System Context Diagram" width="800">
-    <br>
+  <br>
   <em>Fig. 3: [System Context Diagram] Dynamic Pricing System</em>
 </p>
 
