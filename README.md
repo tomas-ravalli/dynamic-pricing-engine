@@ -37,8 +37,8 @@
 The main challenge was to transform a static, manual pricing strategy into a responsive, automated system with a human-in-the-loop (HiTL), creating a market-driven approach for both setting and responding to ticket prices per match.
 
 <p align="center">
-  <img src="./assets/co-ss.png" alt="Stadium ticketing price list" width="1000">
-  <br>
+  <img src="./assets/dp-ss.jpeg" alt="Stadium ticketing price list" width="1000">
+  </br>
   <em>Fig. 1: A standard stadium ticket pricing by zone during checkout process.</em>
 </p>
 
