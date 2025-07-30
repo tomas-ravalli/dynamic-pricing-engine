@@ -252,8 +252,6 @@ FCB_Dynamic-Pricing/
 ├── requirements.txt                    # (Private) The requirements file for the full project.
 ├── config.py                           # (Private) Configuration file for paths and parameters.
 ├── assets/                             # (Public) Diagrams and images for documentation.
-│   ├── dp-hl.png
-│   └── dp-ll.png
 ├── data/
 │   └── 03_synthetic/
 │       └── synthetic_match_data.csv    # (Public) The generated synthetic dataset.
@@ -271,7 +269,7 @@ FCB_Dynamic-Pricing/
     ├── models/                         # (Private) Scripts for model training and prediction.
     │   ├── train_demand_model.py
     │   └── predict_demand.py
-    └── decision_engine/                # (Private) Scripts for simulation and optimization.
+    └── dynamic_pricing_engine/         # (Private) Scripts for simulation and optimization.
         ├── constants.py
         ├── simulate.py
         └── optimize.py
