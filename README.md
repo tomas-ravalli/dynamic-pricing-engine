@@ -147,7 +147,7 @@ This translates into a two-stage process: first **predict**, then **optimize**. 
 
 ### Stage 1: 📈 Demand Forecasting
 
-> This stage answers the business question: *"At a given price, how many tickets are we likely to sell?"*
+This stage answers the business question: *"At a given price, how many tickets are we likely to sell?"*
 
 | Aspect | Description |
 | :--- | :--- |
@@ -181,7 +181,7 @@ The performance was considered **successful**. A WAPE of 19% and an R² of 0.83 
 
 ### Stage 2: ⚙️ Price Optimization
 
-> This stage answers the business question: *"What is the single best price to maximize total revenue?"*
+This stage answers the business question: *"What is the single best price to maximize total revenue?"*
 
 | Aspect | Description |
 | :--- | :--- |
