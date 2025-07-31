@@ -3,3 +3,5 @@ numpy>=2.0.0
 joblib>=1.4.0
 scikit-learn>=1.5.0
 jupyterlab==4.2.1
+matplotlib
+seaborn
