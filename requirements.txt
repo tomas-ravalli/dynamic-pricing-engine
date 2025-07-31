@@ -1,0 +1,10 @@
+# Core Libraries for Data Handling
+pandas>=2.2.0
+numpy>=2.0.0
+joblib>=1.4.0
+
+# Machine Learning & Modeling
+scikit-learn>=1.5.0
+
+# Notebook Environment
+jupyterlab==4.2.1
