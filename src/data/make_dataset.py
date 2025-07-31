@@ -15,17 +15,14 @@ ZONES = {
     'Gol Nord': {'capacity': 9000, 'base_price': 75},
     'Gol Sud': {'capacity': 9000, 'base_price': 75}
 }
-# --- ADJUSTMENT: Use weighted probabilities for weather ---
 WEATHER_FORECASTS = ['Sunny', 'Windy', 'Rain']
-WEATHER_WEIGHTS = [0.70, 0.20, 0.10] # Sunny is most likely, Rain is least likely
-
-# --- ADJUSTMENT: Add skip probabilities to vary zone frequency ---
+WEATHER_WEIGHTS = [0.70, 0.20, 0.10]
 ZONE_SKIP_PROBABILITY = {
-    'VIP': 0.05,       # 5% chance to skip generating a record for VIP
-    'Lateral': 0.10,   # 10% chance for Lateral
-    'Corner': 0.12,    # 12% for Corner
-    'Gol Nord': 0.15,  # 15% for Gol Nord
-    'Gol Sud': 0.15,   # 15% for Gol Sud
+    'VIP': 0.05,
+    'Lateral': 0.10,
+    'Corner': 0.12,
+    'Gol Nord': 0.15,
+    'Gol Sud': 0.15,
 }
 
 OUTPUT_DIR = Path(__file__).resolve().parents[2] / 'data/03_synthetic'
@@ -46,10 +43,10 @@ def generate_match_details(num_matches):
             'match_id': i,
             'opponent_tier': tier,
             'ea_opponent_strength': strength,
-            'weekday_match': random.choice([True, False]),
+            'is_weekday': random.choice([True, False]), # RENAMED
+            'is_international': is_international,
             'top_player_injured': random.choice([True, False]) if tier in ['A', 'A++'] else False,
             'league_winner_known': random.choice([True, False]),
-            'international_competition': is_international
         })
     return matches
 
@@ -57,14 +54,14 @@ def calculate_excitement_factor(match):
     """Calculates the core demand driver for a match."""
     base_excitement = {'C': 0.4, 'B': 0.6, 'A': 0.8, 'A++': 1.0}[match['opponent_tier']]
 
-    if match['international_competition']:
+    if match['is_international']:
         base_excitement *= 1.5
     base_excitement *= (1 + (match['ea_opponent_strength'] - 80) / 100)
-    if match['weekday_match']:
+    if match['is_weekday']: # RENAMED
         base_excitement *= 0.75
     if match['top_player_injured']:
         base_excitement *= 0.8
-    if match['league_winner_known'] and not match['international_competition']:
+    if match['league_winner_known'] and not match['is_international']:
         base_excitement *= 0.7
 
     return np.clip(base_excitement, 0.2, 2.0)
@@ -74,10 +71,8 @@ def generate_daily_data(match, excitement_factor):
     """Generates time-series data for a single match."""
     records = []
     for zone_name, zone_info in ZONES.items():
-        
-        # --- ADJUSTMENT: Randomly skip zones to create uneven frequencies ---
         if random.random() < ZONE_SKIP_PROBABILITY[zone_name]:
-            continue # Skip this zone for this day
+            continue
 
         available_seats = zone_info['capacity']
         for day in range(DAYS_IN_ADVANCE, -1, -1):
@@ -85,7 +80,6 @@ def generate_daily_data(match, excitement_factor):
             base_web_visits = int(excitement_factor * 20000 * time_urgency)
             web_visits = int(base_web_visits * random.uniform(0.8, 1.2))
             
-            # --- ADJUSTMENT: Use weighted random choice for weather ---
             weather = random.choices(WEATHER_FORECASTS, weights=WEATHER_WEIGHTS, k=1)[0]
             weather_multiplier = 1.0
             if day < 7:
@@ -109,8 +103,8 @@ def generate_daily_data(match, excitement_factor):
                 'seat_zone': zone_name,
                 'opponent_tier': match['opponent_tier'],
                 'ea_opponent_strength': match['ea_opponent_strength'],
-                'weekday_match': match['weekday_match'],
-                'international_competition': match['international_competition'],
+                'is_weekday': match['is_weekday'], # RENAMED
+                'is_international': match['is_international'],
                 'top_player_injured': match['top_player_injured'],
                 'league_winner_known': match['league_winner_known'],
                 'weather_forecast': weather,
@@ -129,7 +123,7 @@ def generate_daily_data(match, excitement_factor):
 
 def main():
     """Main function to generate and save the dataset."""
-    print("Generating synthetic dataset with increased variability...")
+    print("Generating synthetic dataset with final column names...")
     
     all_records = []
     matches = generate_match_details(NUM_MATCHES)
@@ -141,32 +135,33 @@ def main():
         
     df = pd.DataFrame(all_records)
     
-    # Add other placeholder columns to match schema
+    # Add other placeholder columns and rename to match schema
     df['team_position'] = df.apply(lambda row: random.randint(1, 5) if row['days_until_match'] > 30 else random.randint(1, 3), axis=1)
-    df['holidays'] = df['days_until_match'].apply(lambda x: x in [0, 1, 6, 7, 45, 46])
-    df['competing_city_events'] = df['days_until_match'].apply(lambda x: x in [20, 21, 22])
+    df['is_holiday'] = df['days_until_match'].apply(lambda x: x in [0, 1, 6, 7, 45, 46]) # RENAMED
+    df['popular_concert_in_city'] = df['days_until_match'].apply(lambda x: x in [20, 21, 22]) # RENAMED
     df['flights_to_barcelona_index'] = df.apply(lambda row: int(np.clip(row['google_trends_index'] * random.uniform(0.8, 1.2), 20, 100)), axis=1)
     df['internal_search_trends'] = df['web_visits'].apply(lambda x: int(x / 10 * random.uniform(0.8, 1.2)))
     df['web_conversion_rate'] = df.apply(lambda row: np.clip(row['zone_historical_sales'] / (row['web_visits'] + 1e-6), 0, 0.1), axis=1)
     df['competitor_avg_price'] = df['ticket_price'].apply(lambda x: x * random.uniform(0.8, 1.2))
 
-    column_order = [
+    # --- ADJUSTMENT: Use the specified column order ---
+    final_column_order = [
         'match_id', 'days_until_match', 'seat_zone', 'zone_historical_sales', 'ticket_price',
-        'ea_opponent_strength', 'web_visits', 'weather_forecast', 'weekday_match', 'international_competition',
-        'opponent_tier', 'top_player_injured', 'league_winner_known', 'team_position',
-        'holidays', 'competing_city_events', 'flights_to_barcelona_index', 'google_trends_index',
+        'ea_opponent_strength', 'web_visits', 'weather_forecast', 'is_weekday', 'is_international',
+        'opponent_tier', 'top_player_injured', 'league_winner_known', 'team_position', 'is_holiday',
+        'popular_concert_in_city', 'flights_to_barcelona_index', 'google_trends_index',
         'internal_search_trends', 'social_media_sentiment', 'web_conversion_rate',
         'zone_seats_availability', 'ticket_availability_pct', 'competitor_avg_price'
     ]
-    final_cols = [col for col in column_order if col in df.columns]
-    df = df[final_cols]
+    
+    df = df[final_column_order]
     
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     df.to_csv(OUTPUT_FILE, index=False)
     
     print(f"Dataset successfully generated at: {OUTPUT_FILE}")
     print(f"Shape: {df.shape}")
-    print("Variability added to 'seat_zone' and 'weather_forecast' frequencies.")
+    print("Column names have been updated to the final specified version.")
 
 if __name__ == '__main__':
     main()
