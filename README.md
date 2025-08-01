@@ -240,7 +240,7 @@ FCB_Dynamic-Pricing/
 ├── models/                             # (Private) Stores trained model artifacts.
 │   ├── demand_forecast_model.joblib
 │   └── feature_pipeline.joblib
-├── notebooks/                          # (Private) Jupyter notebooks for analysis.
+├── notebooks/                          # (Public) Jupyter notebooks for analysis.
 │   └── eda.ipynb
 └── src/
     ├── __init__.py                     # (Private) Makes src a Python package.
