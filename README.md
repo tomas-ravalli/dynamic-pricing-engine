@@ -44,7 +44,7 @@ The main challenge was to transform a static, manual pricing strategy into a res
 
 To illustrate how the system directly addresses key business challenges, the following table maps each identified pain point to its corresponding solution:
 
-| 🚩 Problem | 💡 Solution |
+| 🚩 The Problem | 💡 The Solution |
 | :--------------------------- | :---------------------------- |
 | **Static pricing**: Prices were set once per season in rigid, inflexible categories (e.g., A++, A, B), then updated weekly/monthly. | **Dynamic recommendations**: Generates price proposals for each seating zone based on near real-time data analysis, allowing for daily updates. |
 | **Manual adjustments**: The team would slowly analyze various metrics to manually propose price changes. | **Impact simulation**: Instantly models the projected impact of any price change on revenue and ticket sales. |
