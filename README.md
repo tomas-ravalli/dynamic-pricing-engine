@@ -260,8 +260,7 @@ FCB_Dynamic-Pricing/
 </br>
 
 > [!WARNING]
-> * **Data:** All data presented in this public repository is synthetically generated and it may not mirror the statistical properties of the original dataset.
-> * **Code:** To honor confidentiality agreements, the source code and data for the original project are private. This repository demonstrates the system design and modeling approach used in the real-world solution.
+> * **Data:** The data in this repository is synthetically generated for demonstration purposes and it may not mirror the statistical properties of the original dataset.
 > * **Complexity:** This repository provides a high-level demonstration of the project's architecture and methodology. Certain implementation details and model complexities have been simplified for clarity.
 
 </br>
