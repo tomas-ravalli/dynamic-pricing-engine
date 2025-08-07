@@ -134,19 +134,19 @@ Where the terms in the equation are defined as:
 This maximization is subject to several key **constraints**:
 
 1.  **Demand**: The number of tickets sold ($S_j$) in each zone is a function of its price ($p_j$) and other market factors ($\mathbf{X}$), as predicted by our machine learning model.
-    ```math
-    S_j = f(p_j, \mathbf{X})
-    ```
+```math
+S_j = f(p_j, \mathbf{X})
+```
 
-2.  **Capacity**: We cannot sell more tickets than the number of seats available ($C_j$) in each zone.
-    ```math
-    S_j \le C_j
-    ```
+3.  **Capacity**: We cannot sell more tickets than the number of seats available ($C_j$) in each zone.
+```math
+S_j \le C_j
+```
 
-3.  **Strategic Occupancy Constraint**: To protect brand image and comply with broadcast agreements, the primary seating zone visible on TV ($j_{tv}$) must have at least 85% occupancy.
-    ```math
-    S_{j_{tv}} \ge 0.85 \cdot C_{j_{tv}}
-    ```
+4.  **Strategic Occupancy Constraint**: To protect brand image and comply with broadcast agreements, the primary seating zone visible on TV ($j_{tv}$) must have at least 85% occupancy.
+```math
+S_{j_{tv}} \ge 0.85 \cdot C_{j_{tv}}
+```
 
 This framework translates the business challenge into a clear mathematical problem. Our two-stage process–first **predict** demand ($S_j$), then **optimize** for price ($p_j$)–is a direct approach to solving it.
 
