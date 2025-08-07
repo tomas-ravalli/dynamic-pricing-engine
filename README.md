@@ -203,7 +203,7 @@ This stage answers the business question: *"What is the single best price to max
 | **Output** | The engine's primary output is the official `Price Variation Proposal`, which is sent to the commercial team for review and approval. |
 | **Design Choice**| Bayesian Optimization would likely find a near-optimal price much faster by intelligently exploring the price space. However, it doesn't guarantee finding the absolute maximum. For a critical business decision like pricing, **guaranteeing the optimal recommendation** (within the model's predictive power) is often more valuable than the computational speed gained from a heuristic approach. |
 
-Here’s a breakdown of how the two parts work together:
+Then, the optimization engine and the pricing team work together:
 
 1.  **The Optimization Engine's Role** </br> The model's job is to do the heavy lifting. It analyzes all the complex data–historical sales, opponent strength, web traffic, and predicted supply–to answer one question: *"Based purely on the data and our profit-maximization goal, what is the single best price?"* This result is the unbiased, mathematically optimal starting point.
 
