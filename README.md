@@ -203,6 +203,23 @@ This stage answers the business question: *"What is the single best price to max
 | **Output** | The engine's primary output is the official `Price Variation Proposal`, which is sent to the commercial team for review and approval. |
 | **Design Choice**| Bayesian Optimization would likely find a near-optimal price much faster by intelligently exploring the price space. However, it doesn't guarantee finding the absolute maximum. For a critical business decision like pricing, **guaranteeing the optimal recommendation** (within the model's predictive power) is often more valuable than the computational speed gained from a heuristic approach. |
 
+The model's recommendation and the team's pricing policy don't compete; they coexist in a layered system where one empowers the other. The optimization engine provides the **data-driven baseline**, while the pricing team applies the **strategic overlay**. This human-in-the-loop system is powerful because it lets each part do what it does best. The model handles the complex data analysis that would be impossible for a human, while the team focuses on high-level strategy and managing the exceptions and rules that define their business.
+
+Here’s a breakdown of how the two parts work together, using a "hype bonus" policy as an example:
+
+1.  **The optimization engine's role: the baseline price**
+    The model's job is to do the heavy lifting. It analyzes all the complex data–historical sales, opponent strength, web traffic, weather forecasts, and the predicted supply of seats–to answer one question: *"Based purely on the data and our profit-maximization goal, what is the single best price?"* This result is the unbiased, mathematically optimal starting point.
+
+2.  **The pricing team's role: the business rule layer**
+    The pricing team's job is to apply strategy, context, and rules that may not be captured in the model's data. For example, a policy might be: *"For high-demand games, we have a 'hype' policy. We will add a 5% premium to the initial price to capture the value from early enthusiasts."*
+
+The final workflow looks like this:
+
+* **Input:** A high-demand match is coming up.
+* **Engine recommendation:** The optimization engine runs and recommends a price of, say, €150.
+* **Apply business rules:** The pricing team sees the recommendation and their system flags it as a "high-demand game," automatically applying the "hype bonus" policy.
+* **Final price:** The price that goes live is `€150 + 5%` = **€157.50**.
+
 <details>
 <summary><b>Click to see the detailed model performance evaluation</b></summary>
   
