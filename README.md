@@ -207,11 +207,9 @@ The model's recommendation and the team's pricing policy don't compete; they coe
 
 Here’s a breakdown of how the two parts work together, using a "hype bonus" policy as an example:
 
-1.  **The optimization engine's role: the baseline price**
-    The model's job is to do the heavy lifting. It analyzes all the complex data–historical sales, opponent strength, web traffic, weather forecasts, and the predicted supply of seats–to answer one question: *"Based purely on the data and our profit-maximization goal, what is the single best price?"* This result is the unbiased, mathematically optimal starting point.
+1.  **The Optimization Engine's role: the baseline price** </br> The model's job is to do the heavy lifting. It analyzes all the complex data–historical sales, opponent strength, web traffic, weather forecasts, and the predicted supply of seats–to answer one question: *"Based purely on the data and our profit-maximization goal, what is the single best price?"* This result is the unbiased, mathematically optimal starting point.
 
-2.  **The pricing team's role: the business rule layer**
-    The pricing team's job is to apply strategy, context, and rules that may not be captured in the model's data. For example, a policy might be: *"For high-demand games, we have a 'hype' policy. We will add a 5% premium to the initial price to capture the value from early enthusiasts."*
+2.  **The Pricing Team's role: the business rule layer** </br> The pricing team's job is to apply strategy, context, and rules that may not be captured in the model's data. For example, a policy might be: *"For high-demand games, we have a 'hype' policy. We will add a 5% premium to the initial price to capture the value from early enthusiasts."*
 
 The final workflow looks like this:
 
