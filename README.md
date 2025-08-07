@@ -116,9 +116,40 @@ The logic is designed to mimic how a real fan's interest level would change base
 
 ## Modeling
 
-The goal is not just to build a black-box forecasting model, but to create a system that models the underlying drivers of ticket sales. By breaking down the problem into its constituent parts (time-series patterns, event-based impacts, external factors), we can better understand how each component contributes to the final outcome and more accurately quantify uncertainty. This approach of building a "driver tree" for the business, allows us to pinpoint the exact sources of error and continuously refine our understanding of the market.
+The goal is not just to build a black-box forecasting model, but to solve a formal business problem. At its core, this project can be framed as a **constrained optimization problem**: we want to find the optimal set of prices to maximize profit, subject to real-world business constraints.
 
-This translates into a two-stage process: first **predict**, then **optimize**. The engine first forecasts demand based on our business theory and then uses that forecast to find the optimal price.
+The objective is to maximize the total profit ($Z$) for a given match, defined as:
+```math
+\max Z = \underbrace{\sum_{j=1}^{n} (p_j \cdot S_j)}_{\text{Ticket Revenue}} + \underbrace{(\bar{m} \cdot \sum_{j=1}^{n} S_j)}_{\text{In-Stadium Spend}} - \underbrace{C_{op}}_{\text{Fixed Costs}}
+```
+Where the terms in the equation are defined as:
+
+* **$n$** is the number of distinct seating zones.
+* **p<sub>j</sub>** is the ticket price for zone *j*. This is the **decision variable**–the set of values we are solving for.
+* **S<sub>j</sub>** is the number of tickets sold in zone *j* at price p<sub>j</sub>. This is an outcome predicted by the demand model, where $S_j = f(p_j, \mathbf{X})$.
+* **$\mathbf{X}$** is the vector of features for the match (e.g., opponent tier, days until match).
+* **$\bar{m}$** is the average in-stadium spend per attendee, estimated from historical data.
+* **$\sum_{j=1}^{n} S_j$** is the total number of tickets sold (i.e., total attendance).
+* **C<sub>op</sub>** is the total fixed operational cost for staging the match.
+
+This maximization is subject to several key **constraints**:
+
+1.  **Demand**: The number of tickets sold ($S_j$) in each zone is a function of its price ($p_j$) and other market factors ($\mathbf{X}$), as predicted by our machine learning model.
+    ```math
+    S_j = f(p_j, \mathbf{X})
+    ```
+
+2.  **Capacity**: We cannot sell more tickets than the number of seats available ($C_j$) in each zone.
+    ```math
+    S_j \le C_j
+    ```
+
+3.  **Strategic Occupancy Constraint**: To protect brand image and comply with broadcast agreements, the primary seating zone visible on TV ($j_{tv}$) must have at least 85% occupancy.
+    ```math
+    S_{j_{tv}} \ge 0.85 \cdot C_{j_{tv}}
+    ```
+
+This framework translates the business challenge into a clear mathematical problem. Our two-stage process–first **predict** demand ($S_j$), then **optimize** for price ($p_j$)–is a direct approach to solving it.
 
 <p align="left">
   <img src="./assets/dp-dpe.png" alt="Dynamic Pricing Engine" width="275">
