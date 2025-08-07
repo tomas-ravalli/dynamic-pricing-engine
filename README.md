@@ -143,7 +143,7 @@ S_j = f(p_j, \mathbf{X})
 S_j \le C_j
 ```
 
-4.  **Strategic Occupancy Constraint**: To protect brand image and comply with broadcast agreements, the primary seating zone visible on TV ($j_{tv}$) must have at least 85% occupancy.
+4.  **Occupancy**: To protect brand image and comply with broadcast agreements, the primary seating zone visible on TV ($j_{tv}$) must have at least 85% occupancy.
 ```math
 S_{j_{tv}} \ge 0.85 \cdot C_{j_{tv}}
 ```
