@@ -125,12 +125,11 @@ The objective is to maximize the total profit ($Z$) for a given match, defined a
 Where the terms in the equation are defined as:
 
 * **$n$** is the number of distinct seating zones.
-* **p<sub>j</sub>** is the ticket price for zone *j*. This is the **decision variable**–the set of values we are solving for.
-* **S<sub>j</sub>** is the number of tickets sold in zone *j* at price p<sub>j</sub>. This is an outcome predicted by the demand model, where $S_j = f(p_j, \mathbf{X})$.
+* **$p_j$** is the ticket price for zone *j*. This is the **decision variable**–the set of values we are solving for.
+* **$S_j$** is the number of tickets sold in zone *j* at price $p_j$. This is an outcome predicted by the demand model, where $S_j = f(p_j, \mathbf{X})$.
 * **$\mathbf{X}$** is the vector of features for the match (e.g., opponent tier, days until match).
 * **$\bar{m}$** is the average in-stadium spend per attendee, estimated from historical data.
-* **$\sum_{j=1}^{n} S_j$** is the total number of tickets sold (i.e., total attendance).
-* **C<sub>op</sub>** is the total fixed operational cost for staging the match.
+* **$C_{op}$** is the total fixed operational cost for staging the match.
 
 This maximization is subject to several key **constraints**:
 
