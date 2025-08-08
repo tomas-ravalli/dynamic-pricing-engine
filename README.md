@@ -238,34 +238,7 @@ Since this is an optimization engine, not a predictive model, its performance is
 
 Before a full rollout, the system was rigorously validated through a series of controlled **A/B tests** to scientifically measure its impact and mitigate risk. The core principle was to isolate the effect of the dynamic pricing engine from all other market variables. 
 
-The results from the A/B tests confirmed our hypothesis, showing a consistent **+6% lift in average revenue** for the treatment group. Additionaly, this was achieved while also increasing the sell-through rate, demonstrating that the model was effective at finding the true market equilibrium. These conclusive, data-backed results gave the business full confidence to proceed with a full-scale rollout of the dynamic pricing system across all stadium zones.
-
-<details>
-<summary><b>Click to see the full experimental design</b></summary>
-
-### Experimental Design
-
-The validation used a segment-based A/B test, where different seating zones in the stadium were used as the unit of diversion to ensure a clean comparison.
-
-1.  **Treatment vs. Control Groups**: The stadium was segmented into statistically similar groups of seating zones.
-    * **Treatment Group = Dynamic Pricing**: A subset of zones had their prices set by the new automated engine. These prices could change daily based on the model's recommendations.
-    * **Control Group = Static Pricing**: The remaining zones operated under the existing pricing strategy (e.g., prices set manually at the beginning of the season), serving as our baseline for comparison.
-
-2.  **Hypothesis**: Our primary hypothesis was that the treatment group would generate a statistically significant lift in total revenue per match without negatively impacting the ticket sell-through rate compared to the control group.
-
-3.  **Duration**: The tests were run over several matches of varying importance (e.g., high-demand league matches, lower-demand cup matches) to ensure the results were robust and not skewed by the unique characteristics of a single event.
-
-### Key metrics tracked
-
-To evaluate the experiment's outcome, we continuously monitored several KPIs for both groups:
-
-* **Primary metric**: Avg. Revenue Per Seating Zone.
-* **Secondary metrics**:
-    * Ticket Sell-Through Rate (occupancy).
-    * Avg. Ticket Price.
-    * Sales Velocity (how quickly tickets sold).
-
-</details>
+The results from the A/B tests confirmed our hypothesis, showing a consistent **+6% lift in average revenue** for the treatment group. This conclusive, data-backed results gave the business full confidence to proceed with a full-scale rollout of the dynamic pricing system.
 
 
 ## Structure
