@@ -17,6 +17,7 @@
 - [Architecture](#architecture)
 - [Dataset](#dataset)
 - [Modeling](#modeling)
+- [Usage](#usage)
 - [Structure](#structure)
 
 ---
@@ -34,7 +35,7 @@
 
 ## Overview
 
-The main challenge was to transform a static, manual pricing strategy into a responsive, automated system with a human-in-the-loop (HiTL), creating a market-driven approach for both setting and responding to ticket prices per match.
+The main challenge was to transform a static, manual pricing strategy into a responsive, automated system with a human-in-the-loop (HiTL), creating a market-driven approach for both setting and responding to ticket prices per match. The fundamental challenge was to find the optimal price in a constantly changing environment. To solve this, we had to model the interplay between **sales velocity** (demand of tickets from our fans) and **inventory inflow** (supply of tickets coming from season ticket holders).
 
 <p align="center">
   <img src="./assets/dp-ss.jpeg" alt="Stadium ticketing price list" width="1000">
@@ -48,7 +49,7 @@ To illustrate how the system directly addresses key business challenges, the fol
 | :--------------------------- | :---------------------------- |
 | **Static pricing**: Prices were set once per season in rigid, inflexible categories (e.g., A++, A, B), then updated weekly/monthly. | **Dynamic recommendations**: Generates price proposals for each seating zone based on near real-time data analysis, allowing for daily updates. |
 | **Manual adjustments**: The team would slowly analyze various metrics to manually propose price changes. | **Impact simulation**: Instantly models the projected impact of any price change on revenue and ticket sales. |
-| **Data bottleneck**: Extracting data manually from fragmented systems was slow and operationally complex. | **Centralized data**: Automatically aggregates all key data points –sales, web analytics, contextual data, etc.– into one place. |
+| **Data bottleneck**: Extracting data manually from fragmented systems was slow and operationally complex. | **Centralized data**: Automatically aggregates all key data points–sales, web analytics, contextual data, etc.–into one place. |
 | **Slow implementation**: The process to act on a decision was manual and disconnected from the sales platform. | **Seamless integration**: Allows for one-click approval on a dashboard, which triggers a price update to the live ticketing system via REST API. |
 
 The diagram below illustrates the project's conceptual framework. The system acts as the central *brain* to balance the goals of The Club and The Fan. It operates in a continuous loop by ingesting internal and external factors to forecast demand at various price points. The **Decision Engine** then uses this forecast to recommend an optimal price.
@@ -62,6 +63,8 @@ The diagram below illustrates the project's conceptual framework. The system act
 
 ## Architecture
 
+The system was engineered in three parts: predictive modeling, an adaptive optimization engine, and a real-time monitoring framework.
+
 <p align="center">
   <img src="./assets/dp-scd.png" alt="System Context Diagram" width="800">
   <br>
@@ -69,7 +72,7 @@ The diagram below illustrates the project's conceptual framework. The system act
 </p>
 
 ### System Synergy
-This Dynamic Pricing Engine is designed to work in tandem with the **[Seat Availability Engine](https://github.com/tomas-ravalli/fcb-smartbooking)**. The pricing model's effectiveness depends on knowing not just the current ticket availability, but the **final forecasted supply**. The Seat Availability Engine provides this crucial input, allowing this system to set prices based on a true understanding of the market's supply-demand curve.
+This Dynamic Pricing Engine is designed to work in tandem with the **[Seat Availability Engine](https://github.com/tomas-ravalli/fcb-smartbooking)**. The pricing model's effectiveness depends on knowing not just the current ticket availability, but the **final forecasted supply**. The Seat Availability Engine provides this crucial input by predicting when season ticket holders will release their seats, allowing this system to set prices based on a true understanding of the market's supply-demand curve.
 
 
 ## Dataset
@@ -82,17 +85,15 @@ The dataset simulates:
 * **Complete sales history:** For each of these matches, a full **90-day time-series** is generated. This means there is a daily record capturing how demand signals, sales, and availability evolve from the day tickets go on sale until match day.
 * **Zone-level granularity:** Each daily record is further broken down by **5 distinct seating zones**, each with its own capacity and base price, reflecting how different stadium areas have unique demand curves.
 
-A key part of the strategy was to move beyond our internal sales history by enriching our models with external data. Through feature engineering, we combined our own historical performance data with real-world market signals—like opponent rankings and social media hype—to create a more holistic and predictive view of market dynamics, resulting in a feature set combining **internal and external** data.
-
-The model's features are grouped to provide a comprehensive view of factors influencing ticket demand.
+A key part of the strategy was to move beyond our internal sales history by enriching our models with external data. Through feature engineering, we combined our own historical performance data with real-world market signals to create a more holistic and predictive view of market dynamics. The model's features are grouped to provide a comprehensive view of factors influencing ticket demand.
 
 | Category | Features | Description |
 | :--- | :--- | :--- |
-| **Match & Opponent** | `match_id`, `days_until_match`, `is_weekday`, `opponent_tier`, `ea_opponent_strength`, 'international_competition' | Core details about the match, its timing, and opponent quality. |
+| **Match & Opponent** | `match_id`, `days_until_match`, `is_weekday`, `opponent_tier`, `ea_opponent_strength`, `international_competition` | Core details about the match, its timing, and opponent quality. Includes the 'Match Excitement Factor'. |
 | **Team Status** | `team_position`, `top_player_injured`, `league_winner_known` | Captures the team's current performance, player status, and league context. |
 | **Ticket & Zone** | `seat_zone`, `ticket_price`, `ticket_availability_pct`, `zone_seats_availability` | Attributes related to the specific ticket and seating area. |
-| **Demand & Hype** | `internal_search_trends`, `google_trends_index`, `social_media_sentiment`, `web_visits`, `web_conversion_rate` | Digital signals measuring public interest and purchase intent. |
-| **External Factors**| `is_holiday`, `popular_concert_in_city`, `competitor_avg_price`, `flights_to_barcelona_index` | External events, competition, and tourism proxies that affect demand. |
+| **Demand & Hype** | `internal_search_trends`, `google_trends_index`, `social_media_sentiment`, `web_visits`, `web_conversion_rate`, `competitor_avg_price` | Digital signals measuring public interest, purchase intent, and secondary market conditions. |
+| **External Factors**| `is_holiday`, `popular_concert_in_city`, `flights_to_barcelona_index` | External events and tourism proxies (flight and hotel booking data) that affect demand. |
 | **Weather** | `weather_forecast` | Forecasted weather conditions for the match day. |
 
 > **`zone_historical_sales`** [Target Variable]: The historical number of tickets sold for a similar match in that specific zone. This is the value the model aims to predict.
@@ -120,7 +121,7 @@ The goal is not just to build a black-box forecasting model, but to solve a form
 
 The objective is to maximize the total profit ($Z$) for a given match, defined as:
 ```math
-\max Z = \underbrace{\sum_{j=1}^{n} (p_j \cdot S_j)}_{\text{Ticket Revenue}} + \underbrace{(\bar{m} \cdot \sum_{j=1}^{n} S_j)}_{\text{In-Stadium Spend}} - \underbrace{C_{op}}_{\text{Operational Costs}}
+\max Z = \underbrace{\sum_{j=1}^{n} (p_j \cdot S_j)}_{\text{Ticket Revenue}} + \underbrace{(\bar{m} \cdot \sum_{j=1}^{n} S_j)}_{\text{In-Stadium Spend}} - \underbrace{C_{total}}_{\text{Total Costs}}
 ```
 Where the terms in the equation are defined as:
 
@@ -129,7 +130,7 @@ Where the terms in the equation are defined as:
 * **$S_j$** is the number of tickets sold in zone *j* at price $p_j$. This is an outcome predicted by the demand model, where $S_j = f(p_j, \mathbf{X})$.
 * **$\mathbf{X}$** is the vector of features for the match (e.g., opponent tier, days until match).
 * **$\bar{m}$** is the average in-stadium spend per attendee, estimated from historical data.
-* **$C_{op}$** is the total operational cost for staging the match.
+* **$C_{total}$** is the sum of all operational, distribution, and marketing costs for the match.
 
 This maximization is subject to several key **constraints**:
 
@@ -138,7 +139,7 @@ This maximization is subject to several key **constraints**:
 S_j = f(p_j, \mathbf{X})
 ```
 
-3.  **Capacity**: We cannot sell more tickets than the number of seats available ($C_j$) in each zone.
+3.  **Capacity and Inventory**: We cannot sell more tickets than the number of seats available ($C_j$) in each zone.
 ```math
 S_j \le C_j
 ```
@@ -201,23 +202,18 @@ This stage answers the business question: *"What is the single best price to max
 | **Rationale** | A grid search is a reliable and straightforward method to find the optimal price within defined business constraints (e.g., price caps and floors). It guarantees finding the maximum projected revenue. |
 | **Process** | The engine iterates through potential prices (e.g., from €75 to €350), uses the demand model to predict sales for each, calculates the projected revenue `(Price × Predicted Sales)`, and returns the optimal price. |
 | **Output** | The engine's primary output is the official `Price Variation Proposal`, which is sent to the commercial team for review and approval. |
-| **Design Choice**| Bayesian Optimization would likely find a near-optimal price much faster by intelligently exploring the price space. However, it doesn't guarantee finding the absolute maximum. For a critical business decision like pricing, **guaranteeing the optimal recommendation** (within the model's predictive power) is often more valuable than the computational speed gained from a heuristic approach. |
+| **Design Choice**| A key design choice was to model this as a **single-objective problem with an adaptive policy**, rather than a more complex multi-objective problem. We treated achieving minimum occupancy as a non-negotiable **constraint**, while maximizing revenue was the **objective**. This simplifies the problem while still allowing the system to react to different market conditions. |
 
-Then, the optimization engine and the pricing team work together:
+The core logic of the system was our **Pricing Decision Framework**. It's a 2x2 matrix that translates the raw numbers of supply and demand into concrete business strategy, ensuring every pricing decision was a deliberate response to real-time market conditions.
 
-1.  **The Optimization Engine's Role** </br> The model's job is to do the heavy lifting. It analyzes all the complex data–historical sales, opponent strength, web traffic, and predicted supply–to answer one question: *"Based purely on the data and our profit-maximization goal, what is the single best price?"* This result is the unbiased, mathematically optimal starting point.
+| | **Low Supply** (Scarcity is high) | **High Supply** (Scarcity is low) |
+| :--- | :--- | :--- |
+| **High Demand** | **Quadrant 1: Margin Maximization** <br> _Scenario:_ A championship final with few seats left. <br> _Action:_ Increase price aggressively to capture maximum value. | **Quadrant 2: Revenue Optimization** <br> _Scenario:_ A major weekend match with plenty of seats. <br> _Action:_ Maintain a strong, stable price. |
+| **Low Demand** | **Quadrant 3: Nudge to Close** <br> _Scenario:_ A mid-week match with few seats left, but sales have stalled. <br> _Action:_ Hold or slightly decrease price. | **Quadrant 4: Velocity Acceleration** <br> _Scenario:_ A rainy Tuesday match with thousands of empty seats. <br> _Action:_ Decrease price and activate promotions. |
 
-2.  **The Pricing Team's Role** </br> The pricing team's job is to apply strategy, context, and rules that may not be captured in the model's data. For example, they might have several policies:
-    * **"Hype" Policy:** For high-demand games, add a 5% premium to the initial price to capture value from early enthusiasts.
-    * **"Market Check" Policy:** If the model's recommended price is more than 20% below the average secondary market price, adjust our price upwards to be 10% below it. This maintains our position as the best-value source while capturing more revenue.
-
-The final workflow combines these elements:
-
-* **Input:** A high-demand match is coming up.
-* **Engine Recommendation:** The optimization engine runs and recommends a price of **€150**.
-* **Strategic Overlay:** The pricing team sees the recommendation on a dashboard that also shows the average secondary market price is **€200**.
-* **Apply Business Rules:** The team's system flags that the model's price is 25% below the secondary market, triggering the "Market Check" policy. They adjust the price to **€180** (`€200 * 0.90`).
-* **Final Price:** The price that goes live is **€180**, a strategic decision informed by both the model's baseline and real-time market conditions.
+This framework directly informed the two primary policies of our optimization engine:
+* **Policy 1: Revenue Maximization (Default Mode):** Active in Quadrants 1 and 2, when the occupancy constraint was not at risk. The engine's objective was to find the price that maximized projected revenue.
+* **Policy 2: Velocity Acceleration (Corrective Mode):** Triggered in Quadrant 4, when the monitoring framework showed the occupancy constraint was in danger. The engine's objective function would then switch to satisfying the constraint: it solved for the minimum price to get back on track.
 
 <details>
 <summary><b>Click to see the detailed model performance evaluation</b></summary>
@@ -234,11 +230,33 @@ Since this is an optimization engine, not a predictive model, its performance is
 
 </details>
 
-### Validation
+## Usage
 
-Before a full rollout, the system was rigorously validated through a series of controlled **A/B tests** to scientifically measure its impact and mitigate risk. The core principle was to isolate the effect of the dynamic pricing engine from all other market variables. 
+This section describes how the commercial team used the system end-to-end, moving from intuition-based decisions toward a highly analytical and responsive approach.
 
-The results from the A/B tests confirmed our hypothesis, showing a consistent **+6% lift in average revenue** for the treatment group. This conclusive, data-backed results gave the business full confidence to proceed with a full-scale rollout of the dynamic pricing system.
+### The Monitoring Framework
+
+To make the system actionable, it first generated a target **sell-through curve** for each match. This curve represented the minimum sales velocity required each day to hit our occupancy goals. 'Slow' was never an absolute number; it was a deviation from this forecast. The pricing team monitored this via a dashboard with three key metrics:
+
+1.  **Sell-Through Pace:** `(Actual Sales / Target Sales)`. This gave an instant 'are we on track?' signal. A value below 1.0 would trigger the switch to the 'Velocity Acceleration' policy.
+2.  **Projected Days to Sell-Out:** `(Remaining Inventory / Current Sales Velocity)`. This answered, 'If nothing changes, will we meet our goal?'
+3.  **Demand Capture Rate:** `(Actual Velocity / Forecasted Velocity)`. This was an efficiency metric to diagnose *why* sales might be slow.
+
+### The System in Action
+
+The process had three phases:
+
+1.  **Strategic Setup (Pre-Launch):** Weeks before tickets went on sale, the team used the system to set the initial strategy. They would input the match details, and the system would generate the target sell-through curve. Then, they used the engine's **simulation** capability to test various opening prices and select the one that best balanced revenue goals with a strong sales start.
+
+2.  **Dynamic Management (On-Sale Period):** Once tickets were on sale, the team's job shifted to supervision. Their daily focus was the **Monitoring Dashboard**, not the price itself. As long as the `Sell-Through Pace` was healthy, the system would make small, automated price adjustments to optimize revenue. The team didn't need to intervene.
+
+3.  **Alert-Driven Intervention:** If the `Sell-Through Pace` dropped, an alert was triggered. The system would automatically recommend a corrective price drop. The team would review the recommendation, investigate the 'why' using the `Demand Capture Rate`, and then either approve the change with one click or manually override it if a major, un-modeled event had occurred.
+
+### Strategic Impact
+
+This framework also allowed us to run **simulations** to test the impact of various business levers. We could simulate the ROI of a marketing campaign or a flash sale before committing resources.
+
+Finally, it enabled us to overcome business constraints. For example, we couldn't A/B test prices directly due to EU regulations. We engineered a solution using **geo-targeting** to show or hide specific promotions to different markets. This allowed us to effectively segment our customers and analyze price elasticity by market while respecting legal boundaries.
 
 
 ## Structure
@@ -274,7 +292,7 @@ FCB_Dynamic-Pricing/
         ├── constants.py
         ├── simulate.py
         └── optimize.py
-````
+```
 
 </br>
 
