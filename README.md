@@ -121,7 +121,7 @@ The goal is not just to build a black-box forecasting model, but to solve a form
 
 The objective is to maximize the total profit ($Z$) for a given match, defined as:
 ```math
-\max Z = \underbrace{\sum_{j=1}^{n} (p_j \cdot S_j)}_{\text{Ticket Revenue}} + \underbrace{(\bar{m} \cdot \sum_{j=1}^{n} S_j)}_{\text{In-Stadium Spend}} - \underbrace{C_{op}}_{\text{Operational Costs}} - \underbrace{C_{dist}}_{\text{Distribution Costs}} - \underbrace{C_{mktg}}_{\text{Marketing Spend}}
+\max Z = \underbrace{\sum_{j=1}^{n} (p_j \cdot S_j)}_{\text{Ticket Revenue}} + \underbrace{(\bar{m} \cdot \sum_{j=1}^{n} S_j)}_{\text{In-Stadium Spend}} - \underbrace{C_{total}}_{\text{Total Costs}}
 ```
 Where the terms in the equation are defined as:
 
@@ -130,7 +130,7 @@ Where the terms in the equation are defined as:
 * **$S_j$** is the number of tickets sold in zone *j* at price $p_j$. This is an outcome predicted by the demand model, where $S_j = f(p_j, \mathbf{X})$.
 * **$\mathbf{X}$** is the vector of features for the match (e.g., opponent tier, days until match).
 * **$\bar{m}$** is the average in-stadium spend per attendee, estimated from historical data.
-* **$C_{op}$**, **$C_{dist}$**, **$C_{mktg}$** are the total operational, distribution, and marketing costs for the match.
+* **$C_{total}$** is the sum of all operational, distribution, and marketing costs for the match.
 
 This maximization is subject to several key **constraints**:
 
