@@ -89,7 +89,7 @@ A key part of the strategy was to move beyond our internal sales history by enri
 
 | Category | Features | Description |
 | :--- | :--- | :--- |
-| **Match & Opponent** | `match_id`, `days_until_match`, `is_weekday`, `opponent_tier`, `ea_opponent_strength`, 'international_competition' | Core details about the match, its timing, and opponent quality. Includes the 'Match Excitement Factor'. |
+| **Match & Opponent** | `match_id`, `days_until_match`, `is_weekday`, `opponent_tier`, `ea_opponent_strength`, `international_competition` | Core details about the match, its timing, and opponent quality. Includes the 'Match Excitement Factor'. |
 | **Team Status** | `team_position`, `top_player_injured`, `league_winner_known` | Captures the team's current performance, player status, and league context. |
 | **Ticket & Zone** | `seat_zone`, `ticket_price`, `ticket_availability_pct`, `zone_seats_availability` | Attributes related to the specific ticket and seating area. |
 | **Demand & Hype** | `internal_search_trends`, `google_trends_index`, `social_media_sentiment`, `web_visits`, `web_conversion_rate`, `competitor_avg_price` | Digital signals measuring public interest, purchase intent, and secondary market conditions. |
