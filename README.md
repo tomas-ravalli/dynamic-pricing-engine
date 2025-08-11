@@ -110,7 +110,7 @@ The logic is designed to mimic how a real fan's interest level would change base
     * **Match importance:** Excitement drops for less meaningful matches, such as when the league winner is already known.
     * **Holidays & weekdays:** Matches near holidays get a boost in excitement, while weekday matches see a slight decrease.
 
-3.  **Drives demand signals:** The final "Match Excitement Factor" is then used to generate all the other demand signals. For example, a match with a high excitement score will also have higher `google_trends_index`, more positive `social_media_sentiment`, and more `internal_search_trends`.
+3.  **Internal demand signals:** Features like `google_trends_index`, more positive `social_media_sentiment`, and more `internal_search_trends`.
 
 
 ## Modeling
