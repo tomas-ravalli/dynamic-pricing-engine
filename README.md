@@ -102,7 +102,7 @@ To create a realistic dataset, the generation script doesn't just create random 
 
 The logic is designed to mimic how a real fan's interest level would change based on the context of a match:
 
-1.  **Starts with the opponent:** The excitement level begins with the quality of the opponent (`opponent_tier`). A top-tier opponent naturally generates more interest.
+1.  **Starts with the opponent and competition:** The excitement level begins with the quality of the opponent (`opponent_tier`) and the competition. A top-tier opponent and international competition naturally generates more interest.
 
 2.  **Adjusts for context:** The base excitement is then adjusted up or down based on several real-world factors:
     * **League position:** Excitement increases slightly if the team is high in the league standings.
