@@ -118,9 +118,11 @@ The logic is designed to mimic how a real fan's interest level would change base
 The goal is not just to build a black-box forecasting model, but to solve a formal business problem. At its core, this project can be framed as a **constrained optimization problem**: we want to find the optimal set of prices to maximize profit, subject to real-world business constraints.
 
 The objective is to maximize the total profit ($Z$) for a given match, defined as:
+
 ```math
 \max Z = \underbrace{\sum_{j=1}^{n} (p_j \cdot S_j)}_{\text{Ticket Revenue}} + \underbrace{(\bar{m} \cdot \sum_{j=1}^{n} S_j)}_{\text{In-Stadium Spend}} - \underbrace{C_{total}}_{\text{Total Costs}}
 ```
+
 Where the terms in the equation are defined as:
 
 * **$n$** is the number of distinct seating zones.
@@ -133,16 +135,19 @@ Where the terms in the equation are defined as:
 This maximization is subject to several key **constraints**:
 
 1.  **Demand**: The number of tickets sold ($S_j$) in each zone is a function of its price ($p_j$) and other market factors ($\mathbf{X}$), as predicted by our machine learning model.
+
 ```math
 S_j = f(p_j, \mathbf{X})
 ```
 
 3.  **Capacity and Inventory**: We cannot sell more tickets than the number of seats available ($C_j$) in each zone.
+
 ```math
 S_j \le C_j
 ```
 
 4.  **Occupancy**: To protect brand image and comply with broadcast agreements, the primary seating zone visible on TV ($j_{tv}$) must have at least 85% occupancy.
+
 ```math
 S_{j_{tv}} \ge 0.85 \cdot C_{j_{tv}}
 ```
