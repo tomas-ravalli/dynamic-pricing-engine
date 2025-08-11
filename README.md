@@ -4,7 +4,6 @@
 
 <p align="left">
   <img src="https://img.shields.io/badge/License-MIT-lightgrey" alt="License">
-  <img src="https://img.shields.io/badge/ML-Supervised-lightgrey" alt="License">
 </p>
 
 > An ML-powered dynamic pricing and decision support system for tickets pricing in a sports stadium. 
