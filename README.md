@@ -51,21 +51,13 @@ To illustrate how the system directly addresses key business challenges, the fol
 | **Data bottleneck**: Extracting data manually from fragmented systems was slow and operationally complex. | **Centralized data**: Automatically aggregates all key data points–sales, web analytics, contextual data, etc.–into one place. |
 | **Slow implementation**: The process to act on a decision was manual and disconnected from the sales platform. | **Seamless integration**: Allows for one-click approval on a dashboard, which triggers a price update to the live ticketing system via REST API. |
 
-The diagram below illustrates the project's conceptual framework. The system acts as the central *brain* to balance the goals of The Club and The Fan. 
-
-<p align="center">
-  <img src="./assets/dp-md.png" alt="High-level market dynamics diagram" width="3000">
-  <br>
-  <em>Fig. 2: A high-level diagram of the system's market dynamics.</em>
-</p>
-
 
 ## Architecture
 
 <p align="center">
   <img src="./assets/dp-scd.png" alt="System Context Diagram" width="800">
   <br>
-  <em>Fig. 3: [System Context Diagram] Dynamic Pricing System</em>
+  <em>Fig. 2: [System Context Diagram] Dynamic Pricing System</em>
 </p>
 
 ### System Synergy
