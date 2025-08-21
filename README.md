@@ -25,7 +25,7 @@
 
 | Metric                      | Result                               | Description |
 | :-------------------------- | :----------------------------------- | :----------------------------------- |
-| 📈 Revenue Uplift           | **+6%** Average Revenue per Match    | Achieved by dynamically adjusting prices to match real-time demand forecasts, capturing more value from high-demand periods. This was powered by accurate supply predictions from the `seat availability engine` [![Badge Text](https://img.shields.io/badge/Link_to_Repo-grey?style=flat&logo=github)](https://github.com/tomas-ravalli/fcb-smartbooking) |
+| 📈 Revenue Uplift           | **+6%** Average Revenue per Match    | Achieved by dynamically adjusting prices to match real-time demand forecasts, capturing more value from high-demand periods. This was powered by accurate supply predictions from the `seat availability engine` [![Badge Text](https://img.shields.io/badge/Link_to_Repo-grey?style=flat&logo=github)](https://github.com/tomas-ravalli/seat-availability-engine) |
 | 🎟️ Optimized Sales          | **+4%** Increase in Ticket Sell-Through Rate | Didn't maximize revenue at the cost of empty seats: also improved occupancy, which positively affects atmosphere and in-stadium sales.|
 | ⚙️ Operational Efficiency   | **7x improvement** in Time-to-Price-Change | From weekly to daily changes by automating the manual data aggregation and analysis pipeline. The system delivered price recommendations directly, which shifted the team's focus from data work to strategic approval.|
 | 🤝 Recommendation Adoption | **86%** of Proposals Approved | Percentage of automated price proposals that were reviewed and approved by the commercial team, indicating trust in the model's business alignment.|
@@ -69,12 +69,10 @@ The diagram below illustrates the project's conceptual framework. The system act
 </p>
 
 ### System Synergy
-This Dynamic Pricing Engine is designed to work in tandem with the **[Seat Availability Engine](https://github.com/tomas-ravalli/fcb-smartbooking)**. The pricing model's effectiveness depends on knowing not just the current ticket availability, but the **final forecasted supply**. The Seat Availability Engine provides this crucial input by predicting when season ticket holders will release their seats, allowing this system to set prices based on a true understanding of the market's supply-demand curve.
+This Dynamic Pricing Engine is designed to work in tandem with the **[Seat Availability Engine](https://github.com/tomas-ravalli/seat-availability-engine)**. The pricing model's effectiveness depends on knowing not just the current ticket availability, but the **final forecasted supply**. The Seat Availability Engine provides this crucial input by predicting when season ticket holders will release their seats, allowing this system to set prices based on a true understanding of the market's supply-demand curve.
 
 
 ## Dataset
-
-To showcase the model's capabilities, this repository uses a synthetically generated dataset. This dataset is not random data; it is engineered to mirror the complexity, scale, and statistical properties of a real-world ticketing environment for a top-tier football club.
 
 The dataset simulates:
 
@@ -94,23 +92,6 @@ A key part of the strategy was to move beyond our internal sales history by enri
 | **Weather** | `weather_forecast` | Forecasted weather conditions for the match day. |
 
 > **`zone_historical_sales`** [Target Variable]: The historical number of tickets sold for a similar match in that specific zone. This is the value the model aims to predict.
-
-### Match Excitement Factor
-
-To create a realistic dataset, the generation script doesn't just create random numbers. Instead, it simulates the underlying market dynamics by creating a unified **"Match Excitement Factor"**. This single variable acts as the primary driver for most of the demand signals in the dataset.
-
-The logic is designed to mimic how a real fan's interest level would change based on the context of a match:
-
-1.  **Starts with the opponent and competition:** The excitement level begins with the quality of the opponent (`opponent_tier`) and the competition. A top-tier opponent and international competition naturally generates more interest.
-
-2.  **Adjusts for context:** The base excitement is then adjusted up or down based on several real-world factors:
-    * **League position:** Excitement increases slightly if the team is high in the league standings.
-    * **Player injuries:** Excitement decreases significantly if a star player is injured, especially for a high-profile match.
-    * **Match importance:** Excitement drops for less meaningful matches, such as when the league winner is already known.
-    * **Holidays & weekdays:** Matches near holidays get a boost in excitement, while weekday matches see a slight decrease.
-
-3.  **Internal demand signals:** Features like `google_trends_index`, more positive `social_media_sentiment`, and more `internal_search_trends`.
-
 
 ## Modeling
 
@@ -233,10 +214,6 @@ Since this is an optimization engine, not a predictive model, its performance is
 
 </details>
 
-## Usage
-
-This section describes how the commercial team used the system end-to-end, moving from intuition-based decisions toward a highly analytical and responsive approach.
-
 ### The Monitoring Framework
 
 To make the system actionable, it first generated a target **sell-through curve** for each match. This curve represented the minimum sales velocity required each day to hit our occupancy goals. 'Slow' was never an absolute number; it was a deviation from this forecast. The pricing team monitored this via a dashboard with three key metrics:
@@ -244,22 +221,6 @@ To make the system actionable, it first generated a target **sell-through curve*
 1.  **Sell-Through Pace:** `(Actual Sales / Target Sales)`. This gave an instant 'are we on track?' signal. A value below 1.0 would trigger the switch to the 'Velocity Acceleration' policy.
 2.  **Projected Days to Sell-Out:** `(Remaining Inventory / Current Sales Velocity)`. This answered, 'If nothing changes, will we meet our goal?'
 3.  **Demand Capture Rate:** `(Actual Velocity / Forecasted Velocity)`. This was an efficiency metric to diagnose *why* sales might be slow.
-
-### The System in Action
-
-The process had three phases:
-
-1.  **Strategic Setup (Pre-Launch):** Weeks before tickets went on sale, the team used the system to set the initial strategy. They would input the match details, and the system would generate the target sell-through curve. Then, they used the engine's **simulation** capability to test various opening prices and select the one that best balanced revenue goals with a strong sales start.
-
-2.  **Dynamic Management (On-Sale Period):** Once tickets were on sale, the team's job shifted to supervision. Their daily focus was the **Monitoring Dashboard**, not the price itself. As long as the `Sell-Through Pace` was healthy, the system would make small, automated price adjustments to optimize revenue. The team didn't need to intervene.
-
-3.  **Alert-Driven Intervention:** If the `Sell-Through Pace` dropped, an alert was triggered. The system would automatically recommend a corrective price drop. The team would review the recommendation, investigate the 'why' using the `Demand Capture Rate`, and then either approve the change with one click or manually override it if a major, un-modeled event had occurred.
-
-### Strategic Impact
-
-This framework also allowed us to run **simulations** to test the impact of various business levers. We could simulate the ROI of a marketing campaign or a flash sale before committing resources.
-
-Finally, it enabled us to overcome business constraints. For example, we couldn't A/B test prices directly due to EU regulations. We engineered a solution using **geo-targeting** to show or hide specific promotions to different markets. This allowed us to effectively segment our customers and analyze price elasticity by market while respecting legal boundaries.
 
 
 ## Structure
@@ -275,8 +236,7 @@ FCB_Dynamic-Pricing/
 ├── config.py                           # (Private) Configuration file for paths and parameters.
 ├── assets/                             # (Public) Diagrams and images for documentation.
 ├── data/
-│   └── 03_synthetic/
-│       └── synthetic_match_data.csv    # (Public) The generated synthetic dataset.
+│   └── match_data.csv                  # (Private) The match dataset.
 ├── models/                             # (Private) Stores trained model artifacts.
 │   ├── demand_forecast_model.joblib
 │   └── feature_pipeline.joblib
@@ -284,10 +244,7 @@ FCB_Dynamic-Pricing/
 │   └── eda.ipynb
 └── src/
     ├── __init__.py                     # (Private) Makes src a Python package.
-    ├── data/
-    │   └── make_dataset.py             # (Public) The script to generate the synthetic data.
     ├── features/                       # (Private) Scripts for feature engineering.
-    │   └── build_features.py
     ├── models/                         # (Private) Scripts for model training and prediction.
     │   ├── train_demand_model.py
     │   └── predict_demand.py
@@ -300,8 +257,7 @@ FCB_Dynamic-Pricing/
 </br>
 
 > [!WARNING]
-> * **Data:** The data in this repository is synthetically generated for demonstration purposes and it may not mirror the statistical properties of the original dataset.
-> * **Complexity:** This repository provides a high-level demonstration of the project's architecture and methodology. Certain implementation details and model complexities have been simplified for clarity.
+> This repository provides a high-level demonstration of the project's architecture and methodology. Certain implementation details and model complexities have been simplified for clarity.
 
 </br>
 
