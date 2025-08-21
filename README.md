@@ -16,7 +16,6 @@
 - [Architecture](#architecture)
 - [Dataset](#dataset)
 - [Modeling](#modeling)
-- [Usage](#usage)
 - [Structure](#structure)
 
 ---
@@ -66,13 +65,7 @@ This Dynamic Pricing Engine is designed to work in tandem with the **[Seat Avail
 
 ## Dataset
 
-The dataset simulates:
-
-* **A focused set of matches:** It contains data for **10 unique matches**, representing a diverse sample of fixtures including league, cup, and international games.
-* **Complete sales history:** For each of these matches, a full **90-day time-series** is generated. This means there is a daily record capturing how demand signals, sales, and availability evolve from the day tickets go on sale until match day.
-* **Zone-level granularity:** Each daily record is further broken down by **5 distinct seating zones**, each with its own capacity and base price, reflecting how different stadium areas have unique demand curves.
-
-A key part of the strategy was to move beyond our internal sales history by enriching our models with external data. Through feature engineering, we combined our own historical performance data with real-world market signals to create a more holistic and predictive view of market dynamics. The model's features are grouped to provide a comprehensive view of factors influencing ticket demand.
+The model was trained on a time-series dataset with zone-level granularity, capturing daily records of how demand, sales, and availability evolve from the day tickets go on sale until match day. The model was enriched with external data, combining historical performance with real-world market signals to create a more holistic and predictive view.
 
 | Category | Features | Description |
 | :--- | :--- | :--- |
@@ -107,25 +100,10 @@ Where the terms in the equation are defined as:
 This maximization is subject to several key **constraints**:
 
 1.  **Demand**: The number of tickets sold ($S_j$) in each zone is a function of its price ($p_j$) and other market factors ($\mathbf{X}$), as predicted by our machine learning model.
+2.  **Capacity and Inventory**: We cannot sell more tickets than the number of seats available ($C_j$) in each zone.
+3.  **Occupancy**: To protect brand image and comply with broadcast agreements, the primary seating zone visible on TV ($j_{tv}$) must have at least 85% occupancy.
 
-```math
-S_j = f(p_j, \mathbf{X})
-```
-
-3.  **Capacity and Inventory**: We cannot sell more tickets than the number of seats available ($C_j$) in each zone.
-
-```math
-S_j \le C_j
-```
-
-4.  **Occupancy**: To protect brand image and comply with broadcast agreements, the primary seating zone visible on TV ($j_{tv}$) must have at least 85% occupancy.
-
-```math
-S_{j_{tv}} \ge 0.85 \cdot C_{j_{tv}}
-```
-
-This framework translates the business challenge into a clear mathematical problem. Our two-stage process–first **predict** demand ($S_j$), then **optimize** for price ($p_j$)–is a direct approach to solving it. The system was engineered in three parts: predictive modeling, an adaptive optimization engine, and a real-time monitoring framework.
-
+The system was engineered in two parts: **predictive modeling*** and an **adaptive optimization engine**.
 
 <p align="left">
   <img src="./assets/dp-dpe.png" alt="Dynamic Pricing Engine" width="275">
@@ -208,12 +186,7 @@ Since this is an optimization engine, not a predictive model, its performance is
 
 ### The Monitoring Framework
 
-To make the system actionable, it first generated a target **sell-through curve** for each match. This curve represented the minimum sales velocity required each day to hit our occupancy goals. 'Slow' was never an absolute number; it was a deviation from this forecast. The pricing team monitored this via a dashboard with three key metrics:
-
-1.  **Sell-Through Pace:** `(Actual Sales / Target Sales)`. This gave an instant 'are we on track?' signal. A value below 1.0 would trigger the switch to the 'Velocity Acceleration' policy.
-2.  **Projected Days to Sell-Out:** `(Remaining Inventory / Current Sales Velocity)`. This answered, 'If nothing changes, will we meet our goal?'
-3.  **Demand Capture Rate:** `(Actual Velocity / Forecasted Velocity)`. This was an efficiency metric to diagnose *why* sales might be slow.
-
+To make the system actionable, it first generated a target **sell-through curve** for each match. This curve represented the minimum sales velocity required each day to hit our occupancy goals. 'Slow' was never an absolute number; it was a deviation from this forecast. The pricing team monitored this via a dashboard with a key metric: **Sell-Through Pace:** `(Actual Sales / Target Sales)`. This gave an instant 'are we on track?' signal. A value below 1.0 would trigger the switch to the 'Velocity Acceleration' policy.
 
 ## Structure
 
