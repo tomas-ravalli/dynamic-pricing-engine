@@ -34,7 +34,9 @@
 
 ## Overview
 
-The main challenge was to transform a static, manual pricing strategy into a responsive, automated system with a human-in-the-loop (HiTL), creating a market-driven approach for both setting and responding to ticket prices per match. The fundamental challenge was to find the optimal price in a constantly changing environment. To solve this, we had to model the interplay between **sales velocity** (demand of tickets from our fans) and **inventory inflow** (supply of tickets coming from season ticket holders).
+The main challenge was to transform a static, manual pricing strategy into a responsive, automated system. The fundamental challenge was to find the optimal price in a constantly changing environment by modeling the interplay between sales velocity (demand from fans) and inventory inflow (supply from season ticket holders).
+
+It's also relevant to understand the market structure we operated in. We had a near-monopoly, with no direct substitutes for attending a live match. Our only competition came from a non-official secondary market of resellers. This gave us significant pricing power but also the responsibility to price fairly to protect the brand.
 
 <p align="center">
   <img src="./assets/dp-ss.jpeg" alt="Stadium ticketing price list" width="1000">
@@ -81,7 +83,7 @@ The model was trained on a time-series dataset with zone-level granularity, capt
 
 ## Modeling
 
-The system was engineered in two parts: **predictive modeling** and an **adaptive optimization engine**.
+We engineered a multi-layered system to tackle the pricing problem: a **(1) value-based pricing strategy**, **(2) predictive modeling**, and an **(3) adaptive optimization layer**.
 
 <p align="left">
   <img src="./assets/dp-dpe.png" alt="Dynamic Pricing Engine" width="275">
@@ -89,7 +91,16 @@ The system was engineered in two parts: **predictive modeling** and an **adaptiv
   <em>Fig. 4: Dynamic Pricing Engine component.</em>
 </p>
 
-### Stage 1: 📈 Demand Forecasting
+### Stage 1: Value-Based Pricing Strategy
+
+Before any dynamic adjustments, we established a strategic **Value-Based Pricing** layer. This was a manual framework designed to capture consumer surplus from the start. It operated on two principles:
+
+* **Tiered product offering:** We created 'good-great-best' versions of our products (e.g., Basic, Basic Plus, and VIP tickets).
+* **Customer segmentation:** We identified customer segments with a higher willingness to pay. Using macroeconomic data like GDP and inflation rates, we would show more expensive, higher-value tiers by default to users from richer countries.
+
+This layer set the **starting price** and the **product menu**. It ensured we weren't offering a €75 ticket to someone already willing to pay €150. The dynamic engine then operated *on top* of this strategic foundation.
+
+### Stage 2: Demand Forecasting
 
 This stage answers the business question: *"At a given price, how many tickets are we likely to sell?"*
 
@@ -124,7 +135,7 @@ The performance was considered **successful**. A WAPE of 19% and an R² of 0.83 
 
 </details>
 
-### Stage 2: ⚙️ Price Optimization
+### Stage 3: Adaptive Optimization Layer
 
 The goal is not just to build a black-box forecasting model, but to solve a formal business problem. At its core, this project can be framed as a **constrained optimization problem**: we want to find the optimal set of prices to maximize profit, subject to real-world business constraints.
 
@@ -163,16 +174,16 @@ This stage answers the business question: *"What is the single best price to max
 
 The core logic of the system was our **Pricing Decision Framework**. It's a 2x2 matrix that translates the raw numbers of supply and demand into concrete business strategy, ensuring every pricing decision was a deliberate response to real-time market conditions.
 
-| | **Low Supply** (Scarcity is high) | **High Supply** (Scarcity is low) |
+| | **Low Supply** | **High Supply**|
 | :--- | :--- | :--- |
 | **High Demand** | **Quadrant 1: Margin Maximization** <br> _Scenario:_ A championship final with few seats left. <br> _Action:_ Increase price aggressively to capture maximum value. | **Quadrant 2: Revenue Optimization** <br> _Scenario:_ A major weekend match with plenty of seats. <br> _Action:_ Maintain a strong, stable price. |
 | **Low Demand** | **Quadrant 3: Nudge to Close** <br> _Scenario:_ A mid-week match with few seats left, but sales have stalled. <br> _Action:_ Hold or slightly decrease price. | **Quadrant 4: Velocity Acceleration** <br> _Scenario:_ A rainy Tuesday match with thousands of empty seats. <br> _Action:_ Decrease price and activate promotions. |
 
 This framework directly informed the two primary policies of our optimization engine:
-* **Policy 1: Revenue Maximization (Default Mode):** Active in Quadrants 1 and 2, when the occupancy constraint was not at risk. The engine's objective was to find the price that maximized projected revenue.
-* **Policy 2: Velocity Acceleration (Corrective Mode):** Triggered in Quadrant 4, when the monitoring framework showed the occupancy constraint was in danger. The engine's objective function would then switch to satisfying the constraint: it solved for the minimum price to get back on track.
+* **Policy 1: Revenue Maximization (default mode):** Active in Quadrants 1 and 2, when the occupancy constraint was not at risk. The engine's objective was to find the price that maximized projected revenue.
+* **Policy 2: Velocity Acceleration (corrective mode):** Triggered in Quadrant 4, when the monitoring framework showed the occupancy constraint was in danger. The engine's objective function would then switch to satisfying the constraint: it solved for the minimum price to get back on track.
 
-### The Monitoring Framework
+### Monitoring
 
 To make the system actionable, it first generated a target **sell-through curve** for each match. This curve represented the minimum sales velocity required each day to hit our occupancy goals. 'Slow' was never an absolute number; it was a deviation from this forecast. The pricing team monitored this via a dashboard with a key metric: **Sell-Through Pace:** `(Actual Sales / Target Sales)`. This gave an instant 'are we on track?' signal. A value below 1.0 would trigger the switch to the 'Velocity Acceleration' policy.
 
