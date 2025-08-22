@@ -16,6 +16,7 @@
 - [Architecture](#architecture)
 - [Dataset](#dataset)
 - [Modeling](#modeling)
+- [Usage](#usage)
 - [Structure](#structure)
 
 ---
@@ -80,29 +81,6 @@ The model was trained on a time-series dataset with zone-level granularity, capt
 
 ## Modeling
 
-The goal is not just to build a black-box forecasting model, but to solve a formal business problem. At its core, this project can be framed as a **constrained optimization problem**: we want to find the optimal set of prices to maximize profit, subject to real-world business constraints.
-
-The objective is to maximize the total profit ($Z$) for a given match, defined as:
-
-```math
-\max Z = \underbrace{\sum_{j=1}^{n} (p_j \cdot S_j)}_{\text{Ticket Revenue}} + \underbrace{(\bar{m} \cdot \sum_{j=1}^{n} S_j)}_{\text{In-Stadium Spend}} - \underbrace{C_{total}}_{\text{Total Costs}}
-```
-
-Where the terms in the equation are defined as:
-
-* **$n$** is the number of distinct seating zones.
-* **$p_j$** is the ticket price for zone *j*. This is the **decision variable**–the set of values we are solving for.
-* **$S_j$** is the number of tickets sold in zone *j* at price $p_j$. This is an outcome predicted by the demand model, where $S_j = f(p_j, \mathbf{X})$.
-* **$\mathbf{X}$** is the vector of features for the match (e.g., opponent tier, days until match).
-* **$\bar{m}$** is the average in-stadium spend per attendee, estimated from historical data.
-* **$C_{total}$** is the sum of all operational, distribution, and marketing costs for the match.
-
-This maximization is subject to several key **constraints**:
-
-1.  **Demand**: The number of tickets sold ($S_j$) in each zone is a function of its price ($p_j$) and other market factors ($\mathbf{X}$), as predicted by our machine learning model.
-2.  **Capacity and Inventory**: We cannot sell more tickets than the number of seats available ($C_j$) in each zone.
-3.  **Occupancy**: To protect brand image and comply with broadcast agreements, the primary seating zone visible on TV ($j_{tv}$) must have at least 85% occupancy.
-
 The system was engineered in two parts: **predictive modeling*** and an **adaptive optimization engine**.
 
 <p align="left">
@@ -148,6 +126,29 @@ The performance was considered **successful**. A WAPE of 19% and an R² of 0.83 
 
 ### Stage 2: ⚙️ Price Optimization
 
+The goal is not just to build a black-box forecasting model, but to solve a formal business problem. At its core, this project can be framed as a **constrained optimization problem**: we want to find the optimal set of prices to maximize profit, subject to real-world business constraints.
+
+The objective is to maximize the total profit ($Z$) for a given match, defined as:
+
+````math
+\max Z = \underbrace{\sum_{j=1}^{n} (p_j \cdot S_j)}_{\text{Ticket Revenue}} + \underbrace{(\bar{m} \cdot \sum_{j=1}^{n} S_j)}_{\text{In-Stadium Spend}} - \underbrace{C_{total}}_{\text{Total Costs}}
+````
+
+Where the terms in the equation are defined as:
+
+* **$n$** is the number of distinct seating zones.
+* **$p_j$** is the ticket price for zone *j*. This is the **decision variable**–the set of values we are solving for.
+* **$S_j$** is the number of tickets sold in zone *j* at price $p_j$. This is an outcome predicted by the demand model, where $S_j = f(p_j, \mathbf{X})$.
+* **$\mathbf{X}$** is the vector of features for the match (e.g., opponent tier, days until match).
+* **$\bar{m}$** is the average in-stadium spend per attendee, estimated from historical data.
+* **$C_{total}$** is the sum of all operational, distribution, and marketing costs for the match.
+
+This maximization is subject to several key **constraints**:
+
+1.  **Demand**: The number of tickets sold ($S_j$) in each zone is a function of its price ($p_j$) and other market factors ($\mathbf{X}$), as predicted by our machine learning model.
+2.  **Capacity and Inventory**: We cannot sell more tickets than the number of seats available ($C_j$) in each zone.
+3.  **Occupancy**: To protect brand image and comply with broadcast agreements, the primary seating zone visible on TV ($j_{tv}$) must have at least 85% occupancy.
+
 This stage answers the business question: *"What is the single best price to maximize total revenue?"*
 
 | Aspect | Description |
@@ -157,6 +158,8 @@ This stage answers the business question: *"What is the single best price to max
 | **Process** | The engine iterates through potential prices (e.g., from €75 to €350), uses the demand model to predict sales for each, calculates the projected revenue `(Price × Predicted Sales)`, and returns the optimal price. |
 | **Output** | The engine's primary output is the official `Price Variation Proposal`, which is sent to the commercial team for review and approval. |
 | **Design Choice**| A key design choice was to model this as a **single-objective problem with an adaptive policy**, rather than a more complex multi-objective problem. We treated achieving minimum occupancy as a non-negotiable **constraint**, while maximizing revenue was the **objective**. This simplifies the problem while still allowing the system to react to different market conditions. |
+
+## Usage
 
 The core logic of the system was our **Pricing Decision Framework**. It's a 2x2 matrix that translates the raw numbers of supply and demand into concrete business strategy, ensuring every pricing decision was a deliberate response to real-time market conditions.
 
@@ -168,21 +171,6 @@ The core logic of the system was our **Pricing Decision Framework**. It's a 2x2 
 This framework directly informed the two primary policies of our optimization engine:
 * **Policy 1: Revenue Maximization (Default Mode):** Active in Quadrants 1 and 2, when the occupancy constraint was not at risk. The engine's objective was to find the price that maximized projected revenue.
 * **Policy 2: Velocity Acceleration (Corrective Mode):** Triggered in Quadrant 4, when the monitoring framework showed the occupancy constraint was in danger. The engine's objective function would then switch to satisfying the constraint: it solved for the minimum price to get back on track.
-
-<details>
-<summary><b>Click to see the detailed model performance evaluation</b></summary>
-  
-</br>
-
-Since this is an optimization engine, not a predictive model, its performance is measured by its business value and efficiency.
-
-| Metric | Measurement | Success Criteria |
-| :--- | :--- | :--- |
-| **Revenue lift** | Through A/B testing, comparing the revenue generated by the engine's prices against a control group. | A consistent, statistically significant increase in average revenue per match. |
-| **Adoption rate** | Tracking the percentage of `Price Variation Proposals` that are reviewed and approved by the commercial team. | A high adoption rate (>80%) indicates that the team trusts and values the engine's recommendations. |
-| **Computation time**| Measuring the time it takes for the grid search to complete for a given match. | The time must be within acceptable operational limits (<2') to allow for rapid, on-demand analysis by the commercial team. |
-
-</details>
 
 ### The Monitoring Framework
 
