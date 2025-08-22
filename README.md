@@ -81,7 +81,7 @@ The model was trained on a time-series dataset with zone-level granularity, capt
 
 ## Modeling
 
-The system was engineered in two parts: **predictive modeling*** and an **adaptive optimization engine**.
+The system was engineered in two parts: **predictive modeling** and an **adaptive optimization engine**.
 
 <p align="left">
   <img src="./assets/dp-dpe.png" alt="Dynamic Pricing Engine" width="275">
