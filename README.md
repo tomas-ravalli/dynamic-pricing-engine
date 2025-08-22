@@ -86,7 +86,7 @@ The model was trained on a time-series dataset with zone-level granularity, capt
 We engineered a multi-layered system to tackle the pricing problem:
 - Stage 1: **Value-based Pricing Strategy**
 - Stage 2: **Demand Forecasting**
-- Stage 3: **Adaptive Optimization Layer**.
+- Stage 3: **Adaptive Optimization Layer**
 
 <p align="left">
   <img src="./assets/dp-dpe.png" alt="Dynamic Pricing Engine" width="275">
