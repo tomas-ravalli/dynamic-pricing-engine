@@ -64,7 +64,7 @@ To illustrate how the system directly addresses key business challenges, the fol
 </p>
 
 ### System Synergy
-This Dynamic Pricing Engine is designed to work in tandem with the **[Seat Availability Engine](https://github.com/tomas-ravalli/seat-availability-engine)**. The pricing model's effectiveness depends on knowing not just the current ticket availability, but the **final forecasted supply**. The Seat Availability Engine provides this crucial input by predicting when season ticket holders will release their seats, allowing this system to set prices based on a true understanding of the market's supply-demand curve.
+This Dynamic Pricing Engine is designed to work in tandem with a Seat Availability Engine. The pricing model's effectiveness depends on knowing not just the current ticket availability, but the **final forecasted supply**. The Seat Availability Engine provides this crucial input by predicting when season ticket holders will release their seats, allowing this system to set prices based on a true understanding of the market's supply-demand curve.
 
 
 ## Dataset
