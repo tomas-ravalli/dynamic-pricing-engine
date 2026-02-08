@@ -18,7 +18,6 @@ An ML-powered dynamic pricing and decision support system for tickets pricing in
 - [Dataset](#dataset)
 - [Modeling](#modeling)
 - [Usage](#usage)
-- [Structure](#structure)
 
 ---
 
@@ -191,37 +190,6 @@ This framework directly informed the two primary policies of our optimization en
 
 To make the system actionable, it first generated a target **sell-through curve** for each match. This curve represented the minimum sales velocity required each day to hit our occupancy goals. 'Slow' was never an absolute number; it was a deviation from this forecast. The pricing team monitored this via a dashboard with a key metric: **Sell-Through Pace:** `(Actual Sales / Target Sales)`. This gave an instant 'are we on track?' signal. A value below 1.0 would trigger the switch to the 'Velocity Acceleration' policy.
 
-## Structure
-
-While most of the source code for this project is private, this section outlines the full structure. You can explore the synthetic data generation logic in `src/data/make_dataset.py` to see how the realistic environment was simulated.
-
-```bash
-FCB_Dynamic-Pricing/
-├── .gitignore                          # (Public) Specifies files for Git to ignore.
-├── LICENSE                             # (Public) Project license.
-├── README.md                           # (Public) This project overview.
-├── requirements.txt                    # (Private) The requirements file for the full project.
-├── config.py                           # (Private) Configuration file for paths and parameters.
-├── assets/                             # (Public) Diagrams and images for documentation.
-├── data/
-│   └── match_data.csv                  # (Private) The match dataset.
-├── models/                             # (Private) Stores trained model artifacts.
-│   ├── demand_forecast_model.joblib
-│   └── feature_pipeline.joblib
-├── notebooks/                          # (Private) Jupyter notebooks for analysis.
-│   └── eda.ipynb
-└── src/
-    ├── __init__.py                     # (Private) Makes src a Python package.
-    ├── features/                       # (Private) Scripts for feature engineering.
-    ├── models/                         # (Private) Scripts for model training and prediction.
-    │   ├── train_demand_model.py
-    │   └── predict_demand.py
-    └── dynamic_pricing_engine/         # (Private) Scripts for simulation and optimization.
-        ├── constants.py
-        ├── simulate.py
-        └── optimize.py
-```
-
 </br>
 
 > [!WARNING]
@@ -229,4 +197,4 @@ FCB_Dynamic-Pricing/
 
 </br>
 
-<p align="center">🌐 © 2026 t.r.</p>
+<p align="center">© 2026 t.r.</p>
