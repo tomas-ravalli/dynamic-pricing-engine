@@ -1,7 +1,3 @@
-<p align="center">
-<img src="./assets/dp-cover.jpeg">
-</p>
-
 # Dynamic Pricing Engine with Human-in-the-loop
 
 <p align="left">
