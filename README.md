@@ -19,13 +19,13 @@ An ML-powered dynamic pricing and decision support system for tickets pricing in
 
 ## Key Results
 
-| Metric                      | Result                               | Description |
-| :-------------------------- | :----------------------------------- | :----------------------------------- |
-| 📈 Revenue Uplift           | **+6%** Average Revenue per Match    | Achieved by dynamically adjusting prices to match real-time demand forecasts, capturing more value from high-demand periods.|
-| 🎟️ Optimized Sales          | **+4%** Increase in Ticket Sell-Through Rate | Didn't maximize revenue at the cost of empty seats: also improved occupancy, which positively affects atmosphere and in-stadium sales.|
-| ⚙️ Operational Efficiency   | **7x improvement** in Time-to-Price-Change | From weekly to daily changes by automating the manual data aggregation and analysis pipeline. The system delivered price recommendations directly, which shifted the team's focus from data work to strategic approval.|
-| 🤝 Recommendation Adoption | **86%** of Proposals Approved | Percentage of automated price proposals that were reviewed and approved by the commercial team, indicating trust in the model's business alignment.|
-| 🎯 Demand Forecast Accuracy | **19%** WAPE | The model's predictions had a low average error, performed 60% better than a baseline `DummyRegressor`, indicating that sales forecasts are reliable.|
+| Metric                      | Description |
+| :-------------------------- | :----------------------------------- |
+| 📈 Revenue Uplift           | Achieved by dynamically adjusting prices to match real-time demand forecasts, capturing more value from high-demand periods.|
+| 🎟️ Optimized Sales          | Didn't maximize revenue at the cost of empty seats: also improved occupancy, which positively affects atmosphere and in-stadium sales.|
+| ⚙️ Operational Efficiency   | From weekly to daily changes by automating the manual data aggregation and analysis pipeline. The system delivered price recommendations directly, which shifted the team's focus from data work to strategic approval.|
+| 🤝 Recommendation Adoption |  Percentage of automated price proposals that were reviewed and approved by the commercial team, indicating trust in the model's business alignment.|
+| 🎯 Demand Forecast Accuracy | The model's predictions had a low average error, performed better than baseline, indicating that sales forecasts are reliable.|
 
 
 ## Overview
@@ -44,7 +44,7 @@ To illustrate how the system directly addresses key business challenges, the fol
 
 | 🚩 The Problem | 💡 The Solution |
 | :--------------------------- | :---------------------------- |
-| **Static pricing**: Prices were set once per season in rigid, inflexible categories (e.g., A++, A, B), then updated weekly/monthly. | **Dynamic recommendations**: Generates price proposals for each seating zone based on near real-time data analysis, allowing for daily updates. |
+| **Static pricing**: Prices were set once per season in rigid, inflexible categories (A++, A, B), then updated weekly/monthly. | **Dynamic recommendations**: Generates price proposals for each seating zone based on near real-time data analysis, allowing for daily updates. |
 | **Manual adjustments**: The team would slowly analyze various metrics to manually propose price changes. | **Impact simulation**: Instantly models the projected impact of any price change on revenue and ticket sales. |
 | **Data bottleneck**: Extracting data manually from fragmented systems was slow and operationally complex. | **Centralized data**: Automatically aggregates all key data points–sales, web analytics, contextual data, etc.–into one place. |
 | **Slow implementation**: The process to act on a decision was manual and disconnected from the sales platform. | **Seamless integration**: Allows for one-click approval on a dashboard, which triggers a price update to the live ticketing system via REST API. |
@@ -94,7 +94,7 @@ We engineered a multi-layered system to tackle the pricing problem:
 
 Before any dynamic adjustments, we established a strategic **Value-Based Pricing** layer. This was a manual framework designed to capture consumer surplus from the start. It operated on two principles:
 
-* **Tiered product offering:** We created 'good-great-best' versions of our products (e.g., Basic, Basic Plus, and VIP tickets).
+* **Tiered product offering:** We created 'good-great-best' versions of our products (Basic, Basic Plus, and VIP tickets).
 * **Customer segmentation:** We identified customer segments with a higher willingness to pay. Using macroeconomic data like GDP and inflation rates, we would show more expensive, higher-value tiers by default to users from richer countries.
 
 This layer set the **starting price** and the **product menu**. It ensured we weren't offering a €75 ticket to someone already willing to pay €150. The dynamic engine then operated *on top* of this strategic foundation.
@@ -123,14 +123,12 @@ Determining the best forecasting method is only one half of the equation. We als
 
 As this project uses a hybrid ensemble model, performance is evaluated on the **final, combined forecast**. The system first generates a baseline forecast with `Prophet`, then uses `XGBoost` to predict the remaining error (residuals). The final prediction (`Prophet forecast + XGBoost error forecast`) is then compared against the actual historical sales to derive the metrics below.
 
-| Metric | Value | Rationale |
-| :--- | :--- | :--- |
-| **WAPE** (Primary Metric) | **19%** | **Why we chose it:** Weighted Absolute Percentage Error tells us the average forecast error in percentage terms, making it highly interpretable for revenue planning. A low WAPE is our main goal. |
-| **R² Score** | **0.83** | **For model fit:** This shows that the model explains 83% of the variance in ticket sales, confirming it has a strong statistical fit to the data and learns the underlying patterns effectively. |
-| **Mean Absolute Error (MAE)** | **~254 tickets**| **For business context:** MAE tells us that, on average, our forecast is off by about 254 tickets. This gives stakeholders a concrete sense of the error margin in absolute units. |
-| **Root Mean Squared Error (RMSE)**| **~312 tickets**| **For robustness & uncertainty:** RMSE penalizes larger errors more heavily. A higher RMSE relative to MAE suggests the model occasionally makes larger prediction errors. This is critical for risk assessment and for estimating **prediction intervals** to understand the forecast's range of uncertainty. |
-
-The performance was considered **successful**. A WAPE of 19% and an R² of 0.83 demonstrated a robust and reliable forecasting engine.
+| Metric |  Rationale |
+| :--- | :--- |
+| **WAPE** (Primary Metric) |  **Why we chose it:** Weighted Absolute Percentage Error tells us the average forecast error in percentage terms, making it highly interpretable for revenue planning. A low WAPE is our main goal. |
+| **R² Score** | **For model fit:** This shows that the model explains % of the variance in ticket sales, confirming it has a strong statistical fit to the data and learns the underlying patterns effectively. |
+| **Mean Absolute Error (MAE)** | **For business context:** MAE tells us that, on average, our forecast is off by about # tickets. This gives stakeholders a concrete sense of the error margin in absolute units. |
+| **Root Mean Squared Error (RMSE)**| **For robustness & uncertainty:** RMSE penalizes larger errors more heavily. A higher RMSE relative to MAE suggests the model occasionally makes larger prediction errors. This is critical for risk assessment and for estimating **prediction intervals** to understand the forecast's range of uncertainty. |
 
 </details>
 
@@ -149,7 +147,7 @@ Where the terms in the equation are defined as:
 * **$n$** is the number of distinct seating zones.
 * **$p_j$** is the ticket price for zone *j*. This is the **decision variable**–the set of values we are solving for.
 * **$S_j$** is the number of tickets sold in zone *j* at price $p_j$. This is an outcome predicted by the demand model, where $S_j = f(p_j, \mathbf{X})$.
-* **$\mathbf{X}$** is the vector of features for the match (e.g., opponent tier, days until match).
+* **$\mathbf{X}$** is the vector of features for the match (opponent tier, days until match).
 * **$\bar{m}$** is the average in-stadium spend per attendee, estimated from historical data.
 * **$C_{total}$** is the sum of all operational, distribution, and marketing costs for the match.
 
@@ -164,8 +162,8 @@ This stage answers the business question: *"What is the single best price to max
 | Aspect | Description |
 | :--- | :--- |
 | **Model** | A custom *Optimization Engine* that performs an exhaustive grid search over a range of valid prices. |
-| **Rationale** | A grid search is a reliable and straightforward method to find the optimal price within defined business constraints (e.g., price caps and floors). It guarantees finding the maximum projected revenue. |
-| **Process** | The engine iterates through potential prices (e.g., from €75 to €350), uses the demand model to predict sales for each, calculates the projected revenue `(Price × Predicted Sales)`, and returns the optimal price. |
+| **Rationale** | A grid search is a reliable and straightforward method to find the optimal price within defined business constraints (price caps and floors). It guarantees finding the maximum projected revenue. |
+| **Process** | The engine iterates through potential prices (from €75 to €350), uses the demand model to predict sales for each, calculates the projected revenue `(Price × Predicted Sales)`, and returns the optimal price. |
 | **Output** | The engine's primary output is the official `Price Variation Proposal`, which is sent to the commercial team for review and approval. |
 | **Design Choice**| A key design choice was to model this as a **single-objective problem with an adaptive policy**, rather than a more complex multi-objective problem. We treated achieving minimum occupancy as a non-negotiable **constraint**, while maximizing revenue was the **objective**. This simplifies the problem while still allowing the system to react to different market conditions. |
 
