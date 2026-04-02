@@ -190,4 +190,4 @@ To make the system actionable, it first generated a target **sell-through curve*
 > This repository provides a high-level demonstration of the project's architecture and methodology. Certain implementation details and model complexities have been simplified for clarity.
 
 </br>
-<p style="color: grey;">© 2026 trm</p>
+<p style="color: grey; font-size: 0.94em;">© 2022 trm</p>
