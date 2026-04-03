@@ -1,10 +1,10 @@
-# Dynamic Pricing Engine with Human-in-the-loop
+# dynamic-pricing-engine
 
 <p align="left">
   <img src="https://img.shields.io/badge/License-MIT-lightgrey" alt="License">
 </p>
 
-An ML-powered dynamic pricing and decision support system for tickets pricing in a sports stadium. **Objective:** To evolve a manual price-decision process into a data-driven, semi-automated workflow that improves ticketing revenue and sales.
+An ML-powered dynamic pricing and decision support system with HITL for tickets pricing in a sports stadium. **Objective:** To evolve a manual price-decision process into a data-driven, semi-automated workflow that improves ticketing revenue and sales.
 
 ### Outline
 
